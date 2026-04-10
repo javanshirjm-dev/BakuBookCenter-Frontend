@@ -101,6 +101,156 @@ export const translations = {
             btnContact: "Get in Touch"
         },
 
+        // Contact Page:
+        contact: {
+            getInTouch: "Get in Touch",
+            watermark: "Hi.",
+            heroLine1: "We read every",
+            heroLine2: "letter",
+            heroLine3: "ourselves.",
+            heroDesc: "There's no support ticket system here — just people who care about books and about getting things right. We aim to reply within one business day.",
+            heroStats: {
+                replyTime: "~8h",
+                replyTimeLabel: "avg. reply time",
+                availability: "Mon–Fri",
+                availabilityLabel: "when we're around",
+                human: "Always",
+                humanLabel: "read by a human"
+            },
+            whatsAbout: "What's this about?",
+            topics: ["General Enquiry", "Order Issue", "Returns & Refunds", "Book Request", "Press & Partnerships"],
+            yourName: "Your Name",
+            yourNamePlaceholder: "Jane Smith",
+            emailAddress: "Email Address",
+            emailPlaceholder: "jane@example.com",
+            subject: "Subject",
+            subjectPlaceholder: "Tell us in a few words…",
+            yourMessage: "Your Message",
+            messagePlaceholder: "Write as much or as little as you like. We read everything.",
+            sendMessage: "Send Message →",
+            sending: "Sending…",
+            replyWithin: "We'll reply within one business day",
+            messageReceived: "Message received.",
+            thankYou: "Thank you.",
+            confirmMessage: "We'll be in touch within one business day. In the meantime, feel free to browse the shop.",
+            browseShop: "Browse the Shop",
+            directEmail: "Direct Email",
+            directEmailNote: "For urgent matters, email directly and we'll prioritise your message.",
+            helpfulLinks: "Helpful Links",
+            faqLabel: "FAQs",
+            faqDesc: "Answers to common questions",
+            trackOrder: "Track Your Order",
+            trackOrderDesc: "Follow your parcel",
+            officeHours: "Office Hours",
+            mondayFriday: "Monday – Friday",
+            mondayFridayTime: "9:00 am – 6:00 pm",
+            saturday: "Saturday",
+            saturdayTime: "10:00 am – 2:00 pm",
+            sunday: "Sunday",
+            sundayTime: "Closed"
+        },
+
+        // FAQ Page:
+        faq: {
+            watermark: "?",
+            helpCentre: "Help Centre",
+            heroLine1: "Frequently",
+            heroLine2: "Asked",
+            heroLine3: "Questions.",
+            heroDesc: "Can't find what you're looking for? Write to us directly — we reply within one business day.",
+            contactUsDirectly: "Write to us directly",
+            questionsAnswered: "13",
+            questionsAnsweredLabel: "questions answered",
+            topicCategories: "4",
+            topicCategoriesLabel: "topic categories",
+            avgReplyTime: "1 day",
+            avgReplyTimeLabel: "avg. reply time",
+            stillNeedHelp: "Still need help? We genuinely read every message.",
+            contactUs: "Contact Us →",
+            faqCategories: [
+                {
+                    category: "Orders & Shipping",
+                    icon: "→",
+                    label: "01",
+                    items: [
+                        {
+                            q: "How long does standard shipping take?",
+                            a: "Standard shipping takes 3–5 business days. Orders are processed within 24 hours Monday through Friday. You will receive a tracking number by email once dispatched."
+                        },
+                        {
+                            q: "Do you offer international shipping?",
+                            a: "Yes — we ship to over 40 countries. International delivery usually takes 7–14 business days. Costs and customs duties are shown at checkout."
+                        },
+                        {
+                            q: "Can I change or cancel my order?",
+                            a: "You can modify or cancel within 2 hours of placing it. After that window your order enters fulfilment, but we will always do our best to help."
+                        },
+                        {
+                            q: "My order hasn't arrived — what do I do?",
+                            a: "Check your tracking link first. If there has been no update for more than 3 business days past the estimated date, email us at hello@bakubookcenter.az."
+                        }
+                    ]
+                },
+                {
+                    category: "Returns & Refunds",
+                    icon: "↺",
+                    label: "02",
+                    items: [
+                        {
+                            q: "What is your return policy?",
+                            a: "We accept returns within 30 days for books in original condition — unread, no creases or markings. Contact us and we will arrange a prepaid return label."
+                        },
+                        {
+                            q: "How long do refunds take?",
+                            a: "Once we receive and inspect your return within 2 business days, refunds are issued and typically appear within 5–10 business days."
+                        },
+                        {
+                            q: "Can I exchange instead of returning?",
+                            a: "Absolutely. If you prefer a swap, let us know. We will hold the replacement until your return is received."
+                        }
+                    ]
+                },
+                {
+                    category: "Products & Stock",
+                    icon: "◎",
+                    label: "03",
+                    items: [
+                        {
+                            q: "How do I know if a book is in stock?",
+                            a: "All listed books are available unless marked Out of Stock. Use the Notify Me button on any unavailable title to get an email when it returns."
+                        },
+                        {
+                            q: "Do you sell secondhand books?",
+                            a: "We only stock new books right now. We are exploring a curated pre-loved section — drop us a note if you would love to see that."
+                        },
+                        {
+                            q: "Can I request a book you don't carry?",
+                            a: "Yes — use the Book Request form on our Contact page. We review all requests weekly and regularly add popular titles."
+                        }
+                    ]
+                },
+                {
+                    category: "Account & Payments",
+                    icon: "◇",
+                    label: "04",
+                    items: [
+                        {
+                            q: "What payment methods do you accept?",
+                            a: "We accept Visa, Mastercard, Amex, PayPal, and Apple Pay. All transactions are encrypted and your details are never stored on our servers."
+                        },
+                        {
+                            q: "Do I need an account to order?",
+                            a: "No — you can check out as a guest. Creating an account lets you track orders, save your address, and view order history."
+                        },
+                        {
+                            q: "How do gift cards work?",
+                            a: "Digital gift cards are delivered by email and redeemed at checkout with a unique code. They never expire and work across multiple orders."
+                        }
+                    ]
+                }
+            ]
+        },
+
         // Cart Page:
         cartEmpty: "Your Cart is Empty",
         cartEmptyDesc: "Looks like you haven't added any books yet!",
@@ -293,6 +443,156 @@ export const translations = {
             btnContact: "Əlaqə Saxlayın"
         },
 
+        // Contact Page:
+        contact: {
+            getInTouch: "Əlaqə Saxlayın",
+            watermark: "Salam.",
+            heroLine1: "Biz hər",
+            heroLine2: "məktubu",
+            heroLine3: "özümüz oxuyuruq.",
+            heroDesc: "Burada dəstək bilet sistemi yoxdur — sadəcə kitabları sevimlər və hər şeyi düzgün etməyi düşünənlər. Bir iş günü ərzində cavab verməyi hədəf alırıq.",
+            heroStats: {
+                replyTime: "~8 saat",
+                replyTimeLabel: "orta cavab müddəti",
+                availability: "Bazar–Cümə",
+                availabilityLabel: "burada olduğumuz vaxt",
+                human: "Həmişə",
+                humanLabel: "insan tərəfindən oxunub"
+            },
+            whatsAbout: "Bu nə barədədir?",
+            topics: ["Ümumi Sual", "Sifariş Problemi", "Qaytarmalar və İadələr", "Kitab Tələbi", "Mətbuat və Tərəfdaşlıq"],
+            yourName: "Adınız",
+            yourNamePlaceholder: "Leyla Cəbrailov",
+            emailAddress: "E-poçt Ünvanı",
+            emailPlaceholder: "leyla@example.com",
+            subject: "Mövzu",
+            subjectPlaceholder: "Bir neçə sözlə bildirin…",
+            yourMessage: "Mesajınız",
+            messagePlaceholder: "Çox və ya az yazın. Biz hər şeyi oxuyuruq.",
+            sendMessage: "Mesajı Göndər →",
+            sending: "Göndərilir…",
+            replyWithin: "Bir iş günü ərzində cavab verəcəyik",
+            messageReceived: "Mesaj alındı.",
+            thankYou: "Təşəkkür.",
+            confirmMessage: "Bir iş günü ərzində sizə müraciət edəcəyik. Bu arada, mağazaya göz atmağa azad hissiniz.",
+            browseShop: "Mağazaya Göz Atın",
+            directEmail: "Birbaşa E-poçt",
+            directEmailNote: "Fövqəladə məsələlər üçün birbaşa e-poçt göndərin və biz mesajınızı üstün edəcəyik.",
+            helpfulLinks: "Faydalı Linklər",
+            faqLabel: "Tez-tez Soruşulan Suallar",
+            faqDesc: "Ümumi suallara cavablar",
+            trackOrder: "Sifarişinizi İzləyin",
+            trackOrderDesc: "Paketinizi izləyin",
+            officeHours: "Ofis Saatları",
+            mondayFriday: "Bazar – Cümə",
+            mondayFridayTime: "09:00 – 18:00",
+            saturday: "Şənbə",
+            saturdayTime: "10:00 – 14:00",
+            sunday: "Bazar",
+            sundayTime: "Bağlı"
+        },
+
+        // FAQ Page:
+        faq: {
+            watermark: "?",
+            helpCentre: "Kömək Mərkəzi",
+            heroLine1: "Tez-tez",
+            heroLine2: "Soruşulan",
+            heroLine3: "Suallar.",
+            heroDesc: "Aradığınızı tapa bilmisiniz? Bizimlə birbaşa yazın — bir iş günü ərzində cavab verəcəyik.",
+            contactUsDirectly: "Bizimlə birbaşa yazın",
+            questionsAnswered: "13",
+            questionsAnsweredLabel: "sual cavab verilmişdir",
+            topicCategories: "4",
+            topicCategoriesLabel: "mövzu kateqoriyası",
+            avgReplyTime: "1 gün",
+            avgReplyTimeLabel: "orta cavab müddəti",
+            stillNeedHelp: "Hələ kömək lazımdır? Biz hər mesajı həqiqətən oxuyuruq.",
+            contactUs: "Bizimlə Əlaqə Saxlayın →",
+            faqCategories: [
+                {
+                    category: "Sifarişlər və Çatdırılma",
+                    icon: "→",
+                    label: "01",
+                    items: [
+                        {
+                            q: "Standart çatdırılma nə qədər vaxt alır?",
+                            a: "Standart çatdırılma 3–5 iş günü alır. Sifarişlər Bazar–Cümə günü 24 saat ərzində işlənir. Göndərildikdən sonra izləmə nömrəsi e-poçt ilə göndəriləcəkdir."
+                        },
+                        {
+                            q: "Uluslararası çatdırılma təklif edirsiniz?",
+                            a: "Bəli — 40+ ölkəyə çatdırırıq. Beynəlxalq çatdırılma adətən 7–14 iş günü alır. Dəyərlər və gömrük rüsumları ödəniş zamanı göstərilir."
+                        },
+                        {
+                            q: "Sifarişimi dəyişə və ya ləğv edə bilərəm?",
+                            a: "Qoymaqdan sonra 2 saat ərzində dəyişə və ya ləğv edə bilərsiniz. Bundan sonra sifariş işlənməyə başlayır, lakin biz həmişə kömək etməyə çalışarıq."
+                        },
+                        {
+                            q: "Sifarişim gəlməmişdir — nə etməli?",
+                            a: "Əvvəlcə iz sürmə linklərini yoxlayın. Əgər təxmin edilən tarixdən 3 iş günündən artıq yeniləsh olmamışdırsa, bizə hello@bakubookcenter.az adresindən yazın."
+                        }
+                    ]
+                },
+                {
+                    category: "Qaytarmalar və İadələr",
+                    icon: "↺",
+                    label: "02",
+                    items: [
+                        {
+                            q: "Qaytarma siyasətiniz nədir?",
+                            a: "Orijinal vəziyyətdə olan kitabları 30 gün ərzində qaytarırıq — oxunmamış, əyilmə və ya təklif yoxdur. Bizimlə əlaqə saxlayın və biz ödənişsiz qaytarma etiketin təşkil edəcəyik."
+                        },
+                        {
+                            q: "İadə nə qədər vaxt alır?",
+                            a: "Qaytarmağı aldığımız və yoxladığımız zaman 2 iş günü ərzində geri ödənilir və adətən 5–10 iş günü ərzində görünür."
+                        },
+                        {
+                            q: "Qaytarma əvəzinə mübadilə edə bilərəm?",
+                            a: "Tamamilə. Əgər dəyişməyi seçsəniz, bizə söyləyin. Qaytarmağı qəbul edənə qədər biz əvəzedici sərf edəcəyik."
+                        }
+                    ]
+                },
+                {
+                    category: "Məhsular və Ehtiyat",
+                    icon: "◎",
+                    label: "03",
+                    items: [
+                        {
+                            q: "Kitabın stokda olduğunu necə biləcəyəm?",
+                            a: "Bütün sıralanan kitablar Stokda Yoxdur kimi qeyd olunmayan sürətdə mövcuddur. Hər hansı mövcud olmayan başlıqda Məni Xəbərdar Et düyməsini istifadə edin."
+                        },
+                        {
+                            q: "İkinci əl kitab satırlarınız?",
+                            a: "Hazırda yalnız yeni kitab satırıq. Seçilmiş əvvəlcə əl bölməsini nəzərdən keçiririk — bunu görmək istəsəniz bizə xəbər verin."
+                        },
+                        {
+                            q: "Sizin olmayan bir kitab istəyə bilərimə?",
+                            a: "Bəli — Əlaqə səhifəmizdəki Kitab Tələbi formasını istifadə edin. Biz bütün tələbləri həftə ərzində nəzərdən keçiririk və müntəzəm olaraq populyar başlıqları əlavə edirik."
+                        }
+                    ]
+                },
+                {
+                    category: "Hesab və Ödənişlər",
+                    icon: "◇",
+                    label: "04",
+                    items: [
+                        {
+                            q: "Hansı ödəniş üsullarını qəbul edirsiniz?",
+                            a: "Visa, Mastercard, Amex, PayPal və Apple Pay qəbul edirik. Bütün əməliyyatlar şifrələnmişdir və dəfələrinizdə heç vaxt serverlərimizdə saxlanılmır."
+                        },
+                        {
+                            q: "Sifariş vermək üçün hesaba ehtiyac var?",
+                            a: "Yox — qonaq kimi ödəniş verə bilərsiniz. Hesab yaratmaq sifarişləri izləməyə, ünvanınızı saxlamağa və sifariş tarixçəsini baxmağa imkan verir."
+                        },
+                        {
+                            q: "Hədiyyə kartları necə işləyir?",
+                            a: "Rəqəmsal hədiyyə kartları e-poçt ilə çatdırılır və yoxlama zamanı unikal kodla geri alınır. Heç vaxt bitməzlər və birdən çox sifarişlər üzrə işləyirlər."
+                        }
+                    ]
+                }
+            ]
+        },
+
         // Cart Page:
         cartEmpty: "Səbətiniz boşdur",
         cartEmptyDesc: "Görünür, hələ heç bir kitab əlavə etməmisiniz!",
@@ -483,6 +783,156 @@ export const translations = {
             ctaQuote: "\"Каждый заказ, который покидает Бакинский Книжный Центр, упакован тем, кто действительно прочитал книгу внутри.\"",
             btnShop: "Перейти в магазин",
             btnContact: "Связаться с нами"
+        },
+
+        // Contact Page:
+        contact: {
+            getInTouch: "Свяжитесь с нами",
+            watermark: "Привет.",
+            heroLine1: "Мы читаем каждое",
+            heroLine2: "письмо",
+            heroLine3: "сами.",
+            heroDesc: "Здесь нет системы поддержки через билеты — просто люди, которые любят книги и хотят всё делать правильно. Наша цель — ответить в течение одного рабочего дня.",
+            heroStats: {
+                replyTime: "~8 ч",
+                replyTimeLabel: "среднее время ответа",
+                availability: "Пн–Пт",
+                availabilityLabel: "когда мы работаем",
+                human: "Всегда",
+                humanLabel: "читает человек"
+            },
+            whatsAbout: "О чём это?",
+            topics: ["Общий вопрос", "Проблема с заказом", "Возвраты и возмещения", "Запрос книги", "Пресса и партнёрство"],
+            yourName: "Ваше имя",
+            yourNamePlaceholder: "Иван Петров",
+            emailAddress: "Адрес электронной почты",
+            emailPlaceholder: "ivan@example.com",
+            subject: "Тема",
+            subjectPlaceholder: "Расскажите в нескольких словах…",
+            yourMessage: "Ваше сообщение",
+            messagePlaceholder: "Пишите сколько угодно. Мы всё читаем.",
+            sendMessage: "Отправить сообщение →",
+            sending: "Отправляется…",
+            replyWithin: "Ответим в течение одного рабочего дня",
+            messageReceived: "Сообщение получено.",
+            thankYou: "Спасибо.",
+            confirmMessage: "Мы свяжемся с вами в течение одного рабочего дня. А пока можете посмотреть каталог.",
+            browseShop: "Перейти в магазин",
+            directEmail: "Прямая почта",
+            directEmailNote: "Для срочных вопросов пишите прямо сюда, и мы дадим этому приоритет.",
+            helpfulLinks: "Полезные ссылки",
+            faqLabel: "Часто задаваемые вопросы",
+            faqDesc: "Ответы на распространённые вопросы",
+            trackOrder: "Отследить заказ",
+            trackOrderDesc: "Следите за посылкой",
+            officeHours: "Часы работы",
+            mondayFriday: "Понедельник – пятница",
+            mondayFridayTime: "09:00 – 18:00",
+            saturday: "Суббота",
+            saturdayTime: "10:00 – 14:00",
+            sunday: "Воскресенье",
+            sundayTime: "Выходной"
+        },
+
+        // FAQ Page:
+        faq: {
+            watermark: "?",
+            helpCentre: "Справочный центр",
+            heroLine1: "Часто",
+            heroLine2: "Задаваемые",
+            heroLine3: "Вопросы.",
+            heroDesc: "Не нашли нужный ответ? Напишите нам — мы ответим в течение одного рабочего дня.",
+            contactUsDirectly: "Напишите нам",
+            questionsAnswered: "13",
+            questionsAnsweredLabel: "вопросов с ответами",
+            topicCategories: "4",
+            topicCategoriesLabel: "категории тем",
+            avgReplyTime: "1 день",
+            avgReplyTimeLabel: "среднее время ответа",
+            stillNeedHelp: "Нужна помощь? Мы действительно читаем каждое сообщение.",
+            contactUs: "Связаться с нами →",
+            faqCategories: [
+                {
+                    category: "Заказы и доставка",
+                    icon: "→",
+                    label: "01",
+                    items: [
+                        {
+                            q: "Сколько времени занимает стандартная доставка?",
+                            a: "Стандартная доставка занимает 3–5 рабочих дней. Заказы обрабатываются в течение 24 часов с понедельника по пятницу. После отправки вы получите номер отслеживания по электронной почте."
+                        },
+                        {
+                            q: "Вы доставляете международные заказы?",
+                            a: "Да — мы отправляем в более чем 40 стран. Международная доставка обычно занимает 7–14 рабочих дней. Стоимость и таможенные пошлины указаны при оформлении."
+                        },
+                        {
+                            q: "Могу ли я изменить или отменить заказ?",
+                            a: "Вы можете изменить или отменить заказ в течение 2 часов после размещения. После этого периода заказ переходит в статус исполнения, но мы всегда постараемся помочь."
+                        },
+                        {
+                            q: "Мой заказ не пришёл — что делать?",
+                            a: "Сначала проверьте ссылку отслеживания. Если обновления не появилось более чем на 3 рабочих дня после предполагаемой даты, напишите нам на hello@bakubookcenter.az."
+                        }
+                    ]
+                },
+                {
+                    category: "Возвраты и возмещения",
+                    icon: "↺",
+                    label: "02",
+                    items: [
+                        {
+                            q: "Какова ваша политика возврата?",
+                            a: "Мы принимаем возврат в течение 30 дней для книг в первоначальном состоянии — не прочитаны, без складок и пометок. Свяжитесь с нами, и мы организуем бесплатную этикетку возврата."
+                        },
+                        {
+                            q: "Сколько времени занимает возмещение?",
+                            a: "После получения и проверки возврата в течение 2 рабочих дней возмещение выдаётся и обычно появляется в течение 5–10 рабочих дней."
+                        },
+                        {
+                            q: "Можно ли обменять вместо возврата?",
+                            a: "Конечно. Если вы предпочитаете обмен, дайте нам знать. Мы будем хранить замену до получения вашего возврата."
+                        }
+                    ]
+                },
+                {
+                    category: "Товары и наличие",
+                    icon: "◎",
+                    label: "03",
+                    items: [
+                        {
+                            q: "Как узнать, есть ли книга в наличии?",
+                            a: "Все указанные книги доступны, если не отмечены как \"Нет в наличии\". Нажмите на кнопку \"Уведомить меня\" для недоступного издания, чтобы получить письмо, когда оно появится."
+                        },
+                        {
+                            q: "Вы продаёте подержанные книги?",
+                            a: "Сейчас мы продаём только новые книги. Мы рассматриваем идею куратора раздела \"Бывших в употреблении\" — дайте нам знать, если вы бы это хотели."
+                        },
+                        {
+                            q: "Можно ли заказать книгу, которой у вас нет?",
+                            a: "Да — используйте форму запроса на нашей странице контактов. Мы рассматриваем все просьбы еженедельно и регулярно добавляем популярные издания."
+                        }
+                    ]
+                },
+                {
+                    category: "Аккаунт и платежи",
+                    icon: "◇",
+                    label: "04",
+                    items: [
+                        {
+                            q: "Какие методы оплаты вы принимаете?",
+                            a: "Мы принимаем Visa, Mastercard, Amex, PayPal и Apple Pay. Все операции зашифрованы, и ваши данные никогда не хранятся на наших серверах."
+                        },
+                        {
+                            q: "Нужна ли учётная запись для заказа?",
+                            a: "Нет — вы можете оформить покупку как гость. Создание аккаунта позволит вам отслеживать заказы, сохранять адрес и просматривать историю заказов."
+                        },
+                        {
+                            q: "Как работают подарочные карты?",
+                            a: "Цифровые подарочные карты отправляются по электронной почте и используются при оформлении с помощью уникального кода. Они никогда не истекают и работают на нескольких заказах."
+                        }
+                    ]
+                }
+            ]
         },
 
         // Cart Page:

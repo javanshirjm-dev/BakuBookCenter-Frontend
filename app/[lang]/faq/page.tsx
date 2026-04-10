@@ -1,6 +1,8 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
+import { useLanguage } from '@/context/LanguageContext';
+import { translations, Language } from '@/locales/translations';
 
 const TERRA = '#B5623E';
 const TERRA_DARK = '#8C4530';
@@ -16,47 +18,16 @@ interface FaqItem { q: string; a: string; }
 interface FaqGroup { category: string; icon: string; label: string; items: FaqItem[]; }
 interface CardItem { icon: string; title: string; body: string; cta: string; href: string; }
 
-const FAQS: FaqGroup[] = [
-    {
-        category: 'Orders & Shipping', icon: '→', label: '01',
-        items: [
-            { q: 'How long does standard shipping take?', a: 'Standard shipping takes 3–5 business days. Orders are processed within 24 hours Monday through Friday. You will receive a tracking number by email once dispatched.' },
-            { q: 'Do you offer international shipping?', a: 'Yes — we ship to over 40 countries. International delivery usually takes 7–14 business days. Costs and customs duties are shown at checkout.' },
-            { q: 'Can I change or cancel my order?', a: 'You can modify or cancel within 2 hours of placing it. After that window your order enters fulfilment, but we will always do our best to help.' },
-            { q: "My order hasn't arrived — what do I do?", a: "Check your tracking link first. If there has been no update for more than 3 business days past the estimated date, email us at hello@bakubookcenter.az." },
-        ],
-    },
-    {
-        category: 'Returns & Refunds', icon: '↺', label: '02',
-        items: [
-            { q: 'What is your return policy?', a: 'We accept returns within 30 days for books in original condition — unread, no creases or markings. Contact us and we will arrange a prepaid return label.' },
-            { q: 'How long do refunds take?', a: 'Once we receive and inspect your return within 2 business days, refunds are issued and typically appear within 5–10 business days.' },
-            { q: 'Can I exchange instead of returning?', a: 'Absolutely. If you prefer a swap, let us know. We will hold the replacement until your return is received.' },
-        ],
-    },
-    {
-        category: 'Products & Stock', icon: '◎', label: '03',
-        items: [
-            { q: 'How do I know if a book is in stock?', a: "All listed books are available unless marked Out of Stock. Use the Notify Me button on any unavailable title to get an email when it returns." },
-            { q: 'Do you sell secondhand books?', a: "We only stock new books right now. We are exploring a curated pre-loved section — drop us a note if you would love to see that." },
-            { q: "Can I request a book you don't carry?", a: 'Yes — use the Book Request form on our Contact page. We review all requests weekly and regularly add popular titles.' },
-        ],
-    },
-    {
-        category: 'Account & Payments', icon: '◇', label: '04',
-        items: [
-            { q: 'What payment methods do you accept?', a: 'We accept Visa, Mastercard, Amex, PayPal, and Apple Pay. All transactions are encrypted and your details are never stored on our servers.' },
-            { q: 'Do I need an account to order?', a: 'No — you can check out as a guest. Creating an account lets you track orders, save your address, and view order history.' },
-            { q: 'How do gift cards work?', a: 'Digital gift cards are delivered by email and redeemed at checkout with a unique code. They never expire and work across multiple orders.' },
-        ],
-    },
-];
-
 export default function FAQPage() {
-    const [activeCat, setActiveCat] = useState<string>('Orders & Shipping');
+    const { language: lang } = useLanguage();
+    const t = translations[lang as Language];
+    const faq = t.faq;
+    const FAQS = (faq?.faqCategories || []) as FaqGroup[];
+
+    const [activeCat, setActiveCat] = useState<string>(FAQS.length > 0 ? FAQS[0].category : '');
     const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-    const group = FAQS.find((f) => f.category === activeCat) as FaqGroup;
+    const group = FAQS.find((f) => f.category === activeCat);
 
     const selectCat = (cat: string) => {
         setActiveCat(cat);
@@ -163,7 +134,7 @@ export default function FAQPage() {
                         lineHeight: 1, userSelect: 'none', pointerEvents: 'none',
                         fontStyle: 'italic',
                     }}>
-                        ?
+                        {faq.watermark}
                     </div>
 
                     <div className="hero-grid">
@@ -172,30 +143,30 @@ export default function FAQPage() {
                             <div className="anim-slide-down d-1" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
                                 <div style={{ width: '32px', height: '2px', backgroundColor: TERRA }} />
                                 <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.24em', textTransform: 'uppercase', color: TERRA }}>
-                                    Help Centre
+                                    {faq.helpCentre}
                                 </p>
                             </div>
 
                             {/* Headline */}
                             <h1 className="anim-slide-up d-2" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(44px, 6vw, 88px)', fontWeight: 400, lineHeight: 0.95, color: INK }}>
-                                Frequently<br />
-                                <em style={{ color: TERRA }}>Asked</em><br />
-                                Questions.
+                                {faq.heroLine1}<br />
+                                <em style={{ color: TERRA }}>{faq.heroLine2}</em><br />
+                                {faq.heroLine3}
                             </h1>
                         </div>
 
                         <div className="anim-slide-left d-3">
                             <p style={{ fontSize: '15px', color: INK_LIGHT, lineHeight: 1.85, fontWeight: 300, marginBottom: '32px' }}>
-                                {"Can't find what you're looking for? "}
-                                <Link href="/contact" style={{ color: TERRA, textDecoration: 'underline', textDecorationColor: CLAY, textUnderlineOffset: '3px' }}>
-                                    Write to us directly
+                                {faq.heroDesc}
+                                <Link href={`/${lang}/contact`} style={{ color: TERRA, textDecoration: 'underline', textDecorationColor: CLAY, textUnderlineOffset: '3px' }}>
+                                    {faq.contactUsDirectly}
                                 </Link>
-                                {" — we reply within one business day."}
+                                { }
                             </p>
 
                             {/* Stats row */}
                             <div className="stats-row">
-                                {[['13', 'questions answered'], ['4', 'topic categories'], ['1 day', 'avg. reply time']].map(([num, lbl]) => (
+                                {[[faq.questionsAnswered, faq.questionsAnsweredLabel], [faq.topicCategories, faq.topicCategoriesLabel], [faq.avgReplyTime, faq.avgReplyTimeLabel]].map(([num, lbl]) => (
                                     <div key={lbl}>
                                         <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '32px', fontWeight: 400, color: INK, lineHeight: 1, marginBottom: '4px' }}>{num}</p>
                                         <p style={{ fontSize: '10px', color: INK_LIGHT, letterSpacing: '0.06em', fontWeight: 300 }}>{lbl}</p>
@@ -252,20 +223,22 @@ export default function FAQPage() {
                     <aside className="anim-fade d-5 sidebar-wrapper">
 
                         {/* Active group info */}
-                        <div style={{ marginBottom: '32px' }}>
-                            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '8px' }}>
-                                <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '48px', fontWeight: 300, color: PARCHMENT, lineHeight: 1 }}>
-                                    {group.label}
-                                </span>
+                        {group && (
+                            <div style={{ marginBottom: '32px' }}>
+                                <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '8px' }}>
+                                    <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '48px', fontWeight: 300, color: PARCHMENT, lineHeight: 1 }}>
+                                        {group.label}
+                                    </span>
+                                </div>
+                                <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '20px', fontStyle: 'italic', color: INK, marginBottom: '6px', lineHeight: 1.2 }}>
+                                    {group.category}
+                                </p>
+                                <p style={{ fontSize: '12px', color: INK_LIGHT, fontWeight: 300 }}>
+                                    {group.items.length} questions in this section
+                                </p>
+                                <div style={{ width: '32px', height: '2px', backgroundColor: TERRA, marginTop: '16px' }} />
                             </div>
-                            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '20px', fontStyle: 'italic', color: INK, marginBottom: '6px', lineHeight: 1.2 }}>
-                                {group.category}
-                            </p>
-                            <p style={{ fontSize: '12px', color: INK_LIGHT, fontWeight: 300 }}>
-                                {group.items.length} questions in this section
-                            </p>
-                            <div style={{ width: '32px', height: '2px', backgroundColor: TERRA, marginTop: '16px' }} />
-                        </div>
+                        )}
 
                         {/* Nav */}
                         <nav>
@@ -308,10 +281,10 @@ export default function FAQPage() {
 
                         <div style={{ marginTop: '32px', padding: '20px', backgroundColor: CREAM, borderRadius: '4px', border: '1px solid #EFE9DF' }}>
                             <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '15px', fontStyle: 'italic', color: INK_MID, lineHeight: 1.5, marginBottom: '14px' }}>
-                                Still need help? We genuinely read every message.
+                                {faq.stillNeedHelp}
                             </p>
                             <Link
-                                href="/contact"
+                                href={`/${lang}/contact`}
                                 className="contact-btn"
                                 style={{
                                     display: 'inline-flex', alignItems: 'center', gap: '6px',
@@ -323,7 +296,7 @@ export default function FAQPage() {
                                     transition: 'background-color 0.2s ease',
                                 }}
                             >
-                                Contact Us →
+                                {faq.contactUs}
                             </Link>
                         </div>
                     </aside>
@@ -332,23 +305,25 @@ export default function FAQPage() {
                     <div className="accordion-wrapper">
 
                         {/* Section heading */}
-                        <div className="anim-slide-up d-5" style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '32px', paddingBottom: '24px', borderBottom: '1px solid #EFE9DF' }}>
-                            <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '44px', color: TERRA, lineHeight: 1 }}>
-                                {group.icon}
-                            </span>
-                            <div>
-                                <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 400, color: INK, marginBottom: '2px' }}>
-                                    {group.category}
-                                </h2>
-                                <p style={{ fontSize: '12px', color: INK_LIGHT, fontWeight: 300 }}>
-                                    {group.items.length} answers below
-                                </p>
+                        {group && (
+                            <div className="anim-slide-up d-5" style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '32px', paddingBottom: '24px', borderBottom: '1px solid #EFE9DF' }}>
+                                <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '44px', color: TERRA, lineHeight: 1 }}>
+                                    {group.icon}
+                                </span>
+                                <div>
+                                    <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 400, color: INK, marginBottom: '2px' }}>
+                                        {group.category}
+                                    </h2>
+                                    <p style={{ fontSize: '12px', color: INK_LIGHT, fontWeight: 300 }}>
+                                        {group.items.length} answers below
+                                    </p>
+                                </div>
                             </div>
-                        </div>
+                        )}
 
                         {/* Items */}
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                            {group.items.map((item: FaqItem, i: number) => {
+                            {group?.items.map((item: FaqItem, i: number) => {
                                 const isOpen = openIndex === i;
                                 return (
                                     <div

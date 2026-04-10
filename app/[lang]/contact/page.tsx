@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations, Language } from "@/locales/translations";
 
 /* ─────────────── DESIGN TOKENS ─────────────── */
 const T = {
@@ -101,12 +103,14 @@ function Field({ label, type = "text", name, value, onChange, required = false, 
 
 /* ─────────────── PAGE ─────────────── */
 export default function ContactPage() {
+    const { language: lang } = useLanguage();
+    const t = translations[lang as Language];
+    const contact = t.contact;
+
     const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
-    const [topic, setTopic] = useState("General Enquiry");
+    const [topic, setTopic] = useState(contact.topics[0]);
     const [submitted, setSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
-
-    const topics = ["General Enquiry", "Order Issue", "Returns & Refunds", "Book Request", "Press & Partnerships"];
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -127,7 +131,8 @@ export default function ContactPage() {
                     email: form.email,
                     subject: form.subject,
                     message: form.message,
-                    topic: topic
+                    topic: topic,
+                    language: lang
                 })
             });
 
@@ -136,7 +141,7 @@ export default function ContactPage() {
             if (data.success) {
                 setSubmitted(true);
                 setForm({ name: "", email: "", subject: "", message: "" });
-                setTopic("General Enquiry");
+                setTopic(contact.topics[0]);
             } else {
                 alert(data.message || "Failed to send message. Please try again.");
             }
@@ -209,7 +214,7 @@ export default function ContactPage() {
             HERO
         ══════════════════════════════════════ */}
                 <section className="hero-grid">
-                    <div className="hero-ghost">Hi.</div>
+                    <div className="hero-ghost">{contact.watermark}</div>
 
                     <div className="hero-content">
                         <Reveal>
@@ -218,16 +223,16 @@ export default function ContactPage() {
                                 textTransform: "uppercase", color: T.terra,
                                 fontWeight: 500, marginBottom: "18px",
                             }}>
-                                Get in Touch
+                                {contact.getInTouch}
                             </p>
                             <h1 style={{
                                 fontFamily: "'Cormorant Garamond', serif",
                                 fontSize: "clamp(44px, 10vw, 78px)",
                                 fontWeight: 400, lineHeight: 1.0, color: T.ink,
                             }}>
-                                We read every<br />
-                                <em style={{ color: T.terra }}>letter</em><br />
-                                ourselves.
+                                {contact.heroLine1}<br />
+                                <em style={{ color: T.terra }}>{contact.heroLine2}</em><br />
+                                {contact.heroLine3}
                             </h1>
                         </Reveal>
                     </div>
@@ -238,10 +243,14 @@ export default function ContactPage() {
                                 fontSize: "15px", color: T.inkLight, lineHeight: 1.85,
                                 fontWeight: 300, maxWidth: "420px", marginBottom: "32px",
                             }}>
-                                There's no support ticket system here — just people who care about books and about getting things right. We aim to reply within one business day.
+                                {contact.heroDesc}
                             </p>
                             <div className="hero-stats">
-                                {[["~8h", "avg. reply time"], ["Mon–Fri", "when we're around"], ["Always", "read by a human"]].map(([n, l]) => (
+                                {[
+                                    [contact.heroStats.replyTime, contact.heroStats.replyTimeLabel],
+                                    [contact.heroStats.availability, contact.heroStats.availabilityLabel],
+                                    [contact.heroStats.human, contact.heroStats.humanLabel]
+                                ].map(([n, l]) => (
                                     <div key={n}>
                                         <p style={{
                                             fontFamily: "'Cormorant Garamond', serif",
@@ -276,21 +285,21 @@ export default function ContactPage() {
                                         fontFamily: "'Cormorant Garamond', serif", fontSize: "40px", fontWeight: 400,
                                         color: T.ink, marginBottom: "16px", lineHeight: 1.2,
                                     }}>
-                                        Message received.<br />
-                                        <em style={{ color: T.terra }}>Thank you.</em>
+                                        {contact.messageReceived}<br />
+                                        <em style={{ color: T.terra }}>{contact.thankYou}</em>
                                     </h2>
                                     <p style={{
                                         fontSize: "14px", color: T.inkLight, lineHeight: 1.85,
                                         fontWeight: 300, maxWidth: "400px", margin: "0 auto 36px",
                                     }}>
-                                        We'll be in touch within one business day. In the meantime, feel free to browse the shop.
+                                        {contact.confirmMessage}
                                     </p>
-                                    <Link href="/books" style={{
+                                    <Link href={`/${lang}/shop`} style={{
                                         display: "inline-block", padding: "13px 32px",
                                         backgroundColor: T.ink, color: T.white, fontSize: "11px", fontWeight: 500,
                                         letterSpacing: "0.14em", textTransform: "uppercase",
                                         borderRadius: "2px", textDecoration: "none",
-                                    }}>Browse the Shop</Link>
+                                    }}>{contact.browseShop}</Link>
                                 </div>
                             </Reveal>
                         ) : (
@@ -299,9 +308,9 @@ export default function ContactPage() {
                                     <p style={{
                                         fontSize: "10px", letterSpacing: "0.22em", textTransform: "uppercase",
                                         color: T.terra, fontWeight: 500, marginBottom: "10px",
-                                    }}>What's this about?</p>
+                                    }}>{contact.whatsAbout}</p>
                                     <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                                        {topics.map(t => (
+                                        {contact.topics.map(t => (
                                             <button key={t} onClick={() => setTopic(t)}
                                                 style={{
                                                     padding: "8px 16px", fontSize: "11px", fontWeight: 500, letterSpacing: "0.06em",
@@ -317,17 +326,17 @@ export default function ContactPage() {
                                 <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
                                     <Reveal delay={60}>
                                         <div className="form-row">
-                                            <Field label="Your Name" name="name" value={form.name} onChange={handleChange} required placeholder="Jane Smith" />
-                                            <Field label="Email Address" type="email" name="email" value={form.email} onChange={handleChange} required placeholder="jane@example.com" />
+                                            <Field label={contact.yourName} name="name" value={form.name} onChange={handleChange} required placeholder={contact.yourNamePlaceholder} />
+                                            <Field label={contact.emailAddress} type="email" name="email" value={form.email} onChange={handleChange} required placeholder={contact.emailPlaceholder} />
                                         </div>
                                     </Reveal>
 
                                     <Reveal delay={100}>
-                                        <Field label="Subject" name="subject" value={form.subject} onChange={handleChange} required placeholder="Tell us in a few words…" />
+                                        <Field label={contact.subject} name="subject" value={form.subject} onChange={handleChange} required placeholder={contact.subjectPlaceholder} />
                                     </Reveal>
 
                                     <Reveal delay={140}>
-                                        <Field label="Your Message" type="textarea" name="message" value={form.message} onChange={handleChange} required placeholder="Write as much or as little as you like. We read everything." />
+                                        <Field label={contact.yourMessage} type="textarea" name="message" value={form.message} onChange={handleChange} required placeholder={contact.messagePlaceholder} />
                                     </Reveal>
 
                                     <Reveal delay={180}>
@@ -344,10 +353,10 @@ export default function ContactPage() {
                                                 onMouseLeave={e => { if (!loading && form.name && form.email && form.subject && form.message) (e.currentTarget.style.backgroundColor = T.terra); }}
                                             >
                                                 {loading ? (
-                                                    <><span style={{ width: "12px", height: "12px", border: `2px solid rgba(255,255,255,0.3)`, borderTop: "2px solid white", borderRadius: "50%", display: "inline-block", animation: "spin 0.7s linear infinite" }} /> Sending…</>
-                                                ) : "Send Message →"}
+                                                    <><span style={{ width: "12px", height: "12px", border: `2px solid rgba(255,255,255,0.3)`, borderTop: "2px solid white", borderRadius: "50%", display: "inline-block", animation: "spin 0.7s linear infinite" }} /> {contact.sending}</>
+                                                ) : contact.sendMessage}
                                             </button>
-                                            <p style={{ fontSize: "12px", color: T.clay, fontWeight: 300 }}>We'll reply within one business day</p>
+                                            <p style={{ fontSize: "12px", color: T.clay, fontWeight: 300 }}>{contact.replyWithin}</p>
                                         </div>
                                     </Reveal>
                                 </form>
@@ -358,7 +367,7 @@ export default function ContactPage() {
                     {/* ── SIDEBAR ── */}
                     <aside className="sidebar-area">
                         <Reveal style={{ marginBottom: "48px" }}>
-                            <p style={{ fontSize: "10px", letterSpacing: "0.22em", textTransform: "uppercase", color: T.terra, fontWeight: 500, marginBottom: "12px" }}>Direct Email</p>
+                            <p style={{ fontSize: "10px", letterSpacing: "0.22em", textTransform: "uppercase", color: T.terra, fontWeight: 500, marginBottom: "12px" }}>{contact.directEmail}</p>
                             <a href="mailto:hello@folio.com" style={{
                                 fontFamily: "'Cormorant Garamond', serif", fontSize: "22px", fontWeight: 400, color: T.ink, textDecoration: "none",
                                 borderBottom: `1px solid ${T.clay}`, paddingBottom: "2px", transition: "color 0.2s ease, border-color 0.2s ease", display: "inline-block",
@@ -366,16 +375,16 @@ export default function ContactPage() {
                                 onMouseEnter={e => { e.currentTarget.style.color = T.terra; e.currentTarget.style.borderColor = T.terra; }}
                                 onMouseLeave={e => { e.currentTarget.style.color = T.ink; e.currentTarget.style.borderColor = T.clay; }}
                             >hello@folio.com</a>
-                            <p style={{ fontSize: "12px", color: T.inkLight, fontWeight: 300, lineHeight: 1.7, marginTop: "10px" }}>For urgent matters, email directly and we'll prioritise your message.</p>
+                            <p style={{ fontSize: "12px", color: T.inkLight, fontWeight: 300, lineHeight: 1.7, marginTop: "10px" }}>{contact.directEmailNote}</p>
                         </Reveal>
 
                         <div style={{ width: "100%", height: "1px", backgroundColor: T.parchment, marginBottom: "48px" }} />
 
                         <Reveal delay={80} style={{ marginBottom: "48px" }}>
-                            <p style={{ fontSize: "10px", letterSpacing: "0.22em", textTransform: "uppercase", color: T.terra, fontWeight: 500, marginBottom: "16px" }}>Helpful Links</p>
+                            <p style={{ fontSize: "10px", letterSpacing: "0.22em", textTransform: "uppercase", color: T.terra, fontWeight: 500, marginBottom: "16px" }}>{contact.helpfulLinks}</p>
                             {[
-                                { label: "FAQs", href: "/faq", desc: "Answers to common questions" },
-                                { label: "Track Your Order", href: "/orders", desc: "Follow your parcel" },
+                                { label: contact.faqLabel, href: `/${lang}/faq`, desc: contact.faqDesc },
+                                { label: contact.trackOrder, href: `/${lang}/orders`, desc: contact.trackOrderDesc },
                             ].map((l) => (
                                 <Link key={l.label} href={l.href} style={{
                                     display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 0",
@@ -396,15 +405,15 @@ export default function ContactPage() {
                         <div style={{ width: "100%", height: "1px", backgroundColor: T.parchment, marginBottom: "48px" }} />
 
                         <Reveal delay={160}>
-                            <p style={{ fontSize: "10px", letterSpacing: "0.22em", textTransform: "uppercase", color: T.terra, fontWeight: 500, marginBottom: "16px" }}>Office Hours</p>
+                            <p style={{ fontSize: "10px", letterSpacing: "0.22em", textTransform: "uppercase", color: T.terra, fontWeight: 500, marginBottom: "16px" }}>{contact.officeHours}</p>
                             {[
-                                ["Monday – Friday", "9:00 am – 6:00 pm"],
-                                ["Saturday", "10:00 am – 2:00 pm"],
-                                ["Sunday", "Closed"],
+                                [contact.mondayFriday, contact.mondayFridayTime],
+                                [contact.saturday, contact.saturdayTime],
+                                [contact.sunday, contact.sundayTime],
                             ].map(([day, hours]) => (
                                 <div key={day} style={{ display: "flex", justifyContent: "space-between", padding: "11px 0", borderBottom: `1px solid ${T.parchment}` }}>
                                     <span style={{ fontSize: "12px", color: T.inkLight, fontWeight: 300 }}>{day}</span>
-                                    <span style={{ fontSize: "12px", fontWeight: 500, color: hours === "Closed" ? T.clay : T.ink }}>{hours}</span>
+                                    <span style={{ fontSize: "12px", fontWeight: 500, color: hours === contact.sundayTime ? T.clay : T.ink }}>{hours}</span>
                                 </div>
                             ))}
                         </Reveal>
