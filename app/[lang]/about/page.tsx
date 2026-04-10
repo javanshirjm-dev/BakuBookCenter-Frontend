@@ -1,6 +1,8 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { translations, Language } from '../../../locales/translations'; // Make sure this path is correct for your structure!
 
 const TERRA = '#B5623E';
 const TERRA_DARK = '#8C4530';
@@ -17,44 +19,32 @@ interface ValueItem { num: string; title: string; body: string; }
 interface TeamItem { name: string; role: string; bio: string; initial: string; }
 interface TimelineItem { year: string; event: string; }
 
-const STATS: StatItem[] = [
-    { num: '50k+', label: 'Books in our collection' },
-    { num: '40+', label: 'Countries we ship to' },
-    { num: '2019', label: 'Year we opened' },
-    { num: '4k+', label: 'Happy readers' },
-];
-
-const VALUES: ValueItem[] = [
-    { num: '01', title: 'Curation over volume.', body: 'Every book on our shelves has been read, considered, and chosen. If it is here, someone on our team believes in it.' },
-    { num: '02', title: 'Readers, not algorithms.', body: 'Our recommendations come from humans who read obsessively. One perfect book beats twenty mediocre ones every time.' },
-    { num: '03', title: 'Beauty in the object.', body: 'We care about editions, covers, paper quality, and the way a book feels in your hands. We source editions we would want to own.' },
-    { num: '04', title: 'Slow commerce.', body: 'We pack every order carefully, write personal notes, and think about every decision. Small is a feature, not a limitation.' },
-];
-
-const TEAM: TeamItem[] = [
-    { name: 'Sara Okafor', role: 'Founder & Head Buyer', bio: 'Former librarian. Has read every Booker Prize winner since 1990. Drinks too much coffee and not enough water.', initial: 'S' },
-    { name: 'Tom Brennan', role: 'Operations & Fulfilment', bio: 'Ex-logistics, now packs books with a care that borders on obsessive. Probably knows where your order is right now.', initial: 'T' },
-    { name: 'Leila Nazari', role: 'Editorial & Recommendations', bio: 'Reads 80+ books a year across six languages. Writes all our shelf notes. Favourite genre: untranslatable fiction.', initial: 'L' },
-];
-
-const TIMELINE: TimelineItem[] = [
-    { year: '2019', event: 'Founded from a single room with 200 handpicked titles.' },
-    { year: '2020', event: 'First 1,000 orders shipped. Every one packed by hand, every one with a note.' },
-    { year: '2021', event: 'Launched our newsletter. 4,000 subscribers in year one.' },
-    { year: '2022', event: 'Moved into a proper space. Reluctantly.' },
-    { year: '2023', event: 'Expanded to international shipping — now reaching 40+ countries.' },
-    { year: '2024', event: 'Celebrated 50,000 books found, gifted, and read.' },
-];
-
-const PROMISES: string[][] = [
-    ['◎', 'Every order packed by hand'],
-    ['→', 'Personal note in every parcel'],
-    ['↺', '30-day no-questions returns'],
-    ['✦', 'Free shipping over $40'],
-];
-
 export default function AboutPage() {
+    const params = useParams();
+    const currentLang = (params?.lang as Language) || 'en';
+    const t = translations[currentLang]?.about || translations['en'].about;
+
     const [hoveredTeam, setHoveredTeam] = useState<string | null>(null);
+
+    // Arrays moved inside so they can use the `t` translation object
+    const STATS: StatItem[] = [
+        { num: t.stats.booksNum, label: t.stats.booksLabel },
+        { num: t.stats.countriesNum, label: t.stats.countriesLabel },
+        { num: t.stats.yearNum, label: t.stats.yearLabel },
+        { num: t.stats.readersNum, label: t.stats.readersLabel },
+    ];
+
+    const VALUES: ValueItem[] = t.values;
+    const TEAM: TeamItem[] = t.team;
+    const TIMELINE: TimelineItem[] = t.timeline;
+
+    // Zipping the original icons with the newly translated promises
+    const PROMISES: string[][] = [
+        ['◎', t.promises[0]],
+        ['→', t.promises[1]],
+        ['↺', t.promises[2]],
+        ['✦', t.promises[3]],
+    ];
 
     return (
         <div style={{ fontFamily: "'Outfit', sans-serif", backgroundColor: WHITE, minHeight: '100vh', color: INK, overflowX: 'hidden' }}>
@@ -66,7 +56,7 @@ export default function AboutPage() {
         @keyframes slideUp    { from { opacity:0; transform:translateY(36px);  } to { opacity:1; transform:translateY(0); } }
         @keyframes slideLeft  { from { opacity:0; transform:translateX(36px);  } to { opacity:1; transform:translateX(0); } }
         @keyframes slideRight { from { opacity:0; transform:translateX(-36px); } to { opacity:1; transform:translateX(0); } }
-        @keyframes fadeIn     { from { opacity:0; }                             to { opacity:1; } }
+        @keyframes fadeIn     { from { opacity:0; }                            to { opacity:1; } }
         @keyframes numIn      { from { opacity:0; transform:translateY(14px) scale(0.94); } to { opacity:1; transform:translateY(0) scale(1); } }
 
         .anim-down  { animation: slideDown  0.75s cubic-bezier(0.4,0,0.2,1) both; }
@@ -142,28 +132,28 @@ export default function AboutPage() {
                         fontWeight: 300, fontStyle: 'italic',
                         color: PARCHMENT, lineHeight: 1,
                         userSelect: 'none', pointerEvents: 'none', whiteSpace: 'nowrap',
-                    }}>About.</div>
+                    }}>{t.watermark}</div>
 
                     <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px', alignItems: 'flex-end', position: 'relative' }}>
                         <div>
                             <div className="anim-down d-1" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
                                 <div style={{ width: '32px', height: '2px', backgroundColor: TERRA }} />
-                                <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.24em', textTransform: 'uppercase', color: TERRA }}>Our Story</p>
+                                <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.24em', textTransform: 'uppercase', color: TERRA }}>{t.ourStory}</p>
                             </div>
                             <h1 className="anim-up d-2" style={{
                                 fontFamily: "'Cormorant Garamond', serif",
                                 fontSize: 'clamp(48px, 6.5vw, 88px)',
                                 fontWeight: 400, lineHeight: 0.96, color: INK,
                             }}>
-                                We started<br />because{' '}
-                                <em style={{ color: TERRA }}>great<br />books deserve</em>
-                                <br />better homes.
+                                {t.heroLine1}<br />
+                                <em style={{ color: TERRA }}>{t.heroLine2}</em>
+                                <br />{t.heroLine3}
                             </h1>
                         </div>
 
                         <div className="anim-left d-3">
                             <p style={{ fontSize: '15px', color: INK_LIGHT, lineHeight: 1.85, fontWeight: 300, marginBottom: '40px' }}>
-                                Baku Book Center began as a list of books a librarian kept recommending to strangers. It became a website. Then a small team. Now we help tens of thousands of readers find books they will actually finish.
+                                {t.heroDesc}
                             </p>
                             {/* Stats */}
                             <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0', border: '1px solid #EFE9DF', borderRadius: '4px', overflow: 'hidden' }}>
@@ -192,20 +182,16 @@ export default function AboutPage() {
                             fontWeight: 400, fontStyle: 'italic',
                             color: INK, lineHeight: 1.45, margin: 0,
                         }}>
-                            "I was tired of buying books online and feeling nothing. I wanted the feeling of a good bookshop — just without having to live near one."
+                            {t.originQuote}
                         </blockquote>
                         <p style={{ marginTop: '24px', fontSize: '11px', color: CLAY, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-                            — Sara Okafor, Founder
+                            {t.originAuthor}
                         </p>
                     </div>
 
                     <div className="origin-text anim-left d-3" style={{ padding: '80px 0 80px 64px' }}>
-                        <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: TERRA, marginBottom: '24px' }}>How it started</p>
-                        {[
-                            "In 2019, Sara Okafor was a librarian in a small town whose only bookshop stocked mostly bestsellers and gift wrap. She had spent years building personal reading lists for friends and anyone who asked — carefully annotated, full of overlooked writers.",
-                            "When the bookshop closed, she put the lists online as a proper store. The first order — wrapped in brown paper — left from her kitchen table.",
-                            "Five years on, it is still the same act of care. Just a slightly bigger table.",
-                        ].map((p: string, i: number) => (
+                        <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: TERRA, marginBottom: '24px' }}>{t.originTitle}</p>
+                        {[t.originP1, t.originP2, t.originP3].map((p: string, i: number) => (
                             <p key={i} style={{ fontSize: '14px', color: INK_LIGHT, lineHeight: 1.9, fontWeight: 300, marginBottom: '20px' }}>{p}</p>
                         ))}
                     </div>
@@ -214,9 +200,9 @@ export default function AboutPage() {
                 {/* ══ VALUES ══ */}
                 <section style={{ borderBottom: '1px solid #D4C4B0', padding: '80px 0' }}>
                     <div className="anim-up d-2" style={{ marginBottom: '52px' }}>
-                        <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', color: TERRA, marginBottom: '12px' }}>What we believe</p>
+                        <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', color: TERRA, marginBottom: '12px' }}>{t.valuesLabel}</p>
                         <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px, 4vw, 50px)', fontWeight: 400, color: INK, lineHeight: 1.1, maxWidth: '500px' }}>
-                            Four things we refuse to compromise on.
+                            {t.valuesTitle}
                         </h2>
                     </div>
                     <div className="values-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', borderTop: '1px solid #EFE9DF' }}>
@@ -235,13 +221,13 @@ export default function AboutPage() {
                     <div className="dark-text" style={{ backgroundColor: INK, padding: '64px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '18px' }}>
                             <div style={{ width: '24px', height: '2px', backgroundColor: TERRA }} />
-                            <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', color: TERRA }}>Behind the scenes</p>
+                            <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', color: TERRA }}>{t.darkLabel}</p>
                         </div>
                         <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(26px, 3.5vw, 44px)', fontWeight: 400, color: WHITE, lineHeight: 1.15, marginBottom: '18px' }}>
-                            Every book leaves<br /><em style={{ color: TERRA }}>with a note.</em>
+                            {t.darkTitle1}<br /><em style={{ color: TERRA }}>{t.darkTitle2}</em>
                         </h2>
                         <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.38)', lineHeight: 1.85, fontWeight: 300, maxWidth: '360px' }}>
-                            We write a short personal note in every order — sometimes why we love the book, sometimes a recommendation for what to read next. It takes longer. We think it is worth it.
+                            {t.darkDesc}
                         </p>
                     </div>
                     <div className="dark-promises" style={{ backgroundColor: CREAM, padding: '64px', display: 'flex', flexDirection: 'column', justifyContent: 'center', borderLeft: '1px solid #EFE9DF' }}>
@@ -258,22 +244,22 @@ export default function AboutPage() {
                 <section className="timeline-grid" style={{ borderBottom: '1px solid #D4C4B0', display: 'grid', gridTemplateColumns: '300px 1fr' }}>
                     <div className="timeline-sticky" style={{ borderRight: '1px solid #EFE9DF', padding: '80px 56px 80px 0', position: 'sticky', top: '0', alignSelf: 'start' }}>
                         <div className="anim-right d-2">
-                            <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', color: TERRA, marginBottom: '12px' }}>Since 2019</p>
+                            <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', color: TERRA, marginBottom: '12px' }}>{t.timelineLabel}</p>
                             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '34px', fontWeight: 400, color: INK, lineHeight: 1.2, fontStyle: 'italic' }}>
-                                A few years,<br />honestly told.
+                                {t.timelineTitle1}<br />{t.timelineTitle2}
                             </h2>
                         </div>
                     </div>
                     <div>
-                        {TIMELINE.map((t: TimelineItem, i: number) => (
-                            <div key={t.year} className={`tl-row anim-up d-${i + 2}`} style={{
+                        {TIMELINE.map((item: TimelineItem, i: number) => (
+                            <div key={item.year} className={`tl-row anim-up d-${i + 2}`} style={{
                                 display: 'grid', gridTemplateColumns: '80px 1fr',
                                 gap: '32px', padding: '36px 0 36px 56px',
                                 borderBottom: i < TIMELINE.length - 1 ? '1px solid #EFE9DF' : 'none',
                                 alignItems: 'start',
                             }}>
-                                <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '14px', color: TERRA, paddingTop: '3px', letterSpacing: '0.06em', fontWeight: 500 }}>{t.year}</span>
-                                <p style={{ fontSize: '15px', color: INK_LIGHT, lineHeight: 1.75, fontWeight: 300 }}>{t.event}</p>
+                                <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '14px', color: TERRA, paddingTop: '3px', letterSpacing: '0.06em', fontWeight: 500 }}>{item.year}</span>
+                                <p style={{ fontSize: '15px', color: INK_LIGHT, lineHeight: 1.75, fontWeight: 300 }}>{item.event}</p>
                             </div>
                         ))}
                     </div>
@@ -282,9 +268,9 @@ export default function AboutPage() {
                 {/* ══ TEAM ══ */}
                 <section style={{ borderBottom: '1px solid #D4C4B0', padding: '80px 0' }}>
                     <div className="anim-up d-2" style={{ marginBottom: '52px' }}>
-                        <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', color: TERRA, marginBottom: '12px' }}>The people</p>
+                        <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', color: TERRA, marginBottom: '12px' }}>{t.teamLabel}</p>
                         <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px, 4vw, 50px)', fontWeight: 400, color: INK }}>
-                            Three people. A lot of books.
+                            {t.teamTitle}
                         </h2>
                     </div>
                     <div className="team-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', border: '1px solid #EFE9DF', borderRadius: '4px', overflow: 'hidden' }}>
@@ -321,31 +307,31 @@ export default function AboutPage() {
                 {/* ══ CTA ══ */}
                 <section className="cta-grid anim-fade d-4" style={{ padding: '96px 0', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px', alignItems: 'center' }}>
                     <div>
-                        <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', color: TERRA, marginBottom: '16px' }}>Join us</p>
+                        <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', color: TERRA, marginBottom: '16px' }}>{t.ctaLabel}</p>
                         <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(32px, 5vw, 58px)', fontWeight: 400, color: INK, lineHeight: 1.1, marginBottom: '20px' }}>
-                            Find your next<br /><em style={{ color: TERRA }}>favourite book.</em>
+                            {t.ctaTitle1}<br /><em style={{ color: TERRA }}>{t.ctaTitle2}</em>
                         </h2>
                         <p style={{ fontSize: '14px', color: INK_LIGHT, fontWeight: 300, lineHeight: 1.8, maxWidth: '380px' }}>
-                            Carefully chosen. Honestly recommended. Delivered with care — whether you are a first-time customer or on your 50th order.
+                            {t.ctaDesc}
                         </p>
                     </div>
                     <div style={{ border: '1px solid #EFE9DF', borderRadius: '4px', padding: '48px', backgroundColor: CREAM }}>
                         <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '16px', fontStyle: 'italic', color: INK_LIGHT, lineHeight: 1.75, marginBottom: '32px', paddingBottom: '28px', borderBottom: '1px solid #EFE9DF' }}>
-                            "Every order that leaves Baku Book Center is packed by someone who has actually read the book inside it."
+                            {t.ctaQuote}
                         </p>
                         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                            <Link href="/shop" className="shop-btn" style={{
+                            <Link href={`/${currentLang}/shop`} className="shop-btn" style={{
                                 padding: '13px 28px', backgroundColor: TERRA, color: WHITE,
                                 fontSize: '11px', fontWeight: 500, letterSpacing: '0.14em',
                                 textTransform: 'uppercase', borderRadius: '2px', textDecoration: 'none',
                                 transition: 'background-color 0.2s ease', display: 'inline-block',
-                            }}>Browse the Shop</Link>
-                            <Link href="/contact" className="ghost-btn" style={{
+                            }}>{t.btnShop}</Link>
+                            <Link href={`/${currentLang}/contact`} className="ghost-btn" style={{
                                 padding: '13px 28px', border: '1px solid #D4C4B0', color: INK_MID,
                                 fontSize: '11px', fontWeight: 500, letterSpacing: '0.14em',
                                 textTransform: 'uppercase', borderRadius: '2px', textDecoration: 'none',
                                 transition: 'all 0.2s ease', display: 'inline-block',
-                            }}>Get in Touch</Link>
+                            }}>{t.btnContact}</Link>
                         </div>
                     </div>
                 </section>
