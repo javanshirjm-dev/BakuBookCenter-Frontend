@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { translations } from '@/locales/translations';
 import Link from 'next/link';
 
 const TERRA = '#B5623E';
@@ -16,10 +18,10 @@ const CLAY = '#D4C4B0';
 const WHITE = '#FDFCFA';
 
 /* ── Field ── */
-function Field({ label, name, type = 'text', value, onChange, error, placeholder = '', optional = false, inputMode, pattern, maxLength }: {
+function Field({ label, name, type = 'text', value, onChange, error, placeholder = '', optionalLabel, inputMode, pattern, maxLength }: {
     label: string; name: string; type?: string; value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    error?: string; placeholder?: string; optional?: boolean;
+    error?: string; placeholder?: string; optionalLabel?: string;
     inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
     pattern?: string; maxLength?: number;
 }) {
@@ -27,7 +29,7 @@ function Field({ label, name, type = 'text', value, onChange, error, placeholder
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
             <label style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: error ? '#DC2626' : focused ? TERRA : INK_LIGHT, fontFamily: "'Outfit', sans-serif", transition: 'color 0.2s' }}>
-                {label}{optional && <span style={{ color: CLAY, fontWeight: 300 }}> (optional)</span>}
+                {label}{optionalLabel && <span style={{ color: CLAY, fontWeight: 300 }}> ({optionalLabel})</span>}
             </label>
             <input
                 type={type} name={name} value={value} onChange={onChange}
@@ -79,6 +81,10 @@ export default function CheckoutPage() {
     const params = useParams();
     const lang = (params.lang as string) || 'en';
     const { user } = useAuth();
+    const { language } = useLanguage();
+
+    // All translated strings for this page
+    const co = translations[language as keyof typeof translations].checkout;
 
     const [cartItems, setCartItems] = useState<any[]>([]);
     const [totalPrice, setTotalPrice] = useState(0);
@@ -107,18 +113,18 @@ export default function CheckoutPage() {
 
     const validateForm = () => {
         const e: Record<string, string> = {};
-        if (!formData.name) e.name = 'Name is required';
-        if (!formData.email) e.email = 'Email is required';
-        if (!formData.phone) e.phone = 'Phone is required';
-        if (!formData.street) e.street = 'Street address is required';
-        if (!formData.city) e.city = 'City is required';
-        if (!formData.postalCode) e.postalCode = 'Postal code is required';
-        if (!formData.country) e.country = 'Country is required';
+        if (!formData.name) e.name = co.errName;
+        if (!formData.email) e.email = co.errEmail;
+        if (!formData.phone) e.phone = co.errPhone;
+        if (!formData.street) e.street = co.errStreet;
+        if (!formData.city) e.city = co.errCity;
+        if (!formData.postalCode) e.postalCode = co.errPostal;
+        if (!formData.country) e.country = co.errCountry;
         if (!formData.cardNumber || formData.cardNumber.replace(/\s/g, '').length !== 16)
-            e.cardNumber = 'Valid 16-digit card number is required';
-        if (!formData.cardHolder) e.cardHolder = 'Cardholder name is required';
-        if (!formData.expiryMonth || !formData.expiryYear) e.expiry = 'Expiry date is required';
-        if (!formData.cvv || formData.cvv.length !== 3) e.cvv = 'Valid 3-digit CVV is required';
+            e.cardNumber = co.errCardNumber;
+        if (!formData.cardHolder) e.cardHolder = co.errCardHolder;
+        if (!formData.expiryMonth || !formData.expiryYear) e.expiry = co.errExpiry;
+        if (!formData.cvv || formData.cvv.length !== 3) e.cvv = co.errCvv;
         setFormErrors(e);
         return Object.keys(e).length === 0;
     };
@@ -129,15 +135,13 @@ export default function CheckoutPage() {
         if (formErrors[name]) setFormErrors(prev => { const n = { ...prev }; delete n[name]; return n; });
     };
 
-    /* ── Number-only helpers ── */
     const onlyDigits = (e: React.ChangeEvent<HTMLInputElement>, maxLen?: number) => {
         const val = e.target.value.replace(/\D/g, '').slice(0, maxLen);
         handleInputChange({ ...e, target: { ...e.target, value: val, name: e.target.name } } as any);
     };
 
     const formatPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
-        // Allow + at start, then only digits and spaces
-        let val = e.target.value.replace(/[^\d+\s\-()]/g, '').slice(0, 20);
+        const val = e.target.value.replace(/[^\d+\s\-()]/g, '').slice(0, 20);
         handleInputChange({ ...e, target: { ...e.target, value: val, name: e.target.name } } as any);
     };
 
@@ -183,7 +187,7 @@ export default function CheckoutPage() {
 
     if (!user) return (
         <div style={{ minHeight: '100vh', backgroundColor: WHITE, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Outfit', sans-serif" }}>
-            <p style={{ color: INK_LIGHT, fontStyle: 'italic', fontFamily: "'Cormorant Garamond', serif", fontSize: '18px' }}>Redirecting…</p>
+            <p style={{ color: INK_LIGHT, fontStyle: 'italic', fontFamily: "'Cormorant Garamond', serif", fontSize: '18px' }}>{co.redirecting}</p>
         </div>
     );
 
@@ -192,16 +196,16 @@ export default function CheckoutPage() {
             <style>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Outfit:wght@300;400;500&display=swap');`}</style>
             <div style={{ textAlign: 'center' }}>
                 <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '60px', color: PARCHMENT, lineHeight: 1, marginBottom: '20px' }}>◎</p>
-                <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '32px', fontWeight: 400, color: INK, marginBottom: '12px' }}>Your cart is empty.</h2>
-                <Link href={`/${lang}/shop`} style={{ fontSize: '11px', color: TERRA, textDecoration: 'underline', textUnderlineOffset: '3px', letterSpacing: '0.1em', textTransform: 'uppercase' }}>← Back to Shop</Link>
+                <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '32px', fontWeight: 400, color: INK, marginBottom: '12px' }}>{co.cartEmpty}</h2>
+                <Link href={`/${lang}/shop`} style={{ fontSize: '11px', color: TERRA, textDecoration: 'underline', textUnderlineOffset: '3px', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{co.backToShop}</Link>
             </div>
         </div>
     );
 
     const steps = [
-        { key: 'personal', label: 'Personal', num: '01' },
-        { key: 'address', label: 'Address', num: '02' },
-        { key: 'payment', label: 'Payment', num: '03' },
+        { key: 'personal', label: co.stepPersonal, num: '01' },
+        { key: 'address', label: co.stepAddress, num: '02' },
+        { key: 'payment', label: co.stepPayment, num: '03' },
     ];
 
     return (
@@ -214,7 +218,6 @@ export default function CheckoutPage() {
         input::placeholder { color:${CLAY}; }
         select option { color:${INK}; }
 
-        /* ── Responsive ── */
         .co-grid   { display:grid; grid-template-columns:1fr 360px; gap:48px; }
         .co-hdr    { display:flex; align-items:flex-end; justify-content:space-between; }
         .co-steps  { display:flex; align-items:center; padding:24px 0; border-bottom:1px solid ${PARCHMENT}; gap:0; }
@@ -250,13 +253,13 @@ export default function CheckoutPage() {
                 {/* HEADER */}
                 <div className="co-hdr" style={{ padding: '40px 0 32px', borderBottom: `1px solid ${PARCHMENT}` }}>
                     <div>
-                        <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', color: TERRA, marginBottom: '8px' }}>Secure Checkout</p>
-                        <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px, 4vw, 52px)', fontWeight: 400, lineHeight: 1.0, color: INK }}>Complete Your Order</h1>
+                        <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', color: TERRA, marginBottom: '8px' }}>{co.secureCheckout}</p>
+                        <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px, 4vw, 52px)', fontWeight: 400, lineHeight: 1.0, color: INK }}>{co.completeOrder}</h1>
                     </div>
                     <Link href={`/${lang}/cart`} style={{ fontSize: '11px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: INK_LIGHT, textDecoration: 'none', paddingBottom: '4px', borderBottom: `1px solid ${CLAY}`, transition: 'color 0.2s', whiteSpace: 'nowrap' }}
                         onMouseEnter={e => (e.currentTarget.style.color = TERRA)}
                         onMouseLeave={e => (e.currentTarget.style.color = INK_LIGHT)}
-                    >← Back to Cart</Link>
+                    >{co.backToCart}</Link>
                 </div>
 
                 {/* STEPS */}
@@ -284,15 +287,14 @@ export default function CheckoutPage() {
 
                         {/* ── 01 Personal ── */}
                         <div style={{ animation: 'fadeUp 0.5s ease both' }}>
-                            <SectionHead number="01" title="Personal Information" />
+                            <SectionHead number="01" title={co.personalInfo} />
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
                                 <div className="co-2col">
-                                    <Field label="Full Name" name="name" value={formData.name} onChange={handleInputChange} error={formErrors.name} placeholder="Jane Smith" />
-                                    <Field label="Email Address" name="email" type="email" value={formData.email} onChange={handleInputChange} error={formErrors.email} placeholder="jane@example.com" inputMode="email" />
+                                    <Field label={co.fullName} name="name" value={formData.name} onChange={handleInputChange} error={formErrors.name} placeholder="Jane Smith" />
+                                    <Field label={co.emailAddress} name="email" type="email" value={formData.email} onChange={handleInputChange} error={formErrors.email} placeholder="jane@example.com" inputMode="email" />
                                 </div>
-                                {/* Phone — numbers, +, spaces, dashes only */}
                                 <div>
-                                    <label style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: formErrors.phone ? '#DC2626' : INK_LIGHT, fontFamily: "'Outfit', sans-serif", display: 'block', marginBottom: '7px' }}>Phone Number</label>
+                                    <label style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: formErrors.phone ? '#DC2626' : INK_LIGHT, fontFamily: "'Outfit', sans-serif", display: 'block', marginBottom: '7px' }}>{co.phoneNumber}</label>
                                     <input name="phone" type="tel" value={formData.phone} onChange={formatPhone} placeholder="+994 50 000 00 00" inputMode="tel" maxLength={20}
                                         style={{ width: '100%', padding: '12px 14px', boxSizing: 'border-box', border: `1px solid ${formErrors.phone ? '#DC2626' : CLAY}`, borderRadius: '2px', outline: 'none', backgroundColor: WHITE, color: INK, fontSize: '14px', fontWeight: 300, fontFamily: "'Outfit', sans-serif", transition: 'border-color 0.2s' }}
                                         onFocus={e => (e.target.style.borderColor = TERRA)} onBlur={e => (e.target.style.borderColor = formErrors.phone ? '#DC2626' : CLAY)}
@@ -301,13 +303,12 @@ export default function CheckoutPage() {
                                 </div>
 
                                 <div style={{ borderTop: `1px solid ${PARCHMENT}`, paddingTop: '18px' }}>
-                                    <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.16em', textTransform: 'uppercase', color: INK_LIGHT, marginBottom: '14px' }}>Recipient (if different from above)</p>
+                                    <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.16em', textTransform: 'uppercase', color: INK_LIGHT, marginBottom: '14px' }}>{co.recipientSection}</p>
                                     <div className="co-2col">
-                                        <Field label="Recipient Name" name="recipientName" value={formData.recipientName} onChange={handleInputChange} placeholder="Optional" optional />
-                                        {/* Recipient phone — tel only */}
+                                        <Field label={co.recipientName} name="recipientName" value={formData.recipientName} onChange={handleInputChange} placeholder={co.optional} optionalLabel={co.optional} />
                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
                                             <label style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: INK_LIGHT, fontFamily: "'Outfit', sans-serif" }}>
-                                                Recipient Phone <span style={{ color: CLAY, fontWeight: 300 }}>(optional)</span>
+                                                {co.recipientPhone} <span style={{ color: CLAY, fontWeight: 300 }}>({co.optional})</span>
                                             </label>
                                             <input name="recipientPhone" type="tel" value={formData.recipientPhone} onChange={formatPhone} placeholder="+994 50 000 00 00" inputMode="tel" maxLength={20}
                                                 style={{ width: '100%', padding: '12px 14px', boxSizing: 'border-box', border: `1px solid ${CLAY}`, borderRadius: '2px', outline: 'none', backgroundColor: WHITE, color: INK, fontSize: '14px', fontWeight: 300, fontFamily: "'Outfit', sans-serif", transition: 'border-color 0.2s' }}
@@ -321,14 +322,13 @@ export default function CheckoutPage() {
 
                         {/* ── 02 Address ── */}
                         <div style={{ animation: 'fadeUp 0.5s ease 0.08s both' }}>
-                            <SectionHead number="02" title="Delivery Address" />
+                            <SectionHead number="02" title={co.deliveryAddress} />
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-                                <Field label="Street Address" name="street" value={formData.street} onChange={handleInputChange} error={formErrors.street} placeholder="123 Main Street" />
+                                <Field label={co.streetAddress} name="street" value={formData.street} onChange={handleInputChange} error={formErrors.street} placeholder="123 Main Street" />
                                 <div className="co-2col">
-                                    <Field label="City" name="city" value={formData.city} onChange={handleInputChange} error={formErrors.city} placeholder="Baku" />
-                                    {/* Postal code — alphanumeric but primarily digits */}
+                                    <Field label={co.city} name="city" value={formData.city} onChange={handleInputChange} error={formErrors.city} placeholder="Baku" />
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
-                                        <label style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: formErrors.postalCode ? '#DC2626' : INK_LIGHT, fontFamily: "'Outfit', sans-serif" }}>Postal Code</label>
+                                        <label style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: formErrors.postalCode ? '#DC2626' : INK_LIGHT, fontFamily: "'Outfit', sans-serif" }}>{co.postalCode}</label>
                                         <input name="postalCode" type="text" value={formData.postalCode} onChange={e => {
                                             const val = e.target.value.replace(/[^a-zA-Z0-9\s]/g, '').slice(0, 10);
                                             handleInputChange({ ...e, target: { ...e.target, value: val, name: 'postalCode' } } as any);
@@ -339,13 +339,13 @@ export default function CheckoutPage() {
                                         {formErrors.postalCode && <p style={{ fontSize: '11px', color: '#DC2626' }}>⚠ {formErrors.postalCode}</p>}
                                     </div>
                                 </div>
-                                <Field label="Country" name="country" value={formData.country} onChange={handleInputChange} error={formErrors.country} placeholder="Azerbaijan" />
+                                <Field label={co.country} name="country" value={formData.country} onChange={handleInputChange} error={formErrors.country} placeholder="Azerbaijan" />
                             </div>
                         </div>
 
                         {/* ── 03 Payment ── */}
                         <div style={{ animation: 'fadeUp 0.5s ease 0.16s both' }}>
-                            <SectionHead number="03" title="Payment Details" />
+                            <SectionHead number="03" title={co.paymentDetails} />
 
                             {/* Live card visual */}
                             <div className="co-card">
@@ -356,11 +356,11 @@ export default function CheckoutPage() {
                                 </p>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', position: 'relative', flexWrap: 'wrap', gap: '8px' }}>
                                     <div>
-                                        <p style={{ fontSize: '9px', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '3px' }}>Card Holder</p>
-                                        <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)' }}>{formData.cardHolder || 'YOUR NAME'}</p>
+                                        <p style={{ fontSize: '9px', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '3px' }}>{co.cardHolderLabel}</p>
+                                        <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)' }}>{formData.cardHolder || co.yourName}</p>
                                     </div>
                                     <div style={{ textAlign: 'right' }}>
-                                        <p style={{ fontSize: '9px', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '3px' }}>Expires</p>
+                                        <p style={{ fontSize: '9px', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '3px' }}>{co.expires}</p>
                                         <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)' }}>
                                             {formData.expiryMonth && formData.expiryYear ? `${formData.expiryMonth}/${formData.expiryYear}` : 'MM/YY'}
                                         </p>
@@ -369,9 +369,8 @@ export default function CheckoutPage() {
                             </div>
 
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-                                {/* Cardholder — text only, no digits */}
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
-                                    <label style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: formErrors.cardHolder ? '#DC2626' : INK_LIGHT, fontFamily: "'Outfit', sans-serif" }}>Cardholder Name</label>
+                                    <label style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: formErrors.cardHolder ? '#DC2626' : INK_LIGHT, fontFamily: "'Outfit', sans-serif" }}>{co.cardholderName}</label>
                                     <input name="cardHolder" type="text" value={formData.cardHolder} onChange={e => {
                                         const val = e.target.value.replace(/[^a-zA-Z\s'-]/g, '').slice(0, 40);
                                         handleInputChange({ ...e, target: { ...e.target, value: val, name: 'cardHolder' } } as any);
@@ -382,9 +381,8 @@ export default function CheckoutPage() {
                                     {formErrors.cardHolder && <p style={{ fontSize: '11px', color: '#DC2626' }}>⚠ {formErrors.cardHolder}</p>}
                                 </div>
 
-                                {/* Card number — digits only */}
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
-                                    <label style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: formErrors.cardNumber ? '#DC2626' : INK_LIGHT, fontFamily: "'Outfit', sans-serif" }}>Card Number</label>
+                                    <label style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: formErrors.cardNumber ? '#DC2626' : INK_LIGHT, fontFamily: "'Outfit', sans-serif" }}>{co.cardNumber}</label>
                                     <input name="cardNumber" type="text" value={formData.cardNumber} onChange={formatCard} placeholder="1234 5678 9012 3456" inputMode="numeric" maxLength={19} autoComplete="cc-number"
                                         style={{ width: '100%', padding: '12px 14px', boxSizing: 'border-box', border: `1px solid ${formErrors.cardNumber ? '#DC2626' : CLAY}`, borderRadius: '2px', outline: 'none', backgroundColor: WHITE, color: INK, fontSize: '14px', fontWeight: 300, fontFamily: "'Outfit', sans-serif", transition: 'border-color 0.2s', letterSpacing: '0.08em' }}
                                         onFocus={e => (e.target.style.borderColor = TERRA)} onBlur={e => (e.target.style.borderColor = formErrors.cardNumber ? '#DC2626' : CLAY)}
@@ -392,24 +390,22 @@ export default function CheckoutPage() {
                                     {formErrors.cardNumber && <p style={{ fontSize: '11px', color: '#DC2626' }}>⚠ {formErrors.cardNumber}</p>}
                                 </div>
 
-                                {/* Expiry + CVV */}
                                 <div className="co-3col">
-                                    <SelectField label="Month" name="expiryMonth" value={formData.expiryMonth} onChange={handleInputChange} error={formErrors.expiry}>
+                                    <SelectField label={co.month} name="expiryMonth" value={formData.expiryMonth} onChange={handleInputChange} error={formErrors.expiry}>
                                         <option value="">MM</option>
                                         {Array.from({ length: 12 }, (_, i) => (
                                             <option key={i + 1} value={String(i + 1).padStart(2, '0')}>{String(i + 1).padStart(2, '0')}</option>
                                         ))}
                                     </SelectField>
-                                    <SelectField label="Year" name="expiryYear" value={formData.expiryYear} onChange={handleInputChange}>
+                                    <SelectField label={co.year} name="expiryYear" value={formData.expiryYear} onChange={handleInputChange}>
                                         <option value="">YY</option>
                                         {Array.from({ length: 10 }, (_, i) => {
                                             const y = new Date().getFullYear() + i;
                                             return <option key={y} value={String(y).slice(-2)}>{String(y).slice(-2)}</option>;
                                         })}
                                     </SelectField>
-                                    {/* CVV — 3 digits only */}
                                     <div className="co-cvv" style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
-                                        <label style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: formErrors.cvv ? '#DC2626' : INK_LIGHT, fontFamily: "'Outfit', sans-serif" }}>CVV</label>
+                                        <label style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: formErrors.cvv ? '#DC2626' : INK_LIGHT, fontFamily: "'Outfit', sans-serif" }}>{co.cvv}</label>
                                         <input name="cvv" type="password" value={formData.cvv} onChange={e => onlyDigits(e, 3)} placeholder="•••" inputMode="numeric" maxLength={3} autoComplete="cc-csc"
                                             style={{ width: '100%', padding: '12px 14px', boxSizing: 'border-box', border: `1px solid ${formErrors.cvv ? '#DC2626' : CLAY}`, borderRadius: '2px', outline: 'none', backgroundColor: WHITE, color: INK, fontSize: '14px', fontFamily: "'Outfit', sans-serif", transition: 'border-color 0.2s' }}
                                             onFocus={e => (e.target.style.borderColor = TERRA)} onBlur={e => (e.target.style.borderColor = formErrors.cvv ? '#DC2626' : CLAY)}
@@ -422,9 +418,7 @@ export default function CheckoutPage() {
                             {/* Security note */}
                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '18px', padding: '13px 16px', backgroundColor: CREAM, border: `1px solid ${PARCHMENT}`, borderRadius: '2px' }}>
                                 <span style={{ color: TERRA, fontSize: '14px', flexShrink: 0 }}>◎</span>
-                                <p style={{ fontSize: '12px', color: INK_LIGHT, fontWeight: 300, lineHeight: 1.5 }}>
-                                    Your payment details are encrypted and never stored on our servers.
-                                </p>
+                                <p style={{ fontSize: '12px', color: INK_LIGHT, fontWeight: 300, lineHeight: 1.5 }}>{co.securityNote}</p>
                             </div>
                         </div>
 
@@ -434,8 +428,8 @@ export default function CheckoutPage() {
                             onMouseLeave={e => { if (!loading) (e.currentTarget.style.backgroundColor = TERRA); }}
                         >
                             {loading ? (
-                                <><span style={{ width: '13px', height: '13px', border: '2px solid rgba(255,255,255,0.3)', borderTop: '2px solid white', borderRadius: '50%', display: 'inline-block', animation: 'spin 0.7s linear infinite' }} /> Processing…</>
-                            ) : 'Review & Place Order →'}
+                                <><span style={{ width: '13px', height: '13px', border: '2px solid rgba(255,255,255,0.3)', borderTop: '2px solid white', borderRadius: '50%', display: 'inline-block', animation: 'spin 0.7s linear infinite' }} /> {co.processing}</>
+                            ) : co.reviewOrder}
                         </button>
                     </form>
 
@@ -444,9 +438,11 @@ export default function CheckoutPage() {
                         <div style={{ border: `1px solid ${PARCHMENT}`, borderRadius: '4px', overflow: 'hidden' }}>
                             {/* Header */}
                             <div style={{ padding: '22px 26px', backgroundColor: CREAM, borderBottom: `1px solid ${PARCHMENT}` }}>
-                                <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: TERRA, marginBottom: '5px' }}>Order Summary</p>
+                                <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: TERRA, marginBottom: '5px' }}>{co.orderSummary}</p>
                                 <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '20px', fontStyle: 'italic', color: INK }}>
-                                    {cartItems.length} {cartItems.length === 1 ? 'book' : 'books'}
+                                    {cartItems.length} {cartItems.length === 1
+                                        ? translations[language as keyof typeof translations].book
+                                        : translations[language as keyof typeof translations].books}
                                 </p>
                             </div>
                             {/* Items */}
@@ -460,9 +456,9 @@ export default function CheckoutPage() {
                                         )}
                                         <div style={{ flex: 1, minWidth: 0 }}>
                                             <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '15px', fontWeight: 500, color: INK, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: '2px' }}>
-                                                {typeof item.name === 'object' ? item.name.en : item.name}
+                                                {typeof item.name === 'object' ? (item.name[language] || item.name.en) : item.name}
                                             </p>
-                                            <p style={{ fontSize: '11px', color: INK_LIGHT, fontWeight: 300 }}>Qty: {item.quantity}</p>
+                                            <p style={{ fontSize: '11px', color: INK_LIGHT, fontWeight: 300 }}>{co.qty}: {item.quantity}</p>
                                         </div>
                                         <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '17px', fontWeight: 500, color: INK, flexShrink: 0 }}>
                                             ${(item.price * item.quantity).toFixed(2)}
@@ -473,29 +469,31 @@ export default function CheckoutPage() {
                             {/* Totals */}
                             <div style={{ padding: '18px 26px', display: 'flex', flexDirection: 'column', gap: '10px', borderBottom: `1px solid ${PARCHMENT}` }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <span style={{ fontSize: '13px', color: INK_LIGHT, fontWeight: 300 }}>Subtotal</span>
+                                    <span style={{ fontSize: '13px', color: INK_LIGHT, fontWeight: 300 }}>{co.subtotal}</span>
                                     <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '17px', color: INK }}>${totalPrice.toFixed(2)}</span>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <span style={{ fontSize: '13px', color: INK_LIGHT, fontWeight: 300 }}>Shipping</span>
+                                    <span style={{ fontSize: '13px', color: INK_LIGHT, fontWeight: 300 }}>{co.shipping}</span>
                                     <span style={{ fontSize: '12px', color: totalPrice >= 40 ? '#3A6B4A' : INK_LIGHT, fontWeight: totalPrice >= 40 ? 500 : 300 }}>
-                                        {totalPrice >= 40 ? 'Free ✓' : 'Calculated at next step'}
+                                        {totalPrice >= 40 ? co.shippingFree : co.shippingNextStep}
                                     </span>
                                 </div>
                                 {totalPrice < 40 && (
-                                    <p style={{ fontSize: '11px', color: CLAY, fontWeight: 300, fontStyle: 'italic' }}>
-                                        Add ${(40 - totalPrice).toFixed(2)} more for free shipping
-                                    </p>
+                                    <p style={{ fontSize: '11px', color: CLAY, fontWeight: 300, fontStyle: 'italic' }}
+                                        dangerouslySetInnerHTML={{
+                                            __html: co.freeShippingNudge.replace('${amount}', `<strong>$${(40 - totalPrice).toFixed(2)}</strong>`)
+                                        }}
+                                    />
                                 )}
                             </div>
                             {/* Total */}
                             <div style={{ padding: '18px 26px', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: `1px solid ${PARCHMENT}` }}>
-                                <span style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: INK }}>Total</span>
+                                <span style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: INK }}>{co.total}</span>
                                 <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '30px', fontWeight: 500, color: INK }}>${totalPrice.toFixed(2)}</span>
                             </div>
                             {/* Trust */}
                             <div style={{ padding: '14px 26px', display: 'flex', flexDirection: 'column', gap: '9px' }}>
-                                {[['◎', 'Packed with care'], ['↺', '30-day returns'], ['→', 'Encrypted payment']].map(([icon, label]) => (
+                                {([['◎', co.trust1], ['↺', co.trust2], ['→', co.trust3]] as [string, string][]).map(([icon, label]) => (
                                     <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                                         <span style={{ fontSize: '12px', color: TERRA }}>{icon}</span>
                                         <span style={{ fontSize: '11px', color: CLAY, fontWeight: 300 }}>{label}</span>
@@ -514,28 +512,26 @@ export default function CheckoutPage() {
                         <div style={{ padding: '28px 36px', backgroundColor: CREAM, borderBottom: `1px solid ${PARCHMENT}` }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
                                 <div style={{ width: '24px', height: '2px', backgroundColor: TERRA }} />
-                                <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: TERRA }}>Almost there</p>
+                                <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: TERRA }}>{co.almostThere}</p>
                             </div>
-                            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '28px', fontWeight: 400, color: INK, lineHeight: 1.1 }}>Confirm Your Order</h2>
+                            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '28px', fontWeight: 400, color: INK, lineHeight: 1.1 }}>{co.confirmOrder}</h2>
                         </div>
                         <div style={{ padding: '24px 36px' }}>
                             <p style={{ fontSize: '14px', color: INK_LIGHT, lineHeight: 1.8, fontWeight: 300, marginBottom: '20px' }}>
-                                Placing an order for{' '}
-                                <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '18px', fontWeight: 500, color: INK }}>${totalPrice.toFixed(2)}</span>.
-                                {' '}Card ending in <strong>•••• {formData.cardNumber.slice(-4)}</strong> will be charged.
+                                {co.confirmDesc(`$${totalPrice.toFixed(2)}`, formData.cardNumber.slice(-4))}
                             </p>
                             <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
                                 <button onClick={() => setShowConfirmation(false)} disabled={loading} style={{ padding: '12px 22px', border: `1px solid ${CLAY}`, color: INK_LIGHT, fontSize: '10px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', borderRadius: '2px', background: 'none', cursor: 'pointer', fontFamily: "'Outfit', sans-serif", transition: 'all 0.2s' }}
                                     onMouseEnter={e => { (e.currentTarget.style.borderColor = INK); (e.currentTarget.style.color = INK); }}
                                     onMouseLeave={e => { (e.currentTarget.style.borderColor = CLAY); (e.currentTarget.style.color = INK_LIGHT); }}
-                                >Go Back</button>
+                                >{co.goBack}</button>
                                 <button onClick={handleConfirmOrder} disabled={loading} style={{ padding: '12px 26px', backgroundColor: loading ? CLAY : TERRA, color: WHITE, fontSize: '10px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', border: 'none', borderRadius: '2px', cursor: loading ? 'not-allowed' : 'pointer', fontFamily: "'Outfit', sans-serif", transition: 'background-color 0.2s', display: 'flex', alignItems: 'center', gap: '8px' }}
                                     onMouseEnter={e => { if (!loading) (e.currentTarget.style.backgroundColor = TERRA_DARK); }}
                                     onMouseLeave={e => { if (!loading) (e.currentTarget.style.backgroundColor = TERRA); }}
                                 >
                                     {loading ? (
-                                        <><span style={{ width: '12px', height: '12px', border: '2px solid rgba(255,255,255,0.3)', borderTop: '2px solid white', borderRadius: '50%', display: 'inline-block', animation: 'spin 0.7s linear infinite' }} /> Processing…</>
-                                    ) : 'Yes, Place Order →'}
+                                        <><span style={{ width: '12px', height: '12px', border: '2px solid rgba(255,255,255,0.3)', borderTop: '2px solid white', borderRadius: '50%', display: 'inline-block', animation: 'spin 0.7s linear infinite' }} /> {co.processing}</>
+                                    ) : co.placeOrder}
                                 </button>
                             </div>
                         </div>

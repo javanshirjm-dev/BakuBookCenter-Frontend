@@ -88,8 +88,8 @@ function Reveal({ children, delay = 0, style = {} }: { children: React.ReactNode
 }
 
 /* ─────────────── CART ITEM ─────────────── */
-function CartItem({ item, language, getLocalizedText, onRemove, index }: {
-    item: any; language: string; getLocalizedText: (f: any) => string; onRemove: () => void; index: number;
+function CartItem({ item, language, getLocalizedText, onRemove, index, t }: {
+    item: any; language: string; getLocalizedText: (f: any) => string; onRemove: () => void; index: number; t: (key: string) => string;
 }) {
     const [removing, setRemoving] = useState(false);
     const [hovered, setHovered] = useState(false);
@@ -147,7 +147,7 @@ function CartItem({ item, language, getLocalizedText, onRemove, index }: {
                             letterSpacing: '0.1em', textTransform: 'uppercase',
                             color: T.inkLight,
                         }}>
-                            Qty: {item.quantity}
+                            {t('qty')}: {item.quantity}
                         </span>
                         {item.hasDiscount && (
                             <span style={{
@@ -155,7 +155,7 @@ function CartItem({ item, language, getLocalizedText, onRemove, index }: {
                                 textTransform: 'uppercase', color: T.terra,
                                 border: `1px solid ${T.terra}`, padding: '2px 7px', borderRadius: '2px',
                             }}>
-                                Discounted
+                                {t('discounted')}
                             </span>
                         )}
                     </div>
@@ -189,7 +189,7 @@ function CartItem({ item, language, getLocalizedText, onRemove, index }: {
                         onMouseEnter={e => (e.currentTarget.style.color = T.terra)}
                         onMouseLeave={e => (e.currentTarget.style.color = T.clay)}
                     >
-                        Remove ×
+                        {t('remove')} ×
                     </button>
                 </div>
             </div>
@@ -236,7 +236,7 @@ export default function CartPage() {
                     fontSize: 'clamp(32px, 8vw, 40px)', fontWeight: 400,
                     color: T.ink, marginBottom: '12px', lineHeight: 1.1,
                 }}>
-                    {t('cartEmpty') || 'Your cart is empty.'}
+                    {t('cartEmpty')}
                 </h1>
                 <p style={{
                     fontSize: '14px', color: T.inkLight,
@@ -244,7 +244,7 @@ export default function CartPage() {
                     marginBottom: '36px', fontStyle: 'italic',
                     fontFamily: "'Cormorant Garamond', serif",
                 }}>
-                    {t('cartEmptyDesc') || 'A great book is waiting for you. Start browsing the collection.'}
+                    {t('cartEmptyDesc')}
                 </p>
                 <Link href="/shop" style={{
                     display: 'inline-block', padding: '14px 36px',
@@ -258,7 +258,7 @@ export default function CartPage() {
                     onMouseEnter={e => (e.currentTarget.style.backgroundColor = T.terraDark)}
                     onMouseLeave={e => (e.currentTarget.style.backgroundColor = T.terra)}
                 >
-                    {t('continueShopping') || 'Browse the Shop'}
+                    {t('continueShopping')}
                 </Link>
             </div>
         </div>
@@ -281,14 +281,14 @@ export default function CartPage() {
                                 fontSize: '10px', fontWeight: 500, letterSpacing: '0.22em',
                                 textTransform: 'uppercase', color: T.terra, marginBottom: '12px',
                             }}>
-                                {itemCount} {itemCount === 1 ? 'item' : 'items'}
+                                {itemCount} {itemCount === 1 ? t('item') : t('items')}
                             </p>
                             <h1 style={{
                                 fontFamily: "'Cormorant Garamond', serif",
                                 fontSize: 'clamp(36px, 5vw, 60px)',
                                 fontWeight: 400, lineHeight: 1.0, color: T.ink,
                             }}>
-                                {t('shoppingCart') || 'Shopping Cart'}
+                                {t('shoppingCart')}
                             </h1>
                         </Reveal>
                     </div>
@@ -303,7 +303,7 @@ export default function CartPage() {
                             onMouseEnter={e => { e.currentTarget.style.color = T.terra; e.currentTarget.style.borderColor = T.terra; }}
                             onMouseLeave={e => { e.currentTarget.style.color = T.inkLight; e.currentTarget.style.borderColor = T.clay; }}
                         >
-                            ← {t('continueShopping') || 'Continue Shopping'}
+                            ← {t('continueShopping')}
                         </Link>
                     </Reveal>
                 </div>
@@ -321,12 +321,13 @@ export default function CartPage() {
                                 language={language}
                                 getLocalizedText={getLocalizedText}
                                 onRemove={() => removeFromCart(item._id)}
+                                t={t as (key: string) => string}
                             />
                         ))}
 
                         {/* Promo code strip */}
                         <Reveal delay={cart.length * 60 + 80} style={{ marginTop: '8px' }}>
-                            <PromoStrip />
+                            <PromoStrip t={t as (key: string) => string} />
                         </Reveal>
                     </div>
 
@@ -345,13 +346,13 @@ export default function CartPage() {
                                         fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em',
                                         textTransform: 'uppercase', color: T.terra, marginBottom: '6px',
                                     }}>
-                                        {t('orderSummary') || 'Order Summary'}
+                                        {t('orderSummary')}
                                     </p>
                                     <p style={{
                                         fontFamily: "'Cormorant Garamond', serif",
                                         fontSize: '26px', fontWeight: 400, color: T.ink, fontStyle: 'italic',
                                     }}>
-                                        {itemCount} book{itemCount !== 1 ? 's' : ''}
+                                        {itemCount} {itemCount !== 1 ? t('books') : t('book')}
                                     </p>
                                 </div>
 
@@ -359,7 +360,7 @@ export default function CartPage() {
                                 <div style={{ padding: '20px 28px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <span style={{ fontSize: '13px', color: T.inkLight, fontWeight: 300 }}>
-                                            {t('subtotal') || 'Subtotal'}
+                                            {t('subtotal')}
                                         </span>
                                         <span style={{
                                             fontFamily: "'Cormorant Garamond', serif",
@@ -371,22 +372,22 @@ export default function CartPage() {
 
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <span style={{ fontSize: '13px', color: T.inkLight, fontWeight: 300 }}>
-                                            Shipping
+                                            {t('shipping')}
                                         </span>
                                         <span style={{
                                             fontSize: '12px', color: cartTotal >= 40 ? '#3A6B4A' : T.inkLight,
                                             fontWeight: cartTotal >= 40 ? 500 : 300,
                                         }}>
-                                            {cartTotal >= 40 ? 'Free' : 'Calculated at checkout'}
+                                            {cartTotal >= 40 ? t('shippingFree') : t('calculatedAtCheckout')}
                                         </span>
                                     </div>
 
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <span style={{ fontSize: '13px', color: T.inkLight, fontWeight: 300 }}>
-                                            {t('taxes') || 'Taxes'}
+                                            {t('taxes')}
                                         </span>
                                         <span style={{ fontSize: '12px', color: T.inkLight, fontWeight: 300 }}>
-                                            {t('calculatedAtCheckout') || 'At checkout'}
+                                            {t('calculatedAtCheckout')}
                                         </span>
                                     </div>
 
@@ -396,9 +397,14 @@ export default function CartPage() {
                                             padding: '10px 14px', backgroundColor: '#EEF6F1',
                                             border: '1px solid #B8DEC9', borderRadius: '2px', borderLeft: '3px solid #3A6B4A',
                                         }}>
-                                            <p style={{ fontSize: '12px', color: '#2A5438', fontWeight: 400, lineHeight: 1.5 }}>
-                                                Add <strong>${(40 - cartTotal).toFixed(2)}</strong> more for free shipping
-                                            </p>
+                                            <p style={{ fontSize: '12px', color: '#2A5438', fontWeight: 400, lineHeight: 1.5 }}
+                                                dangerouslySetInnerHTML={{
+                                                    __html: t('freeShippingNudge').replace(
+                                                        '${amount}',
+                                                        `<strong>$${(40 - cartTotal).toFixed(2)}</strong>`
+                                                    )
+                                                }}
+                                            />
                                         </div>
                                     )}
                                 </div>
@@ -412,7 +418,7 @@ export default function CartPage() {
                                         fontSize: '10px', fontWeight: 500,
                                         letterSpacing: '0.18em', textTransform: 'uppercase', color: T.ink,
                                     }}>
-                                        {t('total') || 'Total'}
+                                        {t('total')}
                                     </span>
                                     <span style={{
                                         fontFamily: "'Cormorant Garamond', serif",
@@ -437,7 +443,7 @@ export default function CartPage() {
                                         onMouseEnter={e => (e.currentTarget.style.backgroundColor = T.terraDark)}
                                         onMouseLeave={e => (e.currentTarget.style.backgroundColor = T.terra)}
                                     >
-                                        {t('proceedToCheckout') || 'Proceed to Checkout'}
+                                        {t('proceedToCheckout')}
                                         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
                                             <line x1="2" y1="6" x2="10" y2="6" /><polyline points="7,3 10,6 7,9" />
                                         </svg>
@@ -453,7 +459,7 @@ export default function CartPage() {
 }
 
 /* ─────────────── PROMO STRIP ─────────────── */
-function PromoStrip() {
+function PromoStrip({ t }: { t: (key: string) => string }) {
     const [code, setCode] = useState('');
     const [applied, setApplied] = useState(false);
     const [open, setOpen] = useState(false);
@@ -477,7 +483,7 @@ function PromoStrip() {
                 }}
             >
                 <span style={{ fontSize: '12px', fontWeight: 500, color: T.inkLight, letterSpacing: '0.08em' }}>
-                    Have a promo code?
+                    {t('promoQuestion')}
                 </span>
                 <span style={{ fontSize: '14px', color: T.clay, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease', display: 'inline-block' }}>
                     ▾
@@ -493,7 +499,7 @@ function PromoStrip() {
                             fontSize: '13px', color: '#3A6B4A',
                             fontStyle: 'italic', fontFamily: "'Cormorant Garamond', serif", padding: '10px 0',
                         }}>
-                            ✓ Promo code applied successfully
+                            {t('promoApplied')}
                         </p>
                     ) : (
                         <>
@@ -502,7 +508,7 @@ function PromoStrip() {
                                 onChange={e => setCode(e.target.value)}
                                 onFocus={() => setFocused(true)}
                                 onBlur={() => setFocused(false)}
-                                placeholder="Enter code"
+                                placeholder={t('promoPlaceholder')}
                                 style={{
                                     flex: 1, padding: '10px 14px',
                                     border: `1px solid ${focused ? T.terra : T.clay}`, borderRadius: '2px', outline: 'none',
@@ -519,7 +525,7 @@ function PromoStrip() {
                                     fontFamily: "'Outfit', sans-serif",
                                 }}
                             >
-                                Apply
+                                {t('promoApply')}
                             </button>
                         </>
                     )}

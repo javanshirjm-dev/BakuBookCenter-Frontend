@@ -46,6 +46,7 @@ export default function BookDetailPage() {
 
     const currentLang = (params?.lang as Language) || 'en';
     const t = translations[currentLang] || translations['en'];
+    const td = t.bookDetail;
 
     const [book, setBook] = useState<Book | null>(null);
     const [loading, setLoading] = useState(true);
@@ -64,7 +65,7 @@ export default function BookDetailPage() {
             try {
                 setLoading(true);
                 const response = await fetch(`http://localhost:5000/api/books/${bookId}`);
-                if (!response.ok) throw new Error('Book not found');
+                if (!response.ok) throw new Error(td.notFoundTitle);
                 const data = await response.json();
                 setBook(data);
             } catch (err) {
@@ -133,7 +134,7 @@ export default function BookDetailPage() {
                     fontFamily: "'Cormorant Garamond', serif",
                     fontSize: '20px', fontStyle: 'italic', color: T.inkLight,
                 }}>
-                    Finding your book…
+                    {td.loading}
                 </p>
                 <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
             </div>
@@ -152,15 +153,15 @@ export default function BookDetailPage() {
                 <p style={{
                     fontFamily: "'Cormorant Garamond', serif",
                     fontSize: '48px', color: T.clay, marginBottom: '16px',
-                }}>◎</p>
+                }}>{td.notFoundSymbol}</p>
                 <h2 style={{
                     fontFamily: "'Cormorant Garamond', serif",
                     fontSize: '28px', fontWeight: 400, color: T.ink, marginBottom: '12px',
                 }}>
-                    {error || 'Book not found'}
+                    {error || td.notFoundTitle}
                 </h2>
                 <p style={{ fontSize: '13px', color: T.inkLight, fontWeight: 300, marginBottom: '28px' }}>
-                    This title may have moved or been removed from our catalogue.
+                    {td.notFoundDesc}
                 </p>
                 <button
                     onClick={() => router.back()}
@@ -172,7 +173,7 @@ export default function BookDetailPage() {
                         border: 'none', borderRadius: '2px', cursor: 'pointer',
                     }}
                 >
-                    ← Go Back
+                    {td.goBack}
                 </button>
             </div>
         </div>
@@ -252,7 +253,7 @@ export default function BookDetailPage() {
                                     fontFamily: "'Cormorant Garamond', serif",
                                     fontSize: '14px', color: T.inkLight, fontStyle: 'italic',
                                 }}>
-                                    No cover available
+                                    {td.noCover}
                                 </div>
                             )}
 
@@ -265,7 +266,7 @@ export default function BookDetailPage() {
                                         letterSpacing: '0.1em', textTransform: 'uppercase',
                                         padding: '5px 10px', borderRadius: '2px',
                                     }}>
-                                        −{discountPercent}%
+                                        {td.discount(discountPercent)}
                                     </span>
                                 )}
                                 {book.bestseller && (
@@ -275,7 +276,7 @@ export default function BookDetailPage() {
                                         letterSpacing: '0.1em', textTransform: 'uppercase',
                                         padding: '5px 10px', borderRadius: '2px',
                                     }}>
-                                        Bestseller
+                                        {td.bestseller}
                                     </span>
                                 )}
                             </div>
@@ -320,7 +321,7 @@ export default function BookDetailPage() {
                                 fontSize: '20px', fontStyle: 'italic',
                                 color: T.inkLight, marginBottom: '32px', fontWeight: 300,
                             }}>
-                                by {getLocalizedText(book.author)}
+                                {td.by} {getLocalizedText(book.author)}
                             </p>
                         )}
 
@@ -350,7 +351,7 @@ export default function BookDetailPage() {
                                         padding: '3px 8px', borderRadius: '2px',
                                         marginTop: '4px'
                                     }}>
-                                        Save {discountPercent}%
+                                        {discountPercent && td.save(discountPercent)}
                                     </span>
                                 </div>
                             ) : (
@@ -371,7 +372,7 @@ export default function BookDetailPage() {
                                     letterSpacing: '0.18em', textTransform: 'uppercase',
                                     color: T.inkLight, marginBottom: '12px',
                                 }}>
-                                    {t('description')}
+                                    {td.aboutThisBook}
                                 </p>
                                 <p style={{
                                     fontSize: '14px', color: T.inkMid,
@@ -388,15 +389,16 @@ export default function BookDetailPage() {
                         {/* Meta grid */}
                         <div className="meta-grid">
                             {[
-                                book.author && { label: t('author'), value: getLocalizedText(book.author) },
-                                book.publishinghouse && { label: t('publishingHouse'), value: getLocalizedText(book.publishinghouse) },
-                                book.pages && { label: t('pages'), value: `${book.pages} pp.` },
-                                book.language && { label: t('language'), value: getLocalizedText(book.language) },
+                                book.publishinghouse && { label: td.metaPublisher, value: getLocalizedText(book.publishinghouse) },
+                                book.language && { label: td.metaLanguage, value: getLocalizedText(book.language) },
+                                book.pages && { label: td.metaPages, value: `${book.pages} ${td.pp}` },
+                                book.category && { label: td.metaCategory, value: getLocalizedText(book.category) },
                             ].filter(Boolean).map((meta: any, i, arr) => (
                                 <div key={meta.label} className="meta-item" style={{
                                     borderRight: i % 2 === 0 ? `1px solid ${T.parchment}` : 'none',
                                     borderBottom: i < arr.length - 2 ? `1px solid ${T.parchment}` : 'none',
                                     backgroundColor: i % 2 === 0 ? T.white : T.cream,
+                                    padding: '16px 20px',
                                 }}>
                                     <p style={{
                                         fontSize: '10px', fontWeight: 500,
@@ -485,7 +487,12 @@ export default function BookDetailPage() {
                                     if (!addedToCart) (e.currentTarget.style.backgroundColor = T.terra);
                                 }}
                             >
-                                {addedToCart ? `✓ ${t('addedToCart')}` : `${t('addToCartButton')}${quantity > 1 ? ` (${quantity})` : ''}`}
+                                {addedToCart
+                                    ? td.addedToCart
+                                    : quantity > 1
+                                        ? td.addToCartQty(quantity)
+                                        : td.addToCart
+                                }
                             </button>
 
                             {/* Back button */}
@@ -500,7 +507,7 @@ export default function BookDetailPage() {
                                     transition: 'all 0.2s ease',
                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                                 }}
-                                title="Go back"
+                                title={td.goBack}
                                 onMouseEnter={e => {
                                     (e.currentTarget.style.backgroundColor = T.parchment);
                                     (e.currentTarget.style.color = T.ink);
@@ -533,11 +540,17 @@ export default function BookDetailPage() {
                                     fontSize: '13px', color: '#2A5438',
                                     fontWeight: 400,
                                 }}>
-                                    {quantity === 0 ? 'Added' : `${quantity > 1 ? `${quantity} copies` : 'Copy'}`} of{' '}
+                                    {quantity === 0
+                                        ? td.toastCopy
+                                        : quantity > 1
+                                            ? td.toastCopies(quantity)
+                                            : td.toastCopy
+                                    }
+                                    {td.toastOf ? ` ${td.toastOf} ` : ' '}
                                     <em style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '15px' }}>
                                         {getLocalizedText(book.name)}
                                     </em>{' '}
-                                    added to your cart.
+                                    {td.toastAddedToCart}
                                 </p>
                             </div>
                         </div>
@@ -549,9 +562,9 @@ export default function BookDetailPage() {
                             borderTop: `1px solid ${T.parchment}`,
                         }}>
                             {[
-                                ['→', 'Free shipping over $40'],
-                                ['↺', '30-day returns'],
-                                ['◎', 'Packed with care'],
+                                ['→', td.trustShipping],
+                                ['↺', td.trustReturns],
+                                ['◎', td.trustCare],
                             ].map(([icon, label]) => (
                                 <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                                     <span style={{ color: T.terra, fontSize: '14px' }}>{icon}</span>
@@ -591,7 +604,7 @@ export default function BookDetailPage() {
                         fontSize: '16px', fontStyle: 'italic',
                         color: T.clay, whiteSpace: 'nowrap',
                     }}>
-                        Every book leaves with a note.
+                        {td.tagline}
                     </p>
                     <div style={{ flex: 1, height: '1px', backgroundColor: T.parchment }} />
                 </div>
