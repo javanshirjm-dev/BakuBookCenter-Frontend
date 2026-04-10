@@ -2,7 +2,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-// 1. Define the User structure so TS knows about the 'role' property
 interface User {
     _id: string;
     name: string;
@@ -10,17 +9,15 @@ interface User {
     role: 'admin' | 'user';
 }
 
-// 2. Define the context data shape
 interface AuthContextType {
     user: User | null;
     token: string | null;
     login: (userData: User, token: string) => void;
     logout: () => void;
     isAdmin: boolean;
-    loading: boolean; // Added loading state to prevent flickering on refresh
+    loading: boolean;
 }
 
-// 3. Create the context with the specific type
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -76,7 +73,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     );
 }
 
-// 4. Improved hook with a safety check
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (!context) {

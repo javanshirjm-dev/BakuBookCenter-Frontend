@@ -99,13 +99,9 @@ export default function Footer() {
         @media (max-width:400px)  { .ft-cols  { grid-template-columns:1fr; } }
       `}</style>
 
-            {/* ══════════════════════
-          MAIN — cream
-      ══════════════════════ */}
             <div style={{ backgroundColor: T.cream, borderTop: `1px solid ${T.parch}` }}>
                 <div className="ft-main" style={{ maxWidth: '1280px', margin: '0 auto' }}>
 
-                    {/* LEFT */}
                     <div className="ft-left-border" style={{ padding: '52px 40px 52px 24px', borderRight: `1px solid ${T.parch}` }}>
                         <Link href={`/${lang}`} style={{ textDecoration: 'none', display: 'inline-block', marginBottom: '18px' }}>
                             <img src="https://bakubookcenter.az/media/img/bakubookcenter.png" alt="BakuBookCenter" style={{ height: '36px', width: 'auto' }} />
@@ -115,7 +111,6 @@ export default function Footer() {
                             Baku's curated bookstore. Every title hand-picked, every order packed with care.
                         </p>
 
-                        {/* Newsletter */}
                         <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: T.red, marginBottom: '10px' }}>
                             The Reading List
                         </p>
@@ -142,7 +137,6 @@ export default function Footer() {
                             </form>
                         )}
 
-                        {/* Socials */}
                         <div style={{ display: 'flex', gap: '8px', marginTop: '24px' }}>
                             {SOCIALS.map(s => (
                                 <a key={s.label} href={s.href} aria-label={s.label} className="ft-social">{s.icon}</a>
@@ -150,7 +144,6 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* RIGHT — links + contact */}
                     <div style={{ padding: '52px 24px 52px 40px' }}>
                         <div className="ft-cols">
                             {Object.entries(LINKS).map(([section, links]) => (
@@ -165,7 +158,6 @@ export default function Footer() {
                             ))}
                         </div>
 
-                        {/* Contact row */}
                         <div style={{ marginTop: '36px', paddingTop: '24px', borderTop: `1px solid ${T.parch}`, display: 'flex', gap: '28px', flexWrap: 'wrap' }}>
                             {[
                                 { icon: '✆', text: '+994 12 404 04 04', href: 'tel:+994124040404' },
@@ -188,9 +180,6 @@ export default function Footer() {
                 </div>
             </div>
 
-            {/* ══════════════════════
-          PROMISE BAND — red
-      ══════════════════════ */}
             <div style={{ backgroundColor: T.red }}>
                 <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
                     <div className="ft-proms">
@@ -211,9 +200,6 @@ export default function Footer() {
                 </div>
             </div>
 
-            {/* ══════════════════════
-          BOTTOM BAR — darkest
-      ══════════════════════ */}
             <div style={{ backgroundColor: T.redD, borderTop: '1px solid rgba(255,255,255,0.07)' }}>
                 <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px', flexWrap: 'wrap' }}>
                     <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.28)', fontWeight: 300 }}>

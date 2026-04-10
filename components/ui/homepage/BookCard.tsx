@@ -1,21 +1,19 @@
 "use client";
 
 import { useCart } from "../../../context/CartContext";
-import { useLanguage } from "../../../context/LanguageContext"; // 1. Import your custom context
+import { useLanguage } from "../../../context/LanguageContext";
 import Link from "next/link";
 import { Language } from "@/locales/translations";
 import { useState } from "react";
 
-// Add to your globals.css or layout:
-// @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
 const getLocalizedText = (field: any, lang: 'az' | 'en' | 'ru' = 'az') => {
     if (!field) return '';
-    if (typeof field === 'string') return field; // Fallback for old books
-    return field[lang] || field.en || field.az || field.ru || ''; // Tries requested lang, then fallbacks
+    if (typeof field === 'string') return field;
+    return field[lang] || field.en || field.az || field.ru || '';
 };
 
 export default function BookCard({ book, lang }: { book: any, lang: Language }) {
-    const { language } = useLanguage(); // 2. Grab the current language ('az', 'en', 'ru')
+    const { language } = useLanguage();
     const { addToCart } = useCart();
     const [addedToCart, setAddedToCart] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
@@ -50,8 +48,6 @@ export default function BookCard({ book, lang }: { book: any, lang: Language }) 
                 borderColor: isHovered ? '#C8C0B0' : '#E8E4DC',
             }}
         >
-            {/* Book Cover */}
-            {/* THE FIX: Injected ${language} into the href right here 👇 */}
             <Link href={`/${language}/book/${book._id}`} style={{ display: 'block', position: 'relative' }}>
                 <div style={{
                     height: '310px',
@@ -59,7 +55,6 @@ export default function BookCard({ book, lang }: { book: any, lang: Language }) 
                     paddingTop: '14px',
                     paddingLeft: '14px',
                     paddingRight: '14px',
-
                     position: 'relative',
                 }}>
                     {book.image ? (
@@ -91,7 +86,6 @@ export default function BookCard({ book, lang }: { book: any, lang: Language }) 
                         </div>
                     )}
 
-                    {/* Discount Badge */}
                     {discountPercent && (
                         <div style={{
                             position: 'absolute',
@@ -109,7 +103,6 @@ export default function BookCard({ book, lang }: { book: any, lang: Language }) 
                         </div>
                     )}
 
-                    {/* Bestseller Badge */}
                     {book.bestseller && (
                         <div style={{
                             position: 'absolute',
@@ -129,7 +122,6 @@ export default function BookCard({ book, lang }: { book: any, lang: Language }) 
                 </div>
             </Link>
 
-            {/* Content */}
             <div style={{
                 paddingTop: '14px',
                 paddingBottom: '16px',
@@ -140,9 +132,6 @@ export default function BookCard({ book, lang }: { book: any, lang: Language }) 
                 flex: 1,
 
             }}>
-
-                {/* Title */}
-                {/* THE FIX: Injected ${language} into the href right here 👇 */}
                 <Link href={`/${language}/book/${book._id}`} style={{ textDecoration: 'none' }}>
                     <h2 style={{
                         fontFamily: "'DM Serif Display', serif",
@@ -161,10 +150,8 @@ export default function BookCard({ book, lang }: { book: any, lang: Language }) 
                     </h2>
                 </Link>
 
-                {/* Spacer */}
                 <div style={{ flex: 1 }} />
 
-                {/* Price */}
                 <div style={{
                     display: 'flex',
                     alignItems: 'baseline',
@@ -204,7 +191,6 @@ export default function BookCard({ book, lang }: { book: any, lang: Language }) 
                     )}
                 </div>
 
-                {/* Action Buttons */}
                 <div style={{ display: 'flex', gap: '8px' }}>
                     <button
                         onClick={handleAddToCart}

@@ -231,7 +231,7 @@ export default function NewsDetailPage() {
                 {/* ── MAIN IMAGE ── */}
                 {currentImage && (
                     <div className="anim-img d-3" style={{ margin: '0', borderBottom: '1px solid #EFE9DF', overflow: 'hidden', position: 'relative' }}>
-                        <div style={{ width: '100%', height: 'clamp(240px, 55vh, 580px)', overflow: 'hidden', backgroundColor: PARCHMENT }}>
+                        <div style={{ width: '100%', height: 'clamp(240px, 65vh, 580px)', overflow: 'hidden', backgroundColor: PARCHMENT }}>
                             <img
                                 src={currentImage}
                                 alt={title}

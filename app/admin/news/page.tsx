@@ -179,7 +179,7 @@ export default function AdminNewsPage() {
                             title: { ...formData.title, [activeTab]: e.target.value }
                         })}
                         placeholder={`Enter title in ${activeTab}...`}
-                        className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                        className="w-full px-4 py-2 border text-black border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                     />
                 </div>
 
@@ -194,7 +194,7 @@ export default function AdminNewsPage() {
                         })}
                         placeholder={`Enter description in ${activeTab}...`}
                         rows={5}
-                        className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                        className="w-full px-4 py-2 border border-slate-300 text-black rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                     />
                 </div>
 
@@ -236,7 +236,7 @@ export default function AdminNewsPage() {
                             onChange={(e) => setFormData({ ...formData, imageUrls: e.target.value })}
                             placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
                             rows={2}
-                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                            className="w-full text-black px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                         />
                     </div>
 

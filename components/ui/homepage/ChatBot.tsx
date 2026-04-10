@@ -2,14 +2,11 @@
 
 import { useState, useEffect, useRef } from "react";
 
-/* ─────────────── TYPES ─────────────── */
 type Lang = "en" | "ru" | "az";
 interface Message { id: number; role: "bot" | "user"; text: string; time: string; }
 
-/* ─────────────── UTILS ─────────────── */
 const now = () => new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
-/* ─────────────── LANGUAGE DETECTION ─────────────── */
 const AZ_WORDS = ["salam", "necəsən", "kitab", "kitablar", "qiymət", "çatdırılma", "sifariş", "harada", "nə", "var", "yox", "bəli", "xeyr", "kömək", "axtarış", "janr", "ödəniş", "mağaza", "müəllif", "tövsiyə", "neçə", "saat", "açıq", "bağlı", "əlaqə", "hansı", "ən", "yaxşı", "oxu", "roman", "fantastika", "tarix", "elm", "uşaq", "iş", "ünvan", "etmək", "istəyirəm", "gətir", "göndər", "almaq", "verdilər", "edirəm", "lazım", "deyil", "olur", "olsun"];
 const RU_WORDS = ["привет", "здравствуйте", "книга", "книги", "цена", "стоимость", "доставка", "заказ", "где", "что", "есть", "нет", "да", "нет", "помощь", "поиск", "жанр", "оплата", "магазин", "автор", "рекомендация", "сколько", "часы", "открыт", "закрыт", "контакт", "какой", "лучший", "читать", "роман", "фантастика", "история", "наука", "детский", "бизнес", "адрес", "хочу", "принести", "отправить", "купить", "привезли", "делаю", "нужно", "нельзя", "можно", "пожалуйста", "спасибо", "хорошо", "как", "когда", "есть ли", "у вас", "мне нужна", "есть ли у", "дайте", "покажите", "расскажите", "могу", "буду"];
 
@@ -17,16 +14,13 @@ function detectLang(text: string): Lang {
     const t = text.toLowerCase();
     const azScore = AZ_WORDS.filter(w => t.includes(w)).length;
     const ruScore = RU_WORDS.filter(w => t.includes(w)).length;
-    // Cyrillic check
     const cyrillic = (t.match(/[\u0400-\u04FF]/g) || []).length;
-    // AZ-specific chars
     const azChars = (t.match(/[əöüğışçɛ]/g) || []).length;
     if (azChars > 0 || azScore >= 1) return "az";
     if (cyrillic > 2 || ruScore >= 1) return "ru";
     return "en";
 }
 
-/* ─────────────── RESPONSE ENGINE ─────────────── */
 type Category = "greeting" | "hours" | "delivery" | "price" | "payment" | "genres" | "recommend" | "search" | "order" | "contact" | "return" | "membership" | "children" | "gift" | "new" | "bestseller" | "ebook" | "language" | "author" | "thanks" | "bye" | "unknown";
 
 function classify(t: string): Category {
@@ -175,14 +169,12 @@ function getReply(input: string, lang: Lang): string {
     return bucket[Math.floor(Math.random() * bucket.length)];
 }
 
-/* ─────────────── GREETING ─────────────── */
 const GREETING = `Salam! Xoş gəldiniz 👋
 Привет! Добро пожаловать
 Hello! Welcome to Baku Book Center 📚
 
 I speak English, Русский and Azərbaycan. Just type in any language and I'll reply the same way!`;
 
-/* ─────────────── QUICK CHIPS ─────────────── */
 const CHIPS: Record<Lang, { label: string; query: string }[]> = {
     en: [
         { label: "📦 Delivery", query: "How does delivery work?" },
@@ -207,7 +199,6 @@ const CHIPS: Record<Lang, { label: string; query: string }[]> = {
     ],
 };
 
-/* ─────────────── COMPONENT ─────────────── */
 export default function ChatBot() {
     const [open, setOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
@@ -273,7 +264,6 @@ export default function ChatBot() {
 
             <div id="bbc-wrap" style={{ position: "fixed", bottom: "24px", right: "24px", zIndex: 9999, fontFamily: "'DM Sans',sans-serif" }}>
 
-                {/* ── CHAT WINDOW ── */}
                 {open && (
                     <div style={{
                         position: "absolute", bottom: "66px", right: 0,
@@ -284,7 +274,6 @@ export default function ChatBot() {
                         overflow: "hidden",
                     }}>
 
-                        {/* Header */}
                         <div style={{ background: "#1A0404", borderBottom: "1px solid rgba(196,26,26,.25)", padding: "14px 16px", display: "flex", alignItems: "center", gap: "10px", flexShrink: 0 }}>
                             <div style={{ position: "relative", flexShrink: 0 }}>
                                 <div style={{ width: "36px", height: "36px", background: "#C41A1A", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -301,7 +290,6 @@ export default function ChatBot() {
                             <button onClick={() => setOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(253,246,240,.4)", padding: "4px", lineHeight: 1, fontSize: "18px" }}>×</button>
                         </div>
 
-                        {/* Messages */}
                         <div style={{ flex: 1, overflowY: "auto", padding: "16px 14px", display: "flex", flexDirection: "column", gap: "12px" }}>
                             {messages.map(m => (
                                 <div key={m.id} style={{
@@ -322,7 +310,6 @@ export default function ChatBot() {
                                 </div>
                             ))}
 
-                            {/* Typing indicator */}
                             {typing && (
                                 <div style={{ display: "flex", alignItems: "flex-start" }}>
                                     <div style={{ padding: "10px 14px", background: "#1E0404", border: "1px solid rgba(196,26,26,.18)", display: "flex", gap: "4px", alignItems: "center" }}>
@@ -335,7 +322,6 @@ export default function ChatBot() {
                             <div ref={bottomRef} />
                         </div>
 
-                        {/* Quick chips */}
                         <div style={{ padding: "8px 12px 0", display: "flex", gap: "6px", flexWrap: "wrap", flexShrink: 0, borderTop: "1px solid rgba(255,255,255,.04)" }}>
                             {chips.map(c => (
                                 <button key={c.label} className="bbc-chip"
@@ -350,7 +336,6 @@ export default function ChatBot() {
                             ))}
                         </div>
 
-                        {/* Input */}
                         <div style={{ padding: "10px 12px 14px", display: "flex", gap: "8px", alignItems: "center", flexShrink: 0 }}>
                             <input
                                 ref={inputRef}
@@ -383,7 +368,6 @@ export default function ChatBot() {
                     </div>
                 )}
 
-                {/* ── TOGGLE BUTTON ── */}
                 <button
                     className="bbc-togbtn"
                     onClick={() => setOpen(v => !v)}
