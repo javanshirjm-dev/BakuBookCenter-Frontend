@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { translations } from '@/locales/translations';
 
 const T = {
     cream: "#F8F4EE",
@@ -21,6 +23,9 @@ export default function RegisterPage() {
     const [loading, setLoading] = useState(false);
     const [focused, setFocused] = useState<string | null>(null);
     const { login } = useAuth();
+    const { language } = useLanguage();
+
+    const re = translations[language as keyof typeof translations].register;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,9 +33,9 @@ export default function RegisterPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
-        if (formData.password !== formData.confirmPassword) return setError("Passwords do not match.");
-        if (formData.password.length < 8) return setError("Password must be at least 8 characters.");
-        if (!/(?=.*[A-Za-z])(?=.*\d)/.test(formData.password)) return setError("Password must contain at least one letter and one number.");
+        if (formData.password !== formData.confirmPassword) return setError(re.errNoMatch);
+        if (formData.password.length < 8) return setError(re.errTooShort);
+        if (!/(?=.*[A-Za-z])(?=.*\d)/.test(formData.password)) return setError(re.errWeak);
         setLoading(true);
         try {
             const res = await fetch('http://localhost:5000/api/auth/register', {
@@ -39,29 +44,28 @@ export default function RegisterPage() {
             });
             const data = await res.json();
             if (res.ok) login(data.user, data.token);
-            else setError(data.message || "Registration failed");
-        } catch { setError("Server error. Please try again later."); }
+            else setError(data.message || re.errFailed);
+        } catch { setError(re.errServer); }
         finally { setLoading(false); }
     };
 
     const fields = [
-        { name: 'name', label: 'Full Name', type: 'text', placeholder: 'Jane Smith' },
-        { name: 'email', label: 'Email Address', type: 'email', placeholder: 'you@example.com' },
-        { name: 'password', label: 'Password', type: 'password', placeholder: '••••••••' },
-        { name: 'confirmPassword', label: 'Confirm Password', type: 'password', placeholder: '••••••••' },
+        { name: 'name', label: re.fieldName, type: 'text', placeholder: re.fieldNamePlaceholder },
+        { name: 'email', label: re.fieldEmail, type: 'email', placeholder: re.fieldEmailPlaceholder },
+        { name: 'password', label: re.fieldPassword, type: 'password', placeholder: re.fieldPasswordPlaceholder },
+        { name: 'confirmPassword', label: re.fieldConfirm, type: 'password', placeholder: re.fieldConfirmPlaceholder },
     ];
 
     /* password strength */
     const pw = formData.password;
     const strength = !pw ? 0 : pw.length < 6 ? 1 : pw.length < 8 || !/(?=.*[A-Za-z])(?=.*\d)/.test(pw) ? 2 : 3;
-    const strengthLabel = ['', 'Weak', 'Almost there', 'Strong'];
+    const strengthLabel = ['', re.strengthWeak, re.strengthAlmost, re.strengthStrong];
     const strengthColor = ['', '#EF4444', '#F59E0B', '#3A6B4A'];
 
     return (
         <div style={{
             fontFamily: "'Outfit', sans-serif",
             backgroundColor: T.white,
-
             display: 'flex',
             flexDirection: 'column',
         }}>
@@ -79,30 +83,28 @@ export default function RegisterPage() {
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '45px 24px' }}>
                 <div style={{ width: '100%', maxWidth: '440px', animation: 'fadeUp 0.65s ease both' }}>
 
-
-
                     {/* Heading */}
                     <div style={{ marginBottom: '40px' }}>
                         <p style={{
                             fontSize: '10px', fontWeight: 500, letterSpacing: '0.22em',
                             textTransform: 'uppercase', color: T.terra, marginBottom: '10px',
                         }}>
-                            New here
+                            {re.newHere}
                         </p>
                         <h1 style={{
                             fontFamily: "'Cormorant Garamond', serif",
                             fontSize: '48px', fontWeight: 400, lineHeight: 1.0,
                             color: T.ink, marginBottom: '10px',
                         }}>
-                            Create Account
+                            {re.title}
                         </h1>
                         <p style={{ fontSize: '14px', color: T.inkLight, fontWeight: 300 }}>
-                            Already have an account?{' '}
+                            {re.alreadyHave}{' '}
                             <Link href="/login" style={{
                                 color: T.terra, textDecoration: 'underline',
                                 textDecorationColor: T.clay, textUnderlineOffset: '3px',
                             }}>
-                                Log in here
+                                {re.logInHere}
                             </Link>
                         </p>
                     </div>
@@ -174,7 +176,7 @@ export default function RegisterPage() {
                                         fontSize: '11px', marginTop: '6px', fontWeight: 400,
                                         color: formData.password === formData.confirmPassword ? '#3A6B4A' : '#EF4444',
                                     }}>
-                                        {formData.password === formData.confirmPassword ? '✓ Passwords match' : '✗ Passwords do not match'}
+                                        {formData.password === formData.confirmPassword ? re.passwordsMatch : re.passwordsNoMatch}
                                     </p>
                                 )}
                             </div>
@@ -182,7 +184,7 @@ export default function RegisterPage() {
 
                         {/* Password rules hint */}
                         <p style={{ fontSize: '11px', color: T.clay, fontWeight: 300, lineHeight: 1.6, marginTop: '-4px' }}>
-                            Min. 8 characters with at least one letter and one number.
+                            {re.passwordHint}
                         </p>
 
                         {/* Submit */}
@@ -211,14 +213,11 @@ export default function RegisterPage() {
                                         borderTop: '2px solid white', borderRadius: '50%',
                                         display: 'inline-block', animation: 'spin 0.7s linear infinite',
                                     }} />
-                                    Creating Account…
+                                    {re.creating}
                                 </>
-                            ) : 'Create Account →'}
+                            ) : re.createAccount}
                         </button>
                     </form>
-
-
-
                 </div>
             </div>
         </div>

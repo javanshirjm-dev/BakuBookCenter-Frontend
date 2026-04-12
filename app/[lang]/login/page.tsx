@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { translations } from '@/locales/translations';
 
 const T = {
     cream: "#F8F4EE",
@@ -22,6 +24,9 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const [focused, setFocused] = useState<string | null>(null);
     const { login } = useAuth();
+    const { language } = useLanguage();
+
+    const lo = translations[language as keyof typeof translations].login;
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -33,8 +38,8 @@ export default function LoginPage() {
             });
             const data = await res.json();
             if (res.ok) login(data.user, data.token);
-            else setError(data.message || 'Invalid email or password');
-        } catch { setError('Server error. Please try again.'); }
+            else setError(data.message || lo.errorDefault);
+        } catch { setError(lo.errorServer); }
         finally { setLoading(false); }
     };
 
@@ -42,7 +47,6 @@ export default function LoginPage() {
         <div style={{
             fontFamily: "'Outfit', sans-serif",
             backgroundColor: T.white,
-
             display: 'flex',
             flexDirection: 'column',
         }}>
@@ -65,30 +69,28 @@ export default function LoginPage() {
             }}>
                 <div style={{ width: '100%', maxWidth: '440px', animation: 'fadeUp 0.65s ease both' }}>
 
-
-
                     {/* Heading */}
                     <div style={{ marginBottom: '40px' }}>
                         <p style={{
                             fontSize: '10px', fontWeight: 500, letterSpacing: '0.22em',
                             textTransform: 'uppercase', color: T.terra, marginBottom: '10px',
                         }}>
-                            Welcome back
+                            {lo.welcomeBack}
                         </p>
                         <h1 style={{
                             fontFamily: "'Cormorant Garamond', serif",
                             fontSize: '48px', fontWeight: 400, lineHeight: 1.0,
                             color: T.ink, marginBottom: '10px',
                         }}>
-                            Sign In
+                            {lo.title}
                         </h1>
                         <p style={{ fontSize: '14px', color: T.inkLight, fontWeight: 300 }}>
-                            Don't have an account?{' '}
+                            {lo.noAccount}{' '}
                             <Link href="/register" style={{
                                 color: T.terra, textDecoration: 'underline',
                                 textDecorationColor: T.clay, textUnderlineOffset: '3px',
                             }}>
-                                Create one here
+                                {lo.createOne}
                             </Link>
                         </p>
                     </div>
@@ -116,14 +118,14 @@ export default function LoginPage() {
                                 color: focused === 'email' ? T.terra : T.inkLight,
                                 transition: 'color 0.2s ease',
                             }}>
-                                Email Address
+                                {lo.emailLabel}
                             </label>
                             <input
                                 type="email" value={email} required
                                 onChange={e => setEmail(e.target.value)}
                                 onFocus={() => setFocused('email')}
                                 onBlur={() => setFocused(null)}
-                                placeholder="you@example.com"
+                                placeholder={lo.emailPlaceholder}
                                 style={{
                                     width: '100%', padding: '13px 16px',
                                     border: `1px solid ${focused === 'email' ? T.terra : T.clay}`,
@@ -146,7 +148,7 @@ export default function LoginPage() {
                                     color: focused === 'password' ? T.terra : T.inkLight,
                                     transition: 'color 0.2s ease',
                                 }}>
-                                    Password
+                                    {lo.passwordLabel}
                                 </label>
                                 <Link href="/en/forgetpassword" style={{
                                     fontSize: '11px', color: T.inkLight, textDecoration: 'none',
@@ -155,7 +157,7 @@ export default function LoginPage() {
                                     onMouseEnter={e => (e.currentTarget.style.color = T.terra)}
                                     onMouseLeave={e => (e.currentTarget.style.color = T.inkLight)}
                                 >
-                                    Forgot password?
+                                    {lo.forgotPassword}
                                 </Link>
                             </div>
                             <input
@@ -202,15 +204,15 @@ export default function LoginPage() {
                                         borderTop: '2px solid white', borderRadius: '50%',
                                         display: 'inline-block', animation: 'spin 0.7s linear infinite',
                                     }} />
-                                    Signing in…
+                                    {lo.signingIn}
                                 </>
-                            ) : 'Sign In →'}
+                            ) : lo.signIn}
                         </button>
 
                         {/* Divider */}
                         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                             <div style={{ flex: 1, height: '1px', backgroundColor: T.parchment }} />
-                            <span style={{ fontSize: '10px', color: T.clay, letterSpacing: '0.1em', textTransform: 'uppercase' }}>or</span>
+                            <span style={{ fontSize: '10px', color: T.clay, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{lo.or}</span>
                             <div style={{ flex: 1, height: '1px', backgroundColor: T.parchment }} />
                         </div>
 
@@ -227,12 +229,9 @@ export default function LoginPage() {
                             onMouseEnter={e => { e.currentTarget.style.borderColor = T.clay; e.currentTarget.style.color = T.ink; }}
                             onMouseLeave={e => { e.currentTarget.style.borderColor = T.parchment; e.currentTarget.style.color = T.inkLight; }}
                         >
-                            Browse as guest
+                            {lo.browseAsGuest}
                         </Link>
                     </form>
-
-
-
                 </div>
             </div>
         </div>

@@ -1,12 +1,17 @@
 'use client';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import { useLanguage } from '@/context/LanguageContext';
+import { translations, Language } from '@/locales/translations';
 
 const IMAGE_URL = 'https://educalanguageschool.com/wp-content/uploads/2025/05/famous_russian_writers.webp';
 
 export default function Banner() {
+    const { language: lang } = useLanguage();
     const params = useParams();
-    const lang = (params?.lang as string) || 'en';
+    const langParam = (params?.lang as string) || 'en';
+    const t = translations[lang as Language];
+    const banner = t.banner;
 
     return (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-0 md:py-0">
@@ -47,24 +52,24 @@ export default function Banner() {
                     <div className="flex items-center gap-3 mb-4 opacity-0 animate-stagger-1">
                         <div className="w-6 h-[1.5px] bg-[#B5623E]" />
                         <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[#B5623E]">
-                            Baku Book Center
+                            {banner.sectionLabel}
                         </p>
                     </div>
 
                     <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-light text-[#1C1814] leading-[1.05] mb-4 tracking-tight opacity-0 animate-stagger-2">
-                        <span>Stories That Shape Us<em className="text-[#B5623E] not-italic">.</em></span>
+                        <span>{banner.heroLine1}<em className="text-[#B5623E] not-italic">.</em></span>
                     </h1>
 
                     <p className="font-sans text-sm md:text-base text-[#8C7B6E] font-light leading-relaxed mb-8 opacity-0 animate-stagger-3">
-                        A curated collection for thoughtful readers, delivering the world's finest books straight to Baku.
+                        {banner.description}
                     </p>
 
                     <div className="opacity-0 animate-stagger-4">
                         <Link
-                            href={`/${lang}/shop`}
+                            href={`/${langParam}/shop`}
                             className="inline-flex items-center justify-center gap-2 font-sans text-xs font-medium tracking-[0.1em] uppercase text-white bg-[#1C1814] px-8 py-3.5 transition-all duration-500 ease-out hover:bg-[#B5623E] hover:shadow-md hover:scale-[1.02] active:scale-[0.98]"
                         >
-                            Explore Arrivals
+                            {banner.exploreButton}
                         </Link>
                     </div>
                 </div>

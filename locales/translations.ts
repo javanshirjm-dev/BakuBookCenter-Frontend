@@ -2,6 +2,22 @@
 
 export const translations = {
     en: {
+        // Homepage Banner:
+        banner: {
+            sectionLabel: "Baku Book Center",
+            heroLine1: "Stories That Shape Us",
+            description: "A curated collection for thoughtful readers, delivering the world's finest books straight to Baku.",
+            exploreButton: "Explore Arrivals",
+        },
+
+        // Book Card:
+        bookCard: {
+            noCover: "No Cover",
+            bestseller: "Bestseller",
+            addToCart: "Add to Cart",
+            added: "✓ Added",
+        },
+
         // Homepage:
         onSale: "On Sale",
         newArrivals: "New Arrivals",
@@ -169,86 +185,90 @@ export const translations = {
             contactUs: "Contact Us →",
             faqCategories: [
                 {
-                    category: "Orders & Shipping",
-                    icon: "→",
-                    label: "01",
+                    category: "Orders & Shipping", icon: "→", label: "01",
                     items: [
-                        {
-                            q: "How long does standard shipping take?",
-                            a: "Standard shipping takes 3–5 business days. Orders are processed within 24 hours Monday through Friday. You will receive a tracking number by email once dispatched."
-                        },
-                        {
-                            q: "Do you offer international shipping?",
-                            a: "Yes — we ship to over 40 countries. International delivery usually takes 7–14 business days. Costs and customs duties are shown at checkout."
-                        },
-                        {
-                            q: "Can I change or cancel my order?",
-                            a: "You can modify or cancel within 2 hours of placing it. After that window your order enters fulfilment, but we will always do our best to help."
-                        },
-                        {
-                            q: "My order hasn't arrived — what do I do?",
-                            a: "Check your tracking link first. If there has been no update for more than 3 business days past the estimated date, email us at hello@bakubookcenter.az."
-                        }
+                        { q: "How long does standard shipping take?", a: "Standard shipping takes 3–5 business days. Orders are processed within 24 hours Monday through Friday. You will receive a tracking number by email once dispatched." },
+                        { q: "Do you offer international shipping?", a: "Yes — we ship to over 40 countries. International delivery usually takes 7–14 business days. Costs and customs duties are shown at checkout." },
+                        { q: "Can I change or cancel my order?", a: "You can modify or cancel within 2 hours of placing it. After that window your order enters fulfilment, but we will always do our best to help." },
+                        { q: "My order hasn't arrived — what do I do?", a: "Check your tracking link first. If there has been no update for more than 3 business days past the estimated date, email us at hello@bakubookcenter.az." }
                     ]
                 },
                 {
-                    category: "Returns & Refunds",
-                    icon: "↺",
-                    label: "02",
+                    category: "Returns & Refunds", icon: "↺", label: "02",
                     items: [
-                        {
-                            q: "What is your return policy?",
-                            a: "We accept returns within 30 days for books in original condition — unread, no creases or markings. Contact us and we will arrange a prepaid return label."
-                        },
-                        {
-                            q: "How long do refunds take?",
-                            a: "Once we receive and inspect your return within 2 business days, refunds are issued and typically appear within 5–10 business days."
-                        },
-                        {
-                            q: "Can I exchange instead of returning?",
-                            a: "Absolutely. If you prefer a swap, let us know. We will hold the replacement until your return is received."
-                        }
+                        { q: "What is your return policy?", a: "We accept returns within 30 days for books in original condition — unread, no creases or markings. Contact us and we will arrange a prepaid return label." },
+                        { q: "How long do refunds take?", a: "Once we receive and inspect your return within 2 business days, refunds are issued and typically appear within 5–10 business days." },
+                        { q: "Can I exchange instead of returning?", a: "Absolutely. If you prefer a swap, let us know. We will hold the replacement until your return is received." }
                     ]
                 },
                 {
-                    category: "Products & Stock",
-                    icon: "◎",
-                    label: "03",
+                    category: "Products & Stock", icon: "◎", label: "03",
                     items: [
-                        {
-                            q: "How do I know if a book is in stock?",
-                            a: "All listed books are available unless marked Out of Stock. Use the Notify Me button on any unavailable title to get an email when it returns."
-                        },
-                        {
-                            q: "Do you sell secondhand books?",
-                            a: "We only stock new books right now. We are exploring a curated pre-loved section — drop us a note if you would love to see that."
-                        },
-                        {
-                            q: "Can I request a book you don't carry?",
-                            a: "Yes — use the Book Request form on our Contact page. We review all requests weekly and regularly add popular titles."
-                        }
+                        { q: "How do I know if a book is in stock?", a: "All listed books are available unless marked Out of Stock. Use the Notify Me button on any unavailable title to get an email when it returns." },
+                        { q: "Do you sell secondhand books?", a: "We only stock new books right now. We are exploring a curated pre-loved section — drop us a note if you would love to see that." },
+                        { q: "Can I request a book you don't carry?", a: "Yes — use the Book Request form on our Contact page. We review all requests weekly and regularly add popular titles." }
                     ]
                 },
                 {
-                    category: "Account & Payments",
-                    icon: "◇",
-                    label: "04",
+                    category: "Account & Payments", icon: "◇", label: "04",
                     items: [
-                        {
-                            q: "What payment methods do you accept?",
-                            a: "We accept Visa, Mastercard, Amex, PayPal, and Apple Pay. All transactions are encrypted and your details are never stored on our servers."
-                        },
-                        {
-                            q: "Do I need an account to order?",
-                            a: "No — you can check out as a guest. Creating an account lets you track orders, save your address, and view order history."
-                        },
-                        {
-                            q: "How do gift cards work?",
-                            a: "Digital gift cards are delivered by email and redeemed at checkout with a unique code. They never expire and work across multiple orders."
-                        }
+                        { q: "What payment methods do you accept?", a: "We accept Visa, Mastercard, Amex, PayPal, and Apple Pay. All transactions are encrypted and your details are never stored on our servers." },
+                        { q: "Do I need an account to order?", a: "No — you can check out as a guest. Creating an account lets you track orders, save your address, and view order history." },
+                        { q: "How do gift cards work?", a: "Digital gift cards are delivered by email and redeemed at checkout with a unique code. They never expire and work across multiple orders." }
                     ]
                 }
             ]
+        },
+
+        // Footer:
+        footer: {
+            logoAlt: "BakuBookCenter",
+            tagline: "Baku's curated bookstore. Every title hand-picked, every order packed with care.",
+            newsletter: "The Reading List",
+            newsletterDesc: "New arrivals, curated picks & stories from the shelves.",
+            emailPlaceholder: "your@email.com",
+            subscribeButton: "Subscribe",
+            subscribeSuccess: "You're subscribed. Happy reading.",
+            shopSection: "Shop",
+            companySection: "Company",
+            helpSection: "Help",
+            shopLinks: {
+                allBooks: "All Books",
+                newArrivals: "New Arrivals",
+                bestsellers: "Bestsellers",
+                fiction: "Fiction",
+                nonFiction: "Non-Fiction",
+                giftCards: "Gift Cards",
+            },
+            companyLinks: {
+                about: "About Us",
+                news: "News",
+                careers: "Careers",
+                press: "Press",
+            },
+            helpLinks: {
+                faq: "FAQ",
+                contact: "Contact Us",
+                shipping: "Shipping Policy",
+                returns: "Returns",
+                track: "Track Order",
+            },
+            contactInfo: {
+                phone: "+994 12 404 04 04",
+                email: "hello@bakubookcenter.az",
+                hours: "Mon–Sun  9:00 – 21:00",
+            },
+            promises: {
+                shipping: { title: "Free Shipping", body: "On all orders over $40." },
+                returns: { title: "30-Day Returns", body: "No questions asked." },
+                care: { title: "Packed with Care", body: "A personal note in every order." },
+                curated: { title: "Curated Picks", body: "Every title hand-selected." },
+            },
+            copyright: "© {year} Baku Book Center. All rights reserved.",
+            motto: "Books change everything.",
+            privacyPolicy: "Privacy Policy",
+            termsOfUse: "Terms of Use",
+            cookies: "Cookies",
         },
 
         // Cart Page:
@@ -341,9 +361,115 @@ export const translations = {
             errExpiry: "Expiry date is required",
             errCvv: "Valid 3-digit CVV is required",
         },
+
+        // Forgot Password Page:
+        forgotPassword: {
+            heroTitle: "Reset Your Password.",
+            heroDesc: "We'll help you regain access to your account securely. Enter your email and we'll send you a password reset link.",
+            pageTitle: "Forgot Password?",
+            pageSubtitle: "No problem. We'll send you a reset link.",
+            imageSecurity: "Security and trust",
+            emailLabel: "Email Address",
+            emailPlaceholder: "you@example.com",
+            emailHint: "We'll send a password reset link to this email address",
+            checkEmail: "Check your email!",
+            checkEmailDesc: "If an account exists with this email, you'll receive a password reset link within minutes.",
+            sendButton: "Send Reset Link",
+            sendingButton: "Sending Reset Link...",
+            invalidEmail: "Please enter a valid email address",
+            errorOccurred: "An error occurred. Please try again.",
+            serverError: "Server error. Please try again later.",
+            rememberPassword: "Remember your password?",
+            backToSignIn: "Back to sign in",
+        },
+
+        // Login Page:
+        login: {
+            welcomeBack: "Welcome back",
+            title: "Sign In",
+            noAccount: "Don't have an account?",
+            createOne: "Create one here",
+            emailLabel: "Email Address",
+            emailPlaceholder: "you@example.com",
+            passwordLabel: "Password",
+            forgotPassword: "Forgot password?",
+            signingIn: "Signing in…",
+            signIn: "Sign In →",
+            or: "or",
+            browseAsGuest: "Browse as guest",
+            errorDefault: "Invalid email or password",
+            errorServer: "Server error. Please try again.",
+        },
+
+        // Register Page:
+        register: {
+            newHere: "New here",
+            title: "Create Account",
+            alreadyHave: "Already have an account?",
+            logInHere: "Log in here",
+            fieldName: "Full Name",
+            fieldNamePlaceholder: "Jane Smith",
+            fieldEmail: "Email Address",
+            fieldEmailPlaceholder: "you@example.com",
+            fieldPassword: "Password",
+            fieldPasswordPlaceholder: "••••••••",
+            fieldConfirm: "Confirm Password",
+            fieldConfirmPlaceholder: "••••••••",
+            strengthWeak: "Weak",
+            strengthAlmost: "Almost there",
+            strengthStrong: "Strong",
+            passwordsMatch: "✓ Passwords match",
+            passwordsNoMatch: "✗ Passwords do not match",
+            passwordHint: "Min. 8 characters with at least one letter and one number.",
+            creating: "Creating Account…",
+            createAccount: "Create Account →",
+            errNoMatch: "Passwords do not match.",
+            errTooShort: "Password must be at least 8 characters.",
+            errWeak: "Password must contain at least one letter and one number.",
+            errFailed: "Registration failed",
+            errServer: "Server error. Please try again later.",
+        },
+        // Header:
+        header: {
+            catalog: "Catalog",
+            catalogLoading: "Loading…",
+            catalogBooks: (n: number) => `${n} book${n !== 1 ? 's' : ''}`,
+            catalogEmpty: "No books available",
+            searchPlaceholder: "Search books, authors…",
+            searching: "Searching…",
+            searchResults: (n: number) => `${n} result${n !== 1 ? 's' : ''}`,
+            searchEmpty: (q: string) => `No books found for "${q}"`,
+            searchEmptyMobile: "No books found",
+            adminDashboard: "Admin Dashboard",
+            myOrders: "My Orders",
+            signOut: "Sign out",
+            login: "Login",
+            register: "Register",
+            navShop: "Shop",
+            navAbout: "About Us",
+            navContact: "Contact",
+            navFaq: "FAQ",
+            navNews: "News",
+        },
     },
 
     az: {
+        // Homepage Banner:
+        banner: {
+            sectionLabel: "Baku Book Center",
+            heroLine1: "Bizə Şəkil Verən Hekayələr",
+            description: "Düşünən oxucular üçün seçilmiş kolleksiya, dünyanın ən yaxşı kitablarını birbaşa Bakuya çatdırır.",
+            exploreButton: "Gəlişləri Araşdır",
+        },
+
+        // Book Card:
+        bookCard: {
+            noCover: "Rəsm Yoxdur",
+            bestseller: "BESTSELLER",
+            addToCart: "Səbətə Əlavə Et",
+            added: "✓ Əlavə Edildi",
+        },
+
         // Homepage:
         onSale: "Endirimdə",
         newArrivals: "Yeni Gələnlər",
@@ -511,86 +637,90 @@ export const translations = {
             contactUs: "Bizimlə Əlaqə Saxlayın →",
             faqCategories: [
                 {
-                    category: "Sifarişlər və Çatdırılma",
-                    icon: "→",
-                    label: "01",
+                    category: "Sifarişlər və Çatdırılma", icon: "→", label: "01",
                     items: [
-                        {
-                            q: "Standart çatdırılma nə qədər vaxt alır?",
-                            a: "Standart çatdırılma 3–5 iş günü alır. Sifarişlər Bazar–Cümə günü 24 saat ərzində işlənir. Göndərildikdən sonra izləmə nömrəsi e-poçt ilə göndəriləcəkdir."
-                        },
-                        {
-                            q: "Uluslararası çatdırılma təklif edirsiniz?",
-                            a: "Bəli — 40+ ölkəyə çatdırırıq. Beynəlxalq çatdırılma adətən 7–14 iş günü alır. Dəyərlər və gömrük rüsumları ödəniş zamanı göstərilir."
-                        },
-                        {
-                            q: "Sifarişimi dəyişə və ya ləğv edə bilərəm?",
-                            a: "Qoymaqdan sonra 2 saat ərzində dəyişə və ya ləğv edə bilərsiniz. Bundan sonra sifariş işlənməyə başlayır, lakin biz həmişə kömək etməyə çalışarıq."
-                        },
-                        {
-                            q: "Sifarişim gəlməmişdir — nə etməli?",
-                            a: "Əvvəlcə iz sürmə linklərini yoxlayın. Əgər təxmin edilən tarixdən 3 iş günündən artıq yeniləsh olmamışdırsa, bizə hello@bakubookcenter.az adresindən yazın."
-                        }
+                        { q: "Standart çatdırılma nə qədər vaxt alır?", a: "Standart çatdırılma 3–5 iş günü alır. Sifarişlər Bazar–Cümə günü 24 saat ərzində işlənir. Göndərildikdən sonra izləmə nömrəsi e-poçt ilə göndəriləcəkdir." },
+                        { q: "Uluslararası çatdırılma təklif edirsiniz?", a: "Bəli — 40+ ölkəyə çatdırırıq. Beynəlxalq çatdırılma adətən 7–14 iş günü alır. Dəyərlər və gömrük rüsumları ödəniş zamanı göstərilir." },
+                        { q: "Sifarişimi dəyişə və ya ləğv edə bilərəm?", a: "Qoymaqdan sonra 2 saat ərzində dəyişə və ya ləğv edə bilərsiniz. Bundan sonra sifariş işlənməyə başlayır, lakin biz həmişə kömək etməyə çalışarıq." },
+                        { q: "Sifarişim gəlməmişdir — nə etməli?", a: "Əvvəlcə iz sürmə linklərini yoxlayın. Əgər təxmin edilən tarixdən 3 iş günündən artıq yeniləsh olmamışdırsa, bizə hello@bakubookcenter.az adresindən yazın." }
                     ]
                 },
                 {
-                    category: "Qaytarmalar və İadələr",
-                    icon: "↺",
-                    label: "02",
+                    category: "Qaytarmalar və İadələr", icon: "↺", label: "02",
                     items: [
-                        {
-                            q: "Qaytarma siyasətiniz nədir?",
-                            a: "Orijinal vəziyyətdə olan kitabları 30 gün ərzində qaytarırıq — oxunmamış, əyilmə və ya təklif yoxdur. Bizimlə əlaqə saxlayın və biz ödənişsiz qaytarma etiketin təşkil edəcəyik."
-                        },
-                        {
-                            q: "İadə nə qədər vaxt alır?",
-                            a: "Qaytarmağı aldığımız və yoxladığımız zaman 2 iş günü ərzində geri ödənilir və adətən 5–10 iş günü ərzində görünür."
-                        },
-                        {
-                            q: "Qaytarma əvəzinə mübadilə edə bilərəm?",
-                            a: "Tamamilə. Əgər dəyişməyi seçsəniz, bizə söyləyin. Qaytarmağı qəbul edənə qədər biz əvəzedici sərf edəcəyik."
-                        }
+                        { q: "Qaytarma siyasətiniz nədir?", a: "Orijinal vəziyyətdə olan kitabları 30 gün ərzində qaytarırıq — oxunmamış, əyilmə və ya təklif yoxdur. Bizimlə əlaqə saxlayın və biz ödənişsiz qaytarma etiketin təşkil edəcəyik." },
+                        { q: "İadə nə qədər vaxt alır?", a: "Qaytarmağı aldığımız və yoxladığımız zaman 2 iş günü ərzində geri ödənilir və adətən 5–10 iş günü ərzində görünür." },
+                        { q: "Qaytarma əvəzinə mübadilə edə bilərəm?", a: "Tamamilə. Əgər dəyişməyi seçsəniz, bizə söyləyin. Qaytarmağı qəbul edənə qədər biz əvəzedici sərf edəcəyik." }
                     ]
                 },
                 {
-                    category: "Məhsular və Ehtiyat",
-                    icon: "◎",
-                    label: "03",
+                    category: "Məhsular və Ehtiyat", icon: "◎", label: "03",
                     items: [
-                        {
-                            q: "Kitabın stokda olduğunu necə biləcəyəm?",
-                            a: "Bütün sıralanan kitablar Stokda Yoxdur kimi qeyd olunmayan sürətdə mövcuddur. Hər hansı mövcud olmayan başlıqda Məni Xəbərdar Et düyməsini istifadə edin."
-                        },
-                        {
-                            q: "İkinci əl kitab satırlarınız?",
-                            a: "Hazırda yalnız yeni kitab satırıq. Seçilmiş əvvəlcə əl bölməsini nəzərdən keçiririk — bunu görmək istəsəniz bizə xəbər verin."
-                        },
-                        {
-                            q: "Sizin olmayan bir kitab istəyə bilərimə?",
-                            a: "Bəli — Əlaqə səhifəmizdəki Kitab Tələbi formasını istifadə edin. Biz bütün tələbləri həftə ərzində nəzərdən keçiririk və müntəzəm olaraq populyar başlıqları əlavə edirik."
-                        }
+                        { q: "Kitabın stokda olduğunu necə biləcəyəm?", a: "Bütün sıralanan kitablar Stokda Yoxdur kimi qeyd olunmayan sürətdə mövcuddur. Hər hansı mövcud olmayan başlıqda Məni Xəbərdar Et düyməsini istifadə edin." },
+                        { q: "İkinci əl kitab satırlarınız?", a: "Hazırda yalnız yeni kitab satırıq. Seçilmiş əvvəlcə əl bölməsini nəzərdən keçiririk — bunu görmək istəsəniz bizə xəbər verin." },
+                        { q: "Sizin olmayan bir kitab istəyə bilərimə?", a: "Bəli — Əlaqə səhifəmizdəki Kitab Tələbi formasını istifadə edin. Biz bütün tələbləri həftə ərzində nəzərdən keçiririk və müntəzəm olaraq populyar başlıqları əlavə edirik." }
                     ]
                 },
                 {
-                    category: "Hesab və Ödənişlər",
-                    icon: "◇",
-                    label: "04",
+                    category: "Hesab və Ödənişlər", icon: "◇", label: "04",
                     items: [
-                        {
-                            q: "Hansı ödəniş üsullarını qəbul edirsiniz?",
-                            a: "Visa, Mastercard, Amex, PayPal və Apple Pay qəbul edirik. Bütün əməliyyatlar şifrələnmişdir və dəfələrinizdə heç vaxt serverlərimizdə saxlanılmır."
-                        },
-                        {
-                            q: "Sifariş vermək üçün hesaba ehtiyac var?",
-                            a: "Yox — qonaq kimi ödəniş verə bilərsiniz. Hesab yaratmaq sifarişləri izləməyə, ünvanınızı saxlamağa və sifariş tarixçəsini baxmağa imkan verir."
-                        },
-                        {
-                            q: "Hədiyyə kartları necə işləyir?",
-                            a: "Rəqəmsal hədiyyə kartları e-poçt ilə çatdırılır və yoxlama zamanı unikal kodla geri alınır. Heç vaxt bitməzlər və birdən çox sifarişlər üzrə işləyirlər."
-                        }
+                        { q: "Hansı ödəniş üsullarını qəbul edirsiniz?", a: "Visa, Mastercard, Amex, PayPal və Apple Pay qəbul edirik. Bütün əməliyyatlar şifrələnmişdir və dəfələrinizdə heç vaxt serverlərimizdə saxlanılmır." },
+                        { q: "Sifariş vermək üçün hesaba ehtiyac var?", a: "Yox — qonaq kimi ödəniş verə bilərsiniz. Hesab yaratmaq sifarişləri izləməyə, ünvanınızı saxlamağa və sifariş tarixçəsini baxmağa imkan verir." },
+                        { q: "Hədiyyə kartları necə işləyir?", a: "Rəqəmsal hədiyyə kartları e-poçt ilə çatdırılır və yoxlama zamanı unikal kodla geri alınır. Heç vaxt bitməzlər və birdən çox sifarişlər üzrə işləyirlər." }
                     ]
                 }
             ]
+        },
+
+        // Footer:
+        footer: {
+            logoAlt: "BakuBookCenter",
+            tagline: "Bakının seçilmiş kitab mağazası. Hər bir kitab əl ilə seçilmiş, hər bir sifariş qayğı ilə qablaşdırılmış.",
+            newsletter: "Oxu Siyahısı",
+            newsletterDesc: "Yeni gələnlər, seçilmiş seçimlər və rəflərdən hekayələr.",
+            emailPlaceholder: "siz@email.com",
+            subscribeButton: "Abunə Ol",
+            subscribeSuccess: "Siz abunə oldunuz. Xoş oxu.",
+            shopSection: "Mağaza",
+            companySection: "Şirkət",
+            helpSection: "Kömək",
+            shopLinks: {
+                allBooks: "Bütün Kitablar",
+                newArrivals: "Yeni Gələnlər",
+                bestsellers: "Ən Çox Satılanlar",
+                fiction: "Bədii Ədəbiyyat",
+                nonFiction: "Qeyri-Bədii Ədəbiyyat",
+                giftCards: "Hədiyyə Kartları",
+            },
+            companyLinks: {
+                about: "Haqqımızda",
+                news: "Xəbərlər",
+                careers: "Karyera",
+                press: "Mətbuat",
+            },
+            helpLinks: {
+                faq: "FAQ",
+                contact: "Bizimlə Əlaqə Saxlayın",
+                shipping: "Çatdırılma Siyasəti",
+                returns: "Qaytarmalar",
+                track: "Sifarişinizi İzləyin",
+            },
+            contactInfo: {
+                phone: "+994 12 404 04 04",
+                email: "hello@bakubookcenter.az",
+                hours: "Bazar–Pazar  09:00 – 21:00",
+            },
+            promises: {
+                shipping: { title: "Pulsuz Çatdırılma", body: "40$-dan yuxarı bütün sifarişlərə." },
+                returns: { title: "30 Günlük Qaytarma", body: "Sualsız." },
+                care: { title: "Qayğı ilə Qablaşdırılmış", body: "Hər sifarişdə şəxsi qeyd." },
+                curated: { title: "Seçilmiş Seçimlər", body: "Hər başlıq əl ilə seçilmişdir." },
+            },
+            copyright: "© {year} Bakı Kitab Mərkəzi. Bütün hüquqlar qorunur.",
+            motto: "Kitablar hər şeyi dəyişir.",
+            privacyPolicy: "Gizlilik Siyasəti",
+            termsOfUse: "İstifadə Şərtləri",
+            cookies: "Kükülələr",
         },
 
         // Cart Page:
@@ -683,9 +813,115 @@ export const translations = {
             errExpiry: "Bitmə tarixi tələb olunur",
             errCvv: "Düzgün 3 rəqəmli CVV tələb olunur",
         },
+
+        // Forgot Password Page:
+        forgotPassword: {
+            heroTitle: "Parolunuzu Sıfırlayın.",
+            heroDesc: "Hesabınıza güvənlü şəkildə yenidən daxil olmağa kömək edəcəyik. E-poçtunuzu daxil edin və biz sizə parol sıfırlama bağlantısı göndərəcəyik.",
+            pageTitle: "Parolu Unutmusunuz?",
+            pageSubtitle: "Problem yoxdur. Sizə sıfırlama bağlantısı göndərəcəyik.",
+            imageSecurity: "Təhlükəsizlik və etibar",
+            emailLabel: "E-poçt Ünvanı",
+            emailPlaceholder: "siz@example.com",
+            emailHint: "Bu e-poçt ünvanına parol sıfırlama bağlantısı göndərəcəyik",
+            checkEmail: "E-poçtunuzu yoxlayın!",
+            checkEmailDesc: "Əgər bu e-poçtla hesab mövcuddursa, bir neçə dəqiqə ərzində parol sıfırlama bağlantısı alacaqsınız.",
+            sendButton: "Sıfırlama Bağlantısı Göndər",
+            sendingButton: "Sıfırlama Bağlantısı Göndərilir...",
+            invalidEmail: "Xahiş edirik düzgün e-poçt ünvanı daxil edin",
+            errorOccurred: "Xəta baş verdi. Xahiş edirik yenidən cəhd edin.",
+            serverError: "Server xətası. Xahiş edirik sonra yenidən cəhd edin.",
+            rememberPassword: "Parolu xatırladınız?",
+            backToSignIn: "Daxilolmaya Qayıt",
+        },
+
+        // Login Page:
+        login: {
+            welcomeBack: "Xoş gəldiniz",
+            title: "Daxil Olun",
+            noAccount: "Hesabınız yoxdur?",
+            createOne: "Burada yaradın",
+            emailLabel: "E-poçt Ünvanı",
+            emailPlaceholder: "siz@example.com",
+            passwordLabel: "Şifrə",
+            forgotPassword: "Şifrəni unutmusunuz?",
+            signingIn: "Daxil olunur…",
+            signIn: "Daxil Ol →",
+            or: "və ya",
+            browseAsGuest: "Qonaq kimi baxın",
+            errorDefault: "Yanlış e-poçt və ya şifrə",
+            errorServer: "Server xətası. Yenidən cəhd edin.",
+        },
+
+        // Register Page:
+        register: {
+            newHere: "Yeni istifadəçisiniz?",
+            title: "Hesab Yaradın",
+            alreadyHave: "Artıq hesabınız var?",
+            logInHere: "Buradan daxil olun",
+            fieldName: "Ad Soyad",
+            fieldNamePlaceholder: "Leyla Cəbrailov",
+            fieldEmail: "E-poçt Ünvanı",
+            fieldEmailPlaceholder: "siz@example.com",
+            fieldPassword: "Şifrə",
+            fieldPasswordPlaceholder: "••••••••",
+            fieldConfirm: "Şifrəni Təsdiqlə",
+            fieldConfirmPlaceholder: "••••••••",
+            strengthWeak: "Zəif",
+            strengthAlmost: "Az qalıb",
+            strengthStrong: "Güclü",
+            passwordsMatch: "✓ Şifrələr uyğundur",
+            passwordsNoMatch: "✗ Şifrələr uyğun deyil",
+            passwordHint: "Min. 8 simvol, ən azı bir hərf və bir rəqəm.",
+            creating: "Hesab Yaradılır…",
+            createAccount: "Hesab Yarat →",
+            errNoMatch: "Şifrələr uyğun deyil.",
+            errTooShort: "Şifrə ən azı 8 simvoldan ibarət olmalıdır.",
+            errWeak: "Şifrədə ən azı bir hərf və bir rəqəm olmalıdır.",
+            errFailed: "Qeydiyyat uğursuz oldu",
+            errServer: "Server xətası. Xahiş edirik sonra yenidən cəhd edin.",
+        },
+        // Header:
+        header: {
+            catalog: "Kataloq",
+            catalogLoading: "Yüklənir…",
+            catalogBooks: (n: number) => `${n} kitab`,
+            catalogEmpty: "Kitab tapılmadı",
+            searchPlaceholder: "Kitab, müəllif axtar…",
+            searching: "Axtarılır…",
+            searchResults: (n: number) => `${n} nəticə`,
+            searchEmpty: (q: string) => `"${q}" üçün kitab tapılmadı`,
+            searchEmptyMobile: "Kitab tapılmadı",
+            adminDashboard: "Admin Paneli",
+            myOrders: "Sifarişlərim",
+            signOut: "Çıxış",
+            login: "Daxil ol",
+            register: "Qeydiyyat",
+            navShop: "Mağaza",
+            navAbout: "Haqqımızda",
+            navContact: "Əlaqə",
+            navFaq: "Suallar",
+            navNews: "Xəbərlər",
+        },
     },
 
     ru: {
+        // Homepage Banner:
+        banner: {
+            sectionLabel: "Baku Book Center",
+            heroLine1: "Истории, которые меняют нас",
+            description: "Тщательно отобранная коллекция для вдумчивых читателей, доставляющая лучшие книги мира прямо в Баку.",
+            exploreButton: "Исследовать новинки",
+        },
+
+        // Book Card:
+        bookCard: {
+            noCover: "Обложка отсутствует",
+            bestseller: "БЕСТСЕЛЛЕР",
+            addToCart: "Добавить в корзину",
+            added: "✓ Добавлено",
+        },
+
         // Homepage:
         onSale: "На распродаже",
         newArrivals: "Новые поступления",
@@ -853,86 +1089,90 @@ export const translations = {
             contactUs: "Связаться с нами →",
             faqCategories: [
                 {
-                    category: "Заказы и доставка",
-                    icon: "→",
-                    label: "01",
+                    category: "Заказы и доставка", icon: "→", label: "01",
                     items: [
-                        {
-                            q: "Сколько времени занимает стандартная доставка?",
-                            a: "Стандартная доставка занимает 3–5 рабочих дней. Заказы обрабатываются в течение 24 часов с понедельника по пятницу. После отправки вы получите номер отслеживания по электронной почте."
-                        },
-                        {
-                            q: "Вы доставляете международные заказы?",
-                            a: "Да — мы отправляем в более чем 40 стран. Международная доставка обычно занимает 7–14 рабочих дней. Стоимость и таможенные пошлины указаны при оформлении."
-                        },
-                        {
-                            q: "Могу ли я изменить или отменить заказ?",
-                            a: "Вы можете изменить или отменить заказ в течение 2 часов после размещения. После этого периода заказ переходит в статус исполнения, но мы всегда постараемся помочь."
-                        },
-                        {
-                            q: "Мой заказ не пришёл — что делать?",
-                            a: "Сначала проверьте ссылку отслеживания. Если обновления не появилось более чем на 3 рабочих дня после предполагаемой даты, напишите нам на hello@bakubookcenter.az."
-                        }
+                        { q: "Сколько времени занимает стандартная доставка?", a: "Стандартная доставка занимает 3–5 рабочих дней. Заказы обрабатываются в течение 24 часов с понедельника по пятницу. После отправки вы получите номер отслеживания по электронной почте." },
+                        { q: "Вы доставляете международные заказы?", a: "Да — мы отправляем в более чем 40 стран. Международная доставка обычно занимает 7–14 рабочих дней. Стоимость и таможенные пошлины указаны при оформлении." },
+                        { q: "Могу ли я изменить или отменить заказ?", a: "Вы можете изменить или отменить заказ в течение 2 часов после размещения. После этого периода заказ переходит в статус исполнения, но мы всегда постараемся помочь." },
+                        { q: "Мой заказ не пришёл — что делать?", a: "Сначала проверьте ссылку отслеживания. Если обновления не появилось более чем на 3 рабочих дня после предполагаемой даты, напишите нам на hello@bakubookcenter.az." }
                     ]
                 },
                 {
-                    category: "Возвраты и возмещения",
-                    icon: "↺",
-                    label: "02",
+                    category: "Возвраты и возмещения", icon: "↺", label: "02",
                     items: [
-                        {
-                            q: "Какова ваша политика возврата?",
-                            a: "Мы принимаем возврат в течение 30 дней для книг в первоначальном состоянии — не прочитаны, без складок и пометок. Свяжитесь с нами, и мы организуем бесплатную этикетку возврата."
-                        },
-                        {
-                            q: "Сколько времени занимает возмещение?",
-                            a: "После получения и проверки возврата в течение 2 рабочих дней возмещение выдаётся и обычно появляется в течение 5–10 рабочих дней."
-                        },
-                        {
-                            q: "Можно ли обменять вместо возврата?",
-                            a: "Конечно. Если вы предпочитаете обмен, дайте нам знать. Мы будем хранить замену до получения вашего возврата."
-                        }
+                        { q: "Какова ваша политика возврата?", a: "Мы принимаем возврат в течение 30 дней для книг в первоначальном состоянии — не прочитаны, без складок и пометок. Свяжитесь с нами, и мы организуем бесплатную этикетку возврата." },
+                        { q: "Сколько времени занимает возмещение?", a: "После получения и проверки возврата в течение 2 рабочих дней возмещение выдаётся и обычно появляется в течение 5–10 рабочих дней." },
+                        { q: "Можно ли обменять вместо возврата?", a: "Конечно. Если вы предпочитаете обмен, дайте нам знать. Мы будем хранить замену до получения вашего возврата." }
                     ]
                 },
                 {
-                    category: "Товары и наличие",
-                    icon: "◎",
-                    label: "03",
+                    category: "Товары и наличие", icon: "◎", label: "03",
                     items: [
-                        {
-                            q: "Как узнать, есть ли книга в наличии?",
-                            a: "Все указанные книги доступны, если не отмечены как \"Нет в наличии\". Нажмите на кнопку \"Уведомить меня\" для недоступного издания, чтобы получить письмо, когда оно появится."
-                        },
-                        {
-                            q: "Вы продаёте подержанные книги?",
-                            a: "Сейчас мы продаём только новые книги. Мы рассматриваем идею куратора раздела \"Бывших в употреблении\" — дайте нам знать, если вы бы это хотели."
-                        },
-                        {
-                            q: "Можно ли заказать книгу, которой у вас нет?",
-                            a: "Да — используйте форму запроса на нашей странице контактов. Мы рассматриваем все просьбы еженедельно и регулярно добавляем популярные издания."
-                        }
+                        { q: "Как узнать, есть ли книга в наличии?", a: "Все указанные книги доступны, если не отмечены как \"Нет в наличии\". Нажмите на кнопку \"Уведомить меня\" для недоступного издания, чтобы получить письмо, когда оно появится." },
+                        { q: "Вы продаёте подержанные книги?", a: "Сейчас мы продаём только новые книги. Мы рассматриваем идею куратора раздела \"Бывших в употреблении\" — дайте нам знать, если вы бы это хотели." },
+                        { q: "Можно ли заказать книгу, которой у вас нет?", a: "Да — используйте форму запроса на нашей странице контактов. Мы рассматриваем все просьбы еженедельно и регулярно добавляем популярные издания." }
                     ]
                 },
                 {
-                    category: "Аккаунт и платежи",
-                    icon: "◇",
-                    label: "04",
+                    category: "Аккаунт и платежи", icon: "◇", label: "04",
                     items: [
-                        {
-                            q: "Какие методы оплаты вы принимаете?",
-                            a: "Мы принимаем Visa, Mastercard, Amex, PayPal и Apple Pay. Все операции зашифрованы, и ваши данные никогда не хранятся на наших серверах."
-                        },
-                        {
-                            q: "Нужна ли учётная запись для заказа?",
-                            a: "Нет — вы можете оформить покупку как гость. Создание аккаунта позволит вам отслеживать заказы, сохранять адрес и просматривать историю заказов."
-                        },
-                        {
-                            q: "Как работают подарочные карты?",
-                            a: "Цифровые подарочные карты отправляются по электронной почте и используются при оформлении с помощью уникального кода. Они никогда не истекают и работают на нескольких заказах."
-                        }
+                        { q: "Какие методы оплаты вы принимаете?", a: "Мы принимаем Visa, Mastercard, Amex, PayPal и Apple Pay. Все операции зашифрованы, и ваши данные никогда не хранятся на наших серверах." },
+                        { q: "Нужна ли учётная запись для заказа?", a: "Нет — вы можете оформить покупку как гость. Создание аккаунта позволит вам отслеживать заказы, сохранять адрес и просматривать историю заказов." },
+                        { q: "Как работают подарочные карты?", a: "Цифровые подарочные карты отправляются по электронной почте и используются при оформлении с помощью уникального кода. Они никогда не истекают и работают на нескольких заказах." }
                     ]
                 }
             ]
+        },
+
+        // Footer:
+        footer: {
+            logoAlt: "BakuBookCenter",
+            tagline: "Куратор книжного магазина в Баку. Каждый титул тщательно отобран, каждый заказ упакован с заботой.",
+            newsletter: "Список чтения",
+            newsletterDesc: "Новые поступления, рецензии и истории с полок.",
+            emailPlaceholder: "ваш@email.com",
+            subscribeButton: "Подписаться",
+            subscribeSuccess: "Вы подписаны. Приятного чтения.",
+            shopSection: "Магазин",
+            companySection: "Компания",
+            helpSection: "Помощь",
+            shopLinks: {
+                allBooks: "Все книги",
+                newArrivals: "Новые поступления",
+                bestsellers: "Бестселлеры",
+                fiction: "Художественная литература",
+                nonFiction: "Нехудожественная литература",
+                giftCards: "Подарочные карты",
+            },
+            companyLinks: {
+                about: "О нас",
+                news: "Новости",
+                careers: "Карьера",
+                press: "Пресса",
+            },
+            helpLinks: {
+                faq: "Часто задаваемые вопросы",
+                contact: "Связаться с нами",
+                shipping: "Политика доставки",
+                returns: "Возвраты",
+                track: "Отследить заказ",
+            },
+            contactInfo: {
+                phone: "+994 12 404 04 04",
+                email: "hello@bakubookcenter.az",
+                hours: "Пн–Вс  09:00 – 21:00",
+            },
+            promises: {
+                shipping: { title: "Бесплатная доставка", body: "На все заказы свыше $40." },
+                returns: { title: "Возврат за 30 дней", body: "Без вопросов." },
+                care: { title: "Упаковано с заботой", body: "Личная записка в каждом заказе." },
+                curated: { title: "Рецензированные подборки", body: "Каждое издание тщательно отобрано." },
+            },
+            copyright: "© {year} Бакинский книжный центр. Все права защищены.",
+            motto: "Книги меняют всё.",
+            privacyPolicy: "Политика конфиденциальности",
+            termsOfUse: "Условия использования",
+            cookies: "Файлы cookie",
         },
 
         // Cart Page:
@@ -1024,6 +1264,96 @@ export const translations = {
             errCardHolder: "Укажите имя держателя карты",
             errExpiry: "Укажите срок действия",
             errCvv: "Введите корректный 3-значный CVV",
+        },
+
+        // Forgot Password Page:
+        forgotPassword: {
+            heroTitle: "Восстановите пароль.",
+            heroDesc: "Мы поможем вам безопасно восстановить доступ к учётной записи. Введите адрес электронной почты, и мы отправим вам ссылку для сброса пароля.",
+            pageTitle: "Забыли пароль?",
+            pageSubtitle: "Не волнуйтесь. Мы отправим вам ссылку для сброса.",
+            imageSecurity: "Безопасность и доверие",
+            emailLabel: "Адрес электронной почты",
+            emailPlaceholder: "вы@example.com",
+            emailHint: "На этот адрес электронной почты мы отправим ссылку для сброса пароля",
+            checkEmail: "Проверьте почту!",
+            checkEmailDesc: "Если учётная запись с этим адресом электронной почты существует, вы получите ссылку для сброса пароля в течение нескольких минут.",
+            sendButton: "Отправить ссылку сброса",
+            sendingButton: "Отправляется ссылка сброса...",
+            invalidEmail: "Пожалуйста, введите корректный адрес электронной почты",
+            errorOccurred: "Произошла ошибка. Пожалуйста, повторите попытку.",
+            serverError: "Ошибка сервера. Пожалуйста, повторите попытку позже.",
+            rememberPassword: "Помните пароль?",
+            backToSignIn: "Вернуться ко входу",
+        },
+
+        // Login Page:
+        login: {
+            welcomeBack: "С возвращением",
+            title: "Войти",
+            noAccount: "Нет аккаунта?",
+            createOne: "Создайте здесь",
+            emailLabel: "Адрес электронной почты",
+            emailPlaceholder: "вы@example.com",
+            passwordLabel: "Пароль",
+            forgotPassword: "Забыли пароль?",
+            signingIn: "Выполняется вход…",
+            signIn: "Войти →",
+            or: "или",
+            browseAsGuest: "Просмотр как гость",
+            errorDefault: "Неверный email или пароль",
+            errorServer: "Ошибка сервера. Попробуйте снова.",
+        },
+
+        // Register Page:
+        register: {
+            newHere: "Впервые здесь?",
+            title: "Создать аккаунт",
+            alreadyHave: "Уже есть аккаунт?",
+            logInHere: "Войдите здесь",
+            fieldName: "Полное имя",
+            fieldNamePlaceholder: "Иван Петров",
+            fieldEmail: "Адрес электронной почты",
+            fieldEmailPlaceholder: "вы@example.com",
+            fieldPassword: "Пароль",
+            fieldPasswordPlaceholder: "••••••••",
+            fieldConfirm: "Подтвердите пароль",
+            fieldConfirmPlaceholder: "••••••••",
+            strengthWeak: "Слабый",
+            strengthAlmost: "Почти готово",
+            strengthStrong: "Надёжный",
+            passwordsMatch: "✓ Пароли совпадают",
+            passwordsNoMatch: "✗ Пароли не совпадают",
+            passwordHint: "Мин. 8 символов, хотя бы одна буква и одна цифра.",
+            creating: "Создаётся аккаунт…",
+            createAccount: "Создать аккаунт →",
+            errNoMatch: "Пароли не совпадают.",
+            errTooShort: "Пароль должен содержать не менее 8 символов.",
+            errWeak: "Пароль должен содержать хотя бы одну букву и одну цифру.",
+            errFailed: "Ошибка регистрации",
+            errServer: "Ошибка сервера. Попробуйте позже.",
+        },
+        // Header:
+        header: {
+            catalog: "Каталог",
+            catalogLoading: "Загрузка…",
+            catalogBooks: (n: number) => `${n} книг${n === 1 ? 'а' : n < 5 ? 'и' : ''}`,
+            catalogEmpty: "Книги недоступны",
+            searchPlaceholder: "Поиск книг, авторов…",
+            searching: "Поиск…",
+            searchResults: (n: number) => `${n} результат${n === 1 ? '' : n < 5 ? 'а' : 'ов'}`,
+            searchEmpty: (q: string) => `По запросу "${q}" ничего не найдено`,
+            searchEmptyMobile: "Книги не найдены",
+            adminDashboard: "Панель администратора",
+            myOrders: "Мои заказы",
+            signOut: "Выйти",
+            login: "Войти",
+            register: "Регистрация",
+            navShop: "Магазин",
+            navAbout: "О нас",
+            navContact: "Контакты",
+            navFaq: "вопросы",
+            navNews: "Новости",
         },
     }
 };

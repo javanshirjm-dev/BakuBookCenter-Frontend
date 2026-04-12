@@ -40,7 +40,6 @@ export default function NewsPage() {
     useEffect(() => {
         const fetchNews = async () => {
             try {
-                // Tip: Swap this out for your production URL when you deploy!
                 const res = await fetch('http://localhost:5000/api/news');
                 if (res.ok) {
                     const data = await res.json();

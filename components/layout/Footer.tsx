@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import ChatBot from "../ui/homepage/ChatBot";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations, Language } from "@/locales/translations";
 
 const T = {
     red: "#7F1D1D",
@@ -34,40 +36,12 @@ const SOCIALS = [
     },
 ];
 
-const LINKS: Record<string, { label: string; href: string }[]> = {
-    Shop: [
-        { label: "All Books", href: "/shop" },
-        { label: "New Arrivals", href: "/shop" },
-        { label: "Bestsellers", href: "/shop" },
-        { label: "Fiction", href: "/shop" },
-        { label: "Non-Fiction", href: "/shop" },
-        { label: "Gift Cards", href: "/shop" },
-    ],
-    Company: [
-        { label: "About Us", href: "/about" },
-        { label: "News", href: "/news" },
-        { label: "Careers", href: "/about" },
-        { label: "Press", href: "/about" },
-    ],
-    Help: [
-        { label: "FAQ", href: "/faq" },
-        { label: "Contact Us", href: "/contact" },
-        { label: "Shipping Policy", href: "/faq" },
-        { label: "Returns", href: "/faq" },
-        { label: "Track Order", href: "/orders" },
-    ],
-};
-
-const PROMISES = [
-    { icon: '→', title: 'Free Shipping', body: 'On all orders over $40.' },
-    { icon: '↺', title: '30-Day Returns', body: 'No questions asked.' },
-    { icon: '◎', title: 'Packed with Care', body: 'A personal note in every order.' },
-    { icon: '✦', title: 'Curated Picks', body: 'Every title hand-selected.' },
-];
-
 export default function Footer() {
+    const { language: lang } = useLanguage();
     const params = useParams();
-    const lang = (params?.lang as string) || 'en';
+    const langParam = (params?.lang as string) || 'en';
+    const t = translations[lang as Language];
+    const footer = t.footer;
 
     const [email, setEmail] = useState("");
     const [subscribed, setSubscribed] = useState(false);
@@ -103,37 +77,37 @@ export default function Footer() {
                 <div className="ft-main" style={{ maxWidth: '1280px', margin: '0 auto' }}>
 
                     <div className="ft-left-border" style={{ padding: '52px 40px 52px 24px', borderRight: `1px solid ${T.parch}` }}>
-                        <Link href={`/${lang}`} style={{ textDecoration: 'none', display: 'inline-block', marginBottom: '18px' }}>
-                            <img src="https://bakubookcenter.az/media/img/bakubookcenter.png" alt="BakuBookCenter" style={{ height: '36px', width: 'auto' }} />
+                        <Link href={`/${langParam}`} style={{ textDecoration: 'none', display: 'inline-block', marginBottom: '18px' }}>
+                            <img src="https://bakubookcenter.az/media/img/bakubookcenter.png" alt={footer.logoAlt} style={{ height: '36px', width: 'auto' }} />
                         </Link>
 
                         <p style={{ fontSize: '14px', color: T.inkL, fontWeight: 300, lineHeight: 1.8, marginBottom: '32px', maxWidth: '280px' }}>
-                            Baku's curated bookstore. Every title hand-picked, every order packed with care.
+                            {footer.tagline}
                         </p>
 
                         <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: T.red, marginBottom: '10px' }}>
-                            The Reading List
+                            {footer.newsletter}
                         </p>
                         <p style={{ fontSize: '13px', color: T.inkL, fontWeight: 300, lineHeight: 1.6, marginBottom: '14px' }}>
-                            New arrivals, curated picks & stories from the shelves.
+                            {footer.newsletterDesc}
                         </p>
 
                         {subscribed ? (
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 14px', backgroundColor: '#EEF6F1', border: '1px solid #B8DEC9', borderLeft: '3px solid #3A6B4A', borderRadius: '2px' }}>
                                 <span style={{ color: '#3A6B4A' }}>✓</span>
-                                <p style={{ fontSize: '13px', color: '#2A5438', fontWeight: 400 }}>You're subscribed. Happy reading.</p>
+                                <p style={{ fontSize: '13px', color: '#2A5438', fontWeight: 400 }}>{footer.subscribeSuccess}</p>
                             </div>
                         ) : (
                             <form onSubmit={submit} style={{ display: 'flex' }}>
                                 <input type="email" value={email} required onChange={e => setEmail(e.target.value)}
                                     onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
-                                    placeholder="your@email.com"
+                                    placeholder={footer.emailPlaceholder}
                                     style={{ flex: 1, padding: '10px 13px', border: `1px solid ${focused ? T.red : T.clay}`, borderRight: 'none', borderRadius: '2px 0 0 2px', outline: 'none', fontSize: '13px', fontWeight: 300, color: T.ink, backgroundColor: T.white, fontFamily: "'Outfit', sans-serif", transition: 'border-color 0.2s' }}
                                 />
                                 <button type="submit" style={{ padding: '10px 16px', backgroundColor: T.red, color: T.white, border: 'none', borderRadius: '0 2px 2px 0', cursor: 'pointer', fontSize: '10px', fontWeight: 500, letterSpacing: '0.14em', textTransform: 'uppercase', fontFamily: "'Outfit', sans-serif", transition: 'background-color 0.2s', whiteSpace: 'nowrap' }}
                                     onMouseEnter={e => (e.currentTarget.style.backgroundColor = T.redD)}
                                     onMouseLeave={e => (e.currentTarget.style.backgroundColor = T.red)}
-                                >Subscribe</button>
+                                >{footer.subscribeButton}</button>
                             </form>
                         )}
 
@@ -146,23 +120,55 @@ export default function Footer() {
 
                     <div style={{ padding: '52px 24px 52px 40px' }}>
                         <div className="ft-cols">
-                            {Object.entries(LINKS).map(([section, links]) => (
-                                <div key={section}>
-                                    <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: T.red, marginBottom: '14px' }}>
-                                        {section}
-                                    </p>
-                                    {links.map(l => (
-                                        <Link key={l.label} href={`/${lang}${l.href}`} className="ft-link">{l.label}</Link>
-                                    ))}
-                                </div>
-                            ))}
+                            <div>
+                                <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: T.red, marginBottom: '14px' }}>
+                                    {footer.shopSection}
+                                </p>
+                                {[
+                                    { label: footer.shopLinks.allBooks, href: `/shop` },
+                                    { label: footer.shopLinks.newArrivals, href: `/shop` },
+                                    { label: footer.shopLinks.bestsellers, href: `/shop` },
+                                    { label: footer.shopLinks.fiction, href: `/shop` },
+                                    { label: footer.shopLinks.nonFiction, href: `/shop` },
+                                    { label: footer.shopLinks.giftCards, href: `/shop` },
+                                ].map(l => (
+                                    <Link key={l.label} href={`/${langParam}${l.href}`} className="ft-link">{l.label}</Link>
+                                ))}
+                            </div>
+                            <div>
+                                <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: T.red, marginBottom: '14px' }}>
+                                    {footer.companySection}
+                                </p>
+                                {[
+                                    { label: footer.companyLinks.about, href: `/about` },
+                                    { label: footer.companyLinks.news, href: `/news` },
+                                    { label: footer.companyLinks.careers, href: `/about` },
+                                    { label: footer.companyLinks.press, href: `/about` },
+                                ].map(l => (
+                                    <Link key={l.label} href={`/${langParam}${l.href}`} className="ft-link">{l.label}</Link>
+                                ))}
+                            </div>
+                            <div>
+                                <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: T.red, marginBottom: '14px' }}>
+                                    {footer.helpSection}
+                                </p>
+                                {[
+                                    { label: footer.helpLinks.faq, href: `/faq` },
+                                    { label: footer.helpLinks.contact, href: `/contact` },
+                                    { label: footer.helpLinks.shipping, href: `/faq` },
+                                    { label: footer.helpLinks.returns, href: `/faq` },
+                                    { label: footer.helpLinks.track, href: `/orders` },
+                                ].map(l => (
+                                    <Link key={l.label} href={`/${langParam}${l.href}`} className="ft-link">{l.label}</Link>
+                                ))}
+                            </div>
                         </div>
 
                         <div style={{ marginTop: '36px', paddingTop: '24px', borderTop: `1px solid ${T.parch}`, display: 'flex', gap: '28px', flexWrap: 'wrap' }}>
                             {[
-                                { icon: '✆', text: '+994 12 404 04 04', href: 'tel:+994124040404' },
-                                { icon: '✉', text: 'hello@bakubookcenter.az', href: 'mailto:hello@bakubookcenter.az' },
-                                { icon: '⏱︎ ', text: 'Mon–Sun  9:00 – 21:00', href: undefined },
+                                { icon: '✆', text: footer.contactInfo.phone, href: `tel:${footer.contactInfo.phone.replace(/\s/g, '')}` },
+                                { icon: '✉', text: footer.contactInfo.email, href: `mailto:${footer.contactInfo.email}` },
+                                { icon: '⏱︎ ', text: footer.contactInfo.hours, href: undefined },
                             ].map(({ icon, text, href }) => (
                                 <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                                     <span style={{ fontSize: '13px' }}>{icon}</span>
@@ -183,10 +189,15 @@ export default function Footer() {
             <div style={{ backgroundColor: T.red }}>
                 <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
                     <div className="ft-proms">
-                        {PROMISES.map((p, i) => (
+                        {[
+                            { icon: '→', title: footer.promises.shipping.title, body: footer.promises.shipping.body },
+                            { icon: '↺', title: footer.promises.returns.title, body: footer.promises.returns.body },
+                            { icon: '◎', title: footer.promises.care.title, body: footer.promises.care.body },
+                            { icon: '✦', title: footer.promises.curated.title, body: footer.promises.curated.body },
+                        ].map((p, i) => (
                             <div key={p.title} style={{
                                 padding: '26px 24px',
-                                borderRight: i < PROMISES.length - 1 ? '1px solid rgba(255,255,255,0.1)' : 'none',
+                                borderRight: i < 3 ? '1px solid rgba(255,255,255,0.1)' : 'none',
                                 display: 'flex', alignItems: 'flex-start', gap: '12px',
                             }}>
                                 <span style={{ fontSize: '18px', color: T.redL, flexShrink: 0, marginTop: '1px' }}>{p.icon}</span>
@@ -206,14 +217,18 @@ export default function Footer() {
                         © {new Date().getFullYear()} Baku Book Center. All rights reserved.
                     </p>
                     <p className="ft-tagline" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '13px', fontStyle: 'italic', color: 'rgba(255,255,255,0.18)' }}>
-                        Books change everything.
+                        {footer.motto}
                     </p>
                     <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-                        {['Privacy Policy', 'Terms of Use', 'Cookies'].map(item => (
-                            <a key={item} href="#" className="ft-legal"
+                        {[
+                            { label: footer.privacyPolicy, href: '#' },
+                            { label: footer.termsOfUse, href: '#' },
+                            { label: footer.cookies, href: '#' },
+                        ].map(item => (
+                            <a key={item.label} href={item.href} className="ft-legal"
                                 onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
                                 onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.28)')}
-                            >{item}</a>
+                            >{item.label}</a>
                         ))}
                     </div>
                 </div>

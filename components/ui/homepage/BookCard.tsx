@@ -3,7 +3,7 @@
 import { useCart } from "../../../context/CartContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import Link from "next/link";
-import { Language } from "@/locales/translations";
+import { Language, translations } from "@/locales/translations";
 import { useState } from "react";
 
 const getLocalizedText = (field: any, lang: 'az' | 'en' | 'ru' = 'az') => {
@@ -17,6 +17,8 @@ export default function BookCard({ book, lang }: { book: any, lang: Language }) 
     const { addToCart } = useCart();
     const [addedToCart, setAddedToCart] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
+    const t = translations[language as Language];
+    const bookCard = t.bookCard;
 
     const handleAddToCart = () => {
         addToCart(book);
@@ -82,7 +84,7 @@ export default function BookCard({ book, lang }: { book: any, lang: Language }) 
                             color: '#A89F94',
                             textTransform: 'uppercase',
                         }}>
-                            No Cover
+                            {bookCard.noCover}
                         </div>
                     )}
 
@@ -110,13 +112,13 @@ export default function BookCard({ book, lang }: { book: any, lang: Language }) 
                             right: '10px',
                             backgroundColor: '#FFB800',
                             color: '#1A1A1A',
-                            fontSize: '10px',
+                            fontSize: '11px',
                             fontWeight: '700',
                             letterSpacing: '0.1em',
                             padding: '4px 8px',
                             borderRadius: '2px',
                         }}>
-                            BESTSELLER
+                            {bookCard.bestseller}
                         </div>
                     )}
                 </div>
@@ -210,7 +212,7 @@ export default function BookCard({ book, lang }: { book: any, lang: Language }) 
                             fontFamily: "'DM Sans', sans-serif",
                         }}
                     >
-                        {addedToCart ? '✓ Added' : 'Add to Cart'}
+                        {addedToCart ? bookCard.added : bookCard.addToCart}
                     </button>
                 </div>
             </div>

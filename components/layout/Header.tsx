@@ -6,6 +6,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import { useRouter, usePathname } from "next/navigation";
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
+import { translations } from "@/locales/translations";
 import { useState, useEffect, useRef } from "react";
 
 /* ─────────────── DESIGN TOKENS ─────────────── */
@@ -71,11 +72,14 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
 export default function Header() {
     const params = useParams();
     const lang = (params?.lang as string) || 'en';
-    const { language, setLanguage, t } = useLanguage();
+    const { language, setLanguage } = useLanguage();
     const { cart } = useCart();
     const { user, logout } = useAuth();
     const router = useRouter();
     const pathname = usePathname();
+
+    // All header translations
+    const h = translations[language as keyof typeof translations].header;
 
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState<Book[]>([]);
@@ -92,7 +96,6 @@ export default function Header() {
     const [isSmallScreen, setIsSmallScreen] = useState(false);
 
     const searchRef = useRef<HTMLDivElement>(null);
-    // FIX: separate ref for the mobile search bar
     const mobileSearchRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const userMenuRef = useRef<HTMLDivElement>(null);
@@ -160,8 +163,6 @@ export default function Header() {
 
     useEffect(() => {
         const handler = (e: MouseEvent) => {
-            // FIX: also check mobileSearchRef so tapping a mobile result doesn't
-            // close the dropdown before the click event fires
             const inDesktopSearch = searchRef.current?.contains(e.target as Node);
             const inMobileSearch = mobileSearchRef.current?.contains(e.target as Node);
             if (!inDesktopSearch && !inMobileSearch) {
@@ -211,6 +212,15 @@ export default function Header() {
         }
     };
 
+    // Nav items built from translations
+    const navItems = [
+        { path: `/${lang}/shop`, label: h.navShop },
+        { path: `/${lang}/about`, label: h.navAbout },
+        { path: `/${lang}/contact`, label: h.navContact },
+        { path: `/${lang}/faq`, label: h.navFaq },
+        { path: `/${lang}/news`, label: h.navNews },
+    ];
+
     return (
         <>
             <style>{`
@@ -226,9 +236,7 @@ export default function Header() {
       `}</style>
 
             <header style={{
-                position: 'sticky',
-                top: 0,
-                zIndex: 50,
+                position: 'sticky', top: 0, zIndex: 50,
                 backgroundColor: T.topBar,
                 fontFamily: "'Outfit', sans-serif",
                 boxShadow: scrolled ? '0 4px 32px rgba(0,0,0,0.25)' : 'none',
@@ -237,14 +245,9 @@ export default function Header() {
             }}>
 
                 <div style={{
-                    maxWidth: '1280px',
-                    margin: '0 auto',
-                    padding: '0 20px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    height: isSmallScreen ? '64px' : '75px',
-                    gap: '12px',
+                    maxWidth: '1280px', margin: '0 auto', padding: '0 20px',
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    height: isSmallScreen ? '64px' : '75px', gap: '12px',
                 }}>
 
                     <Link href={`/${lang}`} style={{ flexShrink: 0, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -274,7 +277,7 @@ export default function Header() {
                                 onMouseEnter={e => (e.currentTarget.style.borderColor = T.borderHov)}
                                 onMouseLeave={e => { if (!showCatalog) e.currentTarget.style.borderColor = T.border; }}
                             >
-                                Catalog
+                                {h.catalog}
                                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                                     stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" strokeLinecap="round"
                                     style={{ transform: showCatalog ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }}>
@@ -294,13 +297,13 @@ export default function Header() {
                                     {catalogLoading ? (
                                         <div style={{ padding: '40px 20px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
                                             <div style={{ width: '16px', height: '16px', border: `2px solid ${T.clay}`, borderTop: `2px solid ${T.terra}`, borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
-                                            <span style={{ fontSize: '14px', color: T.inkLight, fontStyle: 'italic', fontFamily: "'Cormorant Garamond', serif" }}>Loading…</span>
+                                            <span style={{ fontSize: '14px', color: T.inkLight, fontStyle: 'italic', fontFamily: "'Cormorant Garamond', serif" }}>{h.catalogLoading}</span>
                                         </div>
                                     ) : catalogBooks.length > 0 ? (
                                         <>
                                             <div style={{ padding: '10px 16px 8px', borderBottom: `1px solid ${T.parchment}` }}>
                                                 <span style={{ fontSize: '14px', color: T.inkLight, letterSpacing: '0.16em', textTransform: 'uppercase', fontWeight: 500 }}>
-                                                    {catalogBooks.length} books
+                                                    {h.catalogBooks(catalogBooks.length)}
                                                 </span>
                                             </div>
                                             {catalogBooks.map((book, i) => (
@@ -335,7 +338,7 @@ export default function Header() {
                                         </>
                                     ) : (
                                         <div style={{ padding: '24px 16px', textAlign: 'center' }}>
-                                            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '17px', fontStyle: 'italic', color: T.inkLight }}>No books available</p>
+                                            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '17px', fontStyle: 'italic', color: T.inkLight }}>{h.catalogEmpty}</p>
                                         </div>
                                     )}
                                 </div>
@@ -366,7 +369,7 @@ export default function Header() {
                                     value={searchQuery}
                                     onChange={e => { setSearchQuery(e.target.value); if (e.target.value.trim()) setShowDropdown(true); }}
                                     onFocus={() => searchQuery && setShowDropdown(true)}
-                                    placeholder="Search books, authors…"
+                                    placeholder={h.searchPlaceholder}
                                     style={{
                                         flex: 1, padding: '0px 16px', height: '40px',
                                         border: 'none', outline: 'none', background: 'none',
@@ -393,13 +396,13 @@ export default function Header() {
                                     {searchLoading ? (
                                         <div style={{ padding: '20px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
                                             <div style={{ width: '16px', height: '16px', border: `2px solid ${T.clay}`, borderTop: `2px solid ${T.terra}`, borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
-                                            <span style={{ fontSize: '14px', color: T.inkLight, fontStyle: 'italic', fontFamily: "'Cormorant Garamond', serif" }}>Searching…</span>
+                                            <span style={{ fontSize: '14px', color: T.inkLight, fontStyle: 'italic', fontFamily: "'Cormorant Garamond', serif" }}>{h.searching}</span>
                                         </div>
                                     ) : searchResults.length > 0 ? (
                                         <>
                                             <div style={{ padding: '10px 16px 8px', borderBottom: `1px solid ${T.parchment}` }}>
                                                 <span style={{ fontSize: '14px', color: T.inkLight, letterSpacing: '0.16em', textTransform: 'uppercase', fontWeight: 500 }}>
-                                                    {searchResults.length} result{searchResults.length !== 1 ? 's' : ''}
+                                                    {h.searchResults(searchResults.length)}
                                                 </span>
                                             </div>
                                             {searchResults.map((book, i) => (
@@ -434,7 +437,7 @@ export default function Header() {
                                     ) : (
                                         <div style={{ padding: '24px 16px', textAlign: 'center' }}>
                                             <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '17px', fontStyle: 'italic', color: T.inkLight }}>
-                                                No books found for "{searchQuery}"
+                                                {h.searchEmpty(searchQuery)}
                                             </p>
                                         </div>
                                     )}
@@ -503,7 +506,7 @@ export default function Header() {
                                                     onMouseEnter={e => (e.currentTarget.style.backgroundColor = T.cream)}
                                                     onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
                                                 >
-                                                    Admin Dashboard
+                                                    {h.adminDashboard}
                                                     <span style={{ fontSize: '12px', color: T.clay }}>→</span>
                                                 </Link>
                                             )}
@@ -517,7 +520,7 @@ export default function Header() {
                                                 onMouseEnter={e => (e.currentTarget.style.backgroundColor = T.cream)}
                                                 onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
                                             >
-                                                My Orders
+                                                {h.myOrders}
                                                 <span style={{ fontSize: '12px', color: T.clay }}>→</span>
                                             </Link>
                                             <button onClick={() => { logout(); setShowUserMenu(false); }}
@@ -530,7 +533,7 @@ export default function Header() {
                                                 onMouseEnter={e => (e.currentTarget.style.backgroundColor = T.cream)}
                                                 onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
                                             >
-                                                Sign out
+                                                {h.signOut}
                                             </button>
                                         </div>
                                     )}
@@ -546,7 +549,7 @@ export default function Header() {
                                     }}
                                         onMouseEnter={e => { e.currentTarget.style.color = T.white; e.currentTarget.style.borderColor = T.border; }}
                                         onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.6)'; e.currentTarget.style.borderColor = 'transparent'; }}
-                                    >Login</Link>
+                                    >{h.login}</Link>
                                     <Link href={`/${lang}/register`} style={{
                                         display: isMobile ? 'none' : 'block',
                                         padding: '8px 16px', fontSize: '13px', fontWeight: 500,
@@ -557,7 +560,7 @@ export default function Header() {
                                     }}
                                         onMouseEnter={e => (e.currentTarget.style.backgroundColor = T.accentLight)}
                                         onMouseLeave={e => (e.currentTarget.style.backgroundColor = T.white)}
-                                    >Register</Link>
+                                    >{h.register}</Link>
                                 </div>
                             )}
                         </div>
@@ -616,11 +619,9 @@ export default function Header() {
                 <div style={{ display: !isMobile ? 'block' : 'none', borderTop: `1px solid rgba(255,255,255,0.08)`, backgroundColor: T.navBar }}>
                     <div style={{ maxWidth: '1300px', margin: '0 auto', padding: '0 30px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '44px' }}>
                         <nav style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-                            <NavLink href={`/${lang}/shop`}>Shop</NavLink>
-                            <NavLink href={`/${lang}/about`}>About Us</NavLink>
-                            <NavLink href={`/${lang}/contact`}>Contact</NavLink>
-                            <NavLink href={`/${lang}/faq`}>FAQ</NavLink>
-                            <NavLink href={`/${lang}/news`}>News</NavLink>
+                            {navItems.map(item => (
+                                <NavLink key={item.path} href={item.path}>{item.label}</NavLink>
+                            ))}
                         </nav>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                             <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', fontWeight: 300, display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -651,8 +652,7 @@ export default function Header() {
                     </div>
                 </div>
 
-                {/* ── MOBILE SEARCH BAR ── */}
-                {/* FIX: ref={mobileSearchRef} keeps this container inside the outside-click guard */}
+                {/* MOBILE SEARCH BAR */}
                 {isMobile && (
                     <div ref={mobileSearchRef} style={{ backgroundColor: T.navBar, borderBottom: `1px solid rgba(255,255,255,0.08)`, padding: '12px 16px', position: 'relative', zIndex: 35 }}>
                         <div style={{
@@ -670,7 +670,7 @@ export default function Header() {
                                 value={searchQuery}
                                 onChange={e => { setSearchQuery(e.target.value); if (e.target.value.trim()) setShowDropdown(true); }}
                                 onFocus={() => searchQuery && setShowDropdown(true)}
-                                placeholder="Search books, authors…"
+                                placeholder={h.searchPlaceholder}
                                 style={{
                                     flex: 1, padding: '0px 8px', height: '36px',
                                     border: 'none', outline: 'none', background: 'none',
@@ -697,13 +697,13 @@ export default function Header() {
                                     {searchLoading ? (
                                         <div style={{ padding: '16px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                                             <div style={{ width: '14px', height: '14px', border: `2px solid ${T.clay}`, borderTop: `2px solid ${T.terra}`, borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
-                                            <span style={{ fontSize: '12px', color: T.inkLight, fontStyle: 'italic', fontFamily: "'Cormorant Garamond', serif" }}>Searching…</span>
+                                            <span style={{ fontSize: '12px', color: T.inkLight, fontStyle: 'italic', fontFamily: "'Cormorant Garamond', serif" }}>{h.searching}</span>
                                         </div>
                                     ) : searchResults.length > 0 ? (
                                         <>
                                             <div style={{ padding: '8px 12px', borderBottom: `1px solid ${T.parchment}` }}>
                                                 <span style={{ fontSize: '12px', color: T.inkLight, letterSpacing: '0.16em', textTransform: 'uppercase', fontWeight: 500 }}>
-                                                    {searchResults.length} result{searchResults.length !== 1 ? 's' : ''}
+                                                    {h.searchResults(searchResults.length)}
                                                 </span>
                                             </div>
                                             {searchResults.map((book, i) => (
@@ -737,7 +737,7 @@ export default function Header() {
                                         </>
                                     ) : (
                                         <div style={{ padding: '16px 12px', textAlign: 'center' }}>
-                                            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '13px', fontStyle: 'italic', color: T.inkLight }}>No books found</p>
+                                            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '13px', fontStyle: 'italic', color: T.inkLight }}>{h.searchEmptyMobile}</p>
                                         </div>
                                     )}
                                 </div>
@@ -762,13 +762,7 @@ export default function Header() {
                         zIndex: 40, animation: 'slideIn 0.3s ease',
                     }}>
                         <nav style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-                            {[
-                                { path: `/${lang}/shop`, label: 'Shop' },
-                                { path: `/${lang}/about`, label: 'About Us' },
-                                { path: `/${lang}/contact`, label: 'Contact' },
-                                { path: `/${lang}/faq`, label: 'FAQ' },
-                                { path: `/${lang}/news`, label: 'News' },
-                            ].map(item => (
+                            {navItems.map(item => (
                                 <button key={item.path}
                                     onClick={() => { router.push(item.path); setMobileMenuOpen(false); }}
                                     style={{

@@ -427,7 +427,6 @@ export default function ShopPage() {
                         opacity: sidebarOpen ? 1 : 0,
                         transition: 'opacity 0.25s ease',
                         position: 'sticky',
-                        top: '24px',
                         display: isMobile ? 'none' : 'block',
                     }}>
                         <div style={{
