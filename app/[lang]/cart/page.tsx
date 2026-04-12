@@ -23,7 +23,7 @@ type LocalizedField = string | { [key: string]: string };
 
 /* ─────────────── RESPONSIVE STYLES ─────────────── */
 const responsiveStyles = `
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Outfit:wght@300;400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
   ::selection { background: ${T.terra}; color: ${T.white}; }
 
   /* Base Layout */
@@ -182,7 +182,7 @@ function CartItem({ item, language, getLocalizedText, onRemove, index, t }: {
                             background: 'none', border: 'none', cursor: 'pointer',
                             fontSize: '10px', fontWeight: 500, letterSpacing: '0.12em',
                             textTransform: 'uppercase', color: T.clay,
-                            fontFamily: "'Outfit', sans-serif",
+                            fontFamily: "'', sans-serif",
                             transition: 'color 0.2s ease',
                             padding: 0,
                         }}
@@ -217,7 +217,7 @@ export default function CartPage() {
     /* ── EMPTY STATE ── */
     if (cart.length === 0) return (
         <div style={{
-            fontFamily: "'Outfit', sans-serif",
+            fontFamily: "'', sans-serif",
             backgroundColor: T.white,
             minHeight: '70vh',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -252,7 +252,7 @@ export default function CartPage() {
                     fontSize: '10px', fontWeight: 500,
                     letterSpacing: '0.18em', textTransform: 'uppercase',
                     borderRadius: '2px', textDecoration: 'none',
-                    fontFamily: "'Outfit', sans-serif",
+                    fontFamily: "'', sans-serif",
                     transition: 'background-color 0.2s ease',
                 }}
                     onMouseEnter={e => (e.currentTarget.style.backgroundColor = T.terraDark)}
@@ -267,7 +267,7 @@ export default function CartPage() {
     /* ── FULL CART ── */
     return (
         <div style={{
-            fontFamily: "'Outfit', sans-serif", backgroundColor: T.white,
+            fontFamily: "'', sans-serif", backgroundColor: T.white,
             minHeight: '100vh', color: T.ink,
         }}>
             <style>{responsiveStyles}</style>
@@ -478,7 +478,7 @@ function PromoStrip({ t }: { t: (key: string) => string }) {
                 style={{
                     width: '100%', padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     background: 'none', border: 'none', cursor: 'pointer',
-                    fontFamily: "'Outfit', sans-serif", backgroundColor: open ? T.cream : T.white,
+                    fontFamily: "'', sans-serif", backgroundColor: open ? T.cream : T.white,
                     transition: 'background-color 0.2s ease',
                 }}
             >
@@ -512,7 +512,7 @@ function PromoStrip({ t }: { t: (key: string) => string }) {
                                 style={{
                                     flex: 1, padding: '10px 14px',
                                     border: `1px solid ${focused ? T.terra : T.clay}`, borderRadius: '2px', outline: 'none',
-                                    fontSize: '13px', color: T.ink, fontFamily: "'Outfit', sans-serif",
+                                    fontSize: '13px', color: T.ink, fontFamily: "'', sans-serif",
                                     backgroundColor: T.white, transition: 'border-color 0.2s ease',
                                 }}
                             />
@@ -522,7 +522,7 @@ function PromoStrip({ t }: { t: (key: string) => string }) {
                                     padding: '10px 20px', backgroundColor: T.ink, color: T.white,
                                     fontSize: '10px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase',
                                     border: 'none', borderRadius: '2px', cursor: 'pointer',
-                                    fontFamily: "'Outfit', sans-serif",
+                                    fontFamily: "'', sans-serif",
                                 }}
                             >
                                 {t('promoApply')}

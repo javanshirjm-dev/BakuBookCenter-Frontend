@@ -50,9 +50,9 @@ export default function Footer() {
     const submit = (e: React.FormEvent) => { e.preventDefault(); if (email.trim()) setSubscribed(true); };
 
     return (
-        <footer style={{ fontFamily: "'Outfit', sans-serif" }}>
+        <footer style={{ fontFamily: "'', sans-serif" }}>
             <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Outfit:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
 
         .ft-link   { font-size:13px; font-weight:300; color:${T.inkL}; text-decoration:none; display:block; padding:5px 0; transition:color 0.18s; }
         .ft-link:hover { color:${T.ink}; }

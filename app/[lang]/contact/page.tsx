@@ -68,7 +68,7 @@ function Field({ label, type = "text", name, value, onChange, required = false, 
                 letterSpacing: "0.18em",
                 textTransform: "uppercase",
                 color: focused ? T.terra : T.inkLight,
-                fontFamily: "'Outfit', sans-serif",
+                fontFamily: "'', sans-serif",
                 transition: "color 0.2s ease",
             }}>
                 {label}{required && <span style={{ color: T.terra, marginLeft: "4px" }}>*</span>}
@@ -82,7 +82,7 @@ function Field({ label, type = "text", name, value, onChange, required = false, 
                 placeholder={placeholder}
                 rows={isTextarea ? 6 : undefined}
                 style={{
-                    fontFamily: "'Outfit', sans-serif",
+                    fontFamily: "'', sans-serif",
                     fontSize: "14px",
                     fontWeight: 300,
                     color: T.ink,
@@ -155,14 +155,14 @@ export default function ContactPage() {
 
     return (
         <div style={{
-            fontFamily: "'Outfit', sans-serif",
+            fontFamily: "'', sans-serif",
             backgroundColor: T.white,
             color: T.ink,
             minHeight: "100vh",
             overflowX: "hidden"
         }}>
             <style>{`
-                @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Outfit:wght@300;400;500&display=swap');
+                @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap');
                 
                 ::selection { background: ${T.terra}; color: ${T.white}; }
                 input::placeholder, textarea::placeholder { color: ${T.clay}; }

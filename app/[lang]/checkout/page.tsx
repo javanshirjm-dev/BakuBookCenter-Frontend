@@ -193,7 +193,7 @@ export default function CheckoutPage() {
 
     if (cartItems.length === 0) return (
         <div style={{ minHeight: '100vh', backgroundColor: WHITE, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Outfit', sans-serif" }}>
-            <style>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Outfit:wght@300;400;500&display=swap');`}</style>
+            <style>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');`}</style>
             <div style={{ textAlign: 'center' }}>
                 <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '60px', color: PARCHMENT, lineHeight: 1, marginBottom: '20px' }}>◎</p>
                 <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '32px', fontWeight: 400, color: INK, marginBottom: '12px' }}>{co.cartEmpty}</h2>
@@ -209,9 +209,9 @@ export default function CheckoutPage() {
     ];
 
     return (
-        <div style={{ fontFamily: "'Outfit', sans-serif", backgroundColor: WHITE, minHeight: '100vh', color: INK }}>
+        <div style={{ fontFamily: "'', sans-serif", backgroundColor: WHITE, minHeight: '100vh', color: INK }}>
             <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Outfit:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
         ::selection { background:${TERRA}; color:${WHITE}; }
         @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
         @keyframes spin   { to{transform:rotate(360deg)} }

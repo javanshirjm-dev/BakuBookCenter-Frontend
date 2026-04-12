@@ -58,8 +58,8 @@ export default function NewsPage() {
 
     /* ── LOADING ── */
     if (loading) return (
-        <div style={{ minHeight: '100vh', backgroundColor: WHITE, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Outfit', sans-serif" }}>
-            <style>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Outfit:wght@300;400;500&display=swap'); @keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        <div style={{ minHeight: '100vh', backgroundColor: WHITE, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'', sans-serif" }}>
+            <style>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap'); @keyframes spin { to { transform: rotate(360deg); } }`}</style>
             <div style={{ textAlign: 'center' }}>
                 <div style={{ width: '40px', height: '40px', border: '2px solid #EFE9DF', borderTop: '2px solid #B5623E', borderRadius: '50%', margin: '0 auto 20px', animation: 'spin 0.8s linear infinite' }} />
                 <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '18px', fontStyle: 'italic', color: INK_LIGHT }}>
@@ -70,9 +70,9 @@ export default function NewsPage() {
     );
 
     return (
-        <div style={{ fontFamily: "'Outfit', sans-serif", backgroundColor: WHITE, minHeight: '100vh', color: INK }}>
+        <div style={{ fontFamily: "'', sans-serif", backgroundColor: WHITE, minHeight: '100vh', color: INK }}>
             <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Outfit:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
         ::selection { background: ${TERRA}; color: ${WHITE}; }
 
         @keyframes slideDown  { from { opacity:0; transform:translateY(-28px); } to { opacity:1; transform:translateY(0); } }

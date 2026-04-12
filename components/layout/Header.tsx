@@ -53,15 +53,15 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
             onMouseLeave={() => setHovered(false)}
             style={{
                 fontSize: '12px',
-                fontWeight: 500,
+                fontWeight: 600,
                 letterSpacing: '0.14em',
                 textTransform: 'uppercase',
                 color: isActive ? T.accentLight : (hovered ? T.white : 'rgba(255,255,255,0.6)'),
                 textDecoration: 'none',
-                paddingBottom: '2px',
+                paddingBottom: '1px',
                 borderBottom: `1px solid ${isActive ? T.accentLight : 'transparent'}`,
                 transition: 'color 0.2s ease, border-color 0.2s ease',
-                fontFamily: "'Outfit', sans-serif",
+                fontFamily: "'', sans-serif",
             }}
         >
             {children}

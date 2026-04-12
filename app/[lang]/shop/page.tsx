@@ -2,6 +2,9 @@
 
 import { useState, useEffect, useMemo } from "react";
 import BookCard from "../../../components/ui/homepage/BookCard";
+import { useLanguage } from "@/context/LanguageContext";
+import { useParams } from "next/navigation";
+import { translations, Language } from "@/locales/translations";
 
 /* ─────────────── DESIGN TOKENS ─────────────── */
 const T = {
@@ -44,7 +47,7 @@ function FilterSection({
                     width: '100%', display: 'flex', justifyContent: 'space-between',
                     alignItems: 'center', background: 'none', border: 'none',
                     cursor: 'pointer', padding: '0 0 14px',
-                    fontFamily: "'Outfit', sans-serif",
+                    fontFamily: "'', sans-serif",
                 }}
             >
                 <span style={{
@@ -106,7 +109,7 @@ function CheckRow({
                 fontSize: '13px', fontWeight: checked ? 500 : 300,
                 color: checked ? T.ink : (hovered ? T.inkMid : T.inkLight),
                 transition: 'color 0.15s ease',
-                fontFamily: "'Outfit', sans-serif",
+                fontFamily: "'', sans-serif",
             }}>
                 {label}
             </span>
@@ -116,6 +119,13 @@ function CheckRow({
 
 /* ─────────────── PAGE ─────────────── */
 export default function ShopPage() {
+    /* ── LANGUAGE & TRANSLATIONS ── */
+    const { language: lang } = useLanguage();
+    const params = useParams();
+    const langParam = (params?.lang as string) || 'en';
+    const t = translations[lang as Language];
+    const shop = t.shop;
+
     /* ── STATE (all identical to original) ── */
     const [books, setBooks] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -241,13 +251,13 @@ export default function ShopPage() {
     /* ── RENDER ── */
     return (
         <div style={{
-            fontFamily: "'Outfit', sans-serif",
+            fontFamily: "'', sans-serif",
             backgroundColor: T.white,
             color: T.ink,
             minHeight: '100vh',
         }}>
             <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Outfit:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
         ::selection { background: ${T.terra}; color: ${T.white}; }
         input[type=number]::-webkit-inner-spin-button,
         input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
@@ -293,14 +303,14 @@ export default function ShopPage() {
                             fontSize: '10px', fontWeight: 500, letterSpacing: '0.22em',
                             textTransform: 'uppercase', color: T.terra, marginBottom: '14px',
                         }}>
-                            The Collection
+                            {shop.sectionLabel}
                         </p>
                         <h1 style={{
                             fontFamily: "'Cormorant Garamond', serif",
                             fontSize: 'clamp(40px, 5vw, 68px)',
                             fontWeight: 400, lineHeight: 1.0, color: T.ink,
                         }}>
-                            All Books
+                            {shop.pageTitle}
                         </h1>
                     </div>
                     <p style={{
@@ -308,7 +318,7 @@ export default function ShopPage() {
                         fontSize: '16px', fontStyle: 'italic',
                         color: T.clay, paddingBottom: '8px',
                     }}>
-                        {loading ? 'Loading…' : `${books.length} titles, hand-picked`}
+                        {loading ? shop.loading : `${books.length} ${shop.titlesHandPicked}`}
                     </p>
                 </div>
 
@@ -333,7 +343,7 @@ export default function ShopPage() {
                                 letterSpacing: '0.1em', textTransform: 'uppercase',
                                 color: sidebarOpen ? T.terra : T.inkLight,
                                 transition: 'all 0.2s ease',
-                                fontFamily: "'Outfit', sans-serif",
+                                fontFamily: "'', sans-serif",
                             }}
                         >
                             <svg width="14" height="12" viewBox="0 0 14 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
@@ -341,7 +351,7 @@ export default function ShopPage() {
                                 <line x1="3" y1="6" x2="14" y2="6" />
                                 <line x1="6" y1="10" x2="14" y2="10" />
                             </svg>
-                            Filters
+                            {shop.filtersButton}
                             {activeFilterCount > 0 && (
                                 <span style={{
                                     backgroundColor: T.terra, color: T.white,
@@ -355,7 +365,7 @@ export default function ShopPage() {
                         </button>
                         {!loading && (
                             <p style={{ fontSize: '13px', color: T.inkLight, fontWeight: 300 }}>
-                                <span style={{ fontWeight: 500, color: T.ink }}>{filteredBooks.length}</span> results
+                                <span style={{ fontWeight: 500, color: T.ink }}>{filteredBooks.length}</span> {shop.results}
                                 {activeFilterCount > 0 && (
                                     <button
                                         onClick={resetFilters}
@@ -363,10 +373,10 @@ export default function ShopPage() {
                                             marginLeft: '10px', fontSize: '11px', color: T.terra,
                                             background: 'none', border: 'none', cursor: 'pointer',
                                             textDecoration: 'underline', textUnderlineOffset: '2px',
-                                            fontFamily: "'Outfit', sans-serif",
+                                            fontFamily: "'', sans-serif",
                                         }}
                                     >
-                                        Clear all
+                                        {shop.clearAll}
                                     </button>
                                 )}
                             </p>
@@ -376,7 +386,7 @@ export default function ShopPage() {
                     {/* Right: sort */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         <span style={{ fontSize: '11px', color: T.inkLight, letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 500 }}>
-                            Sort
+                            {shop.sort}
                         </span>
                         <div style={{ position: 'relative' }}>
                             <select
@@ -390,15 +400,15 @@ export default function ShopPage() {
                                     backgroundColor: T.white,
                                     fontSize: '12px', fontWeight: 400,
                                     color: T.ink, cursor: 'pointer',
-                                    fontFamily: "'Outfit', sans-serif",
+                                    fontFamily: "'', sans-serif",
                                     outline: 'none',
                                     letterSpacing: '0.02em',
                                 }}
                             >
-                                <option value="latest">Latest</option>
-                                <option value="random">Random</option>
-                                <option value="lowToHigh">Price ↑</option>
-                                <option value="highToLow">Price ↓</option>
+                                <option value="latest">{shop.sortLatest}</option>
+                                <option value="random">{shop.sortRandom}</option>
+                                <option value="lowToHigh">{shop.sortLowToHigh}</option>
+                                <option value="highToLow">{shop.sortHighToLow}</option>
                             </select>
                             <span style={{
                                 position: 'absolute', right: '12px', top: '50%',
@@ -445,21 +455,9 @@ export default function ShopPage() {
                                     fontFamily: "'Cormorant Garamond', serif",
                                     fontSize: '20px', fontWeight: 400, color: T.ink,
                                 }}>
-                                    Refine
+                                    {shop.refine}
                                 </p>
-                                {activeFilterCount > 0 && (
-                                    <button
-                                        onClick={resetFilters}
-                                        style={{
-                                            fontSize: '10px', fontWeight: 500,
-                                            letterSpacing: '0.1em', textTransform: 'uppercase',
-                                            color: T.terra, background: 'none', border: 'none',
-                                            cursor: 'pointer', fontFamily: "'Outfit', sans-serif",
-                                        }}
-                                    >
-                                        Clear {activeFilterCount}
-                                    </button>
-                                )}
+
                             </div>
 
                             {/* Search */}
@@ -479,7 +477,7 @@ export default function ShopPage() {
                                     </span>
                                     <input
                                         type="text"
-                                        placeholder="Title or author…"
+                                        placeholder={shop.titleOrAuthor}
                                         value={searchQuery}
                                         onChange={e => setSearchQuery(e.target.value)}
                                         onFocus={() => setSearchFocused(true)}
@@ -488,7 +486,7 @@ export default function ShopPage() {
                                             width: '100%', padding: '11px 12px 11px 30px',
                                             background: 'none', border: 'none', outline: 'none',
                                             fontSize: '13px', fontWeight: 300, color: T.ink,
-                                            fontFamily: "'Outfit', sans-serif",
+                                            fontFamily: "'', sans-serif",
                                         }}
                                     />
                                     {searchQuery && (
@@ -508,7 +506,7 @@ export default function ShopPage() {
                             </div>
 
                             {/* Price Range */}
-                            <FilterSection title="Price Range">
+                            <FilterSection title={shop.priceRange}>
                                 <div style={{ paddingBottom: '16px' }}>
                                     <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                                         <div style={{ flex: 1 }}>
@@ -598,7 +596,7 @@ export default function ShopPage() {
 
                             {/* Categories */}
                             {categories.length > 0 && (
-                                <FilterSection title="Categories">
+                                <FilterSection title={shop.categories}>
                                     <div style={{ maxHeight: '200px', overflowY: 'auto', paddingBottom: '16px' }}>
                                         {categories.map(cat => (
                                             <CheckRow
@@ -614,7 +612,7 @@ export default function ShopPage() {
 
                             {/* Authors */}
                             {authors.length > 0 && (
-                                <FilterSection title="Authors">
+                                <FilterSection title={shop.authors}>
                                     <div style={{ maxHeight: '200px', overflowY: 'auto', paddingBottom: '16px' }}>
                                         {authors.map(author => (
                                             <CheckRow
@@ -630,7 +628,7 @@ export default function ShopPage() {
 
                             {/* Languages */}
                             {languages.length > 0 && (
-                                <FilterSection title="Language">
+                                <FilterSection title={shop.language}>
                                     <div style={{ maxHeight: '160px', overflowY: 'auto', paddingBottom: '16px' }}>
                                         {languages.map(lang => (
                                             <CheckRow
@@ -666,7 +664,7 @@ export default function ShopPage() {
                                     fontFamily: "'Cormorant Garamond', serif",
                                     fontSize: '18px', fontStyle: 'italic', color: T.inkLight,
                                 }}>
-                                    Curating your collection…
+                                    {shop.curatingCollection}
                                 </p>
                             </div>
                         ) : filteredBooks.length > 0 ? (
@@ -685,7 +683,7 @@ export default function ShopPage() {
                                             animation: `fadeUp 0.5s ease ${Math.min(i * 40, 400)}ms both`,
                                         }}
                                     >
-                                        <BookCard book={book} lang="en" />
+                                        <BookCard book={book} lang={langParam as Language} />
                                     </div>
                                 ))}
                             </div>
@@ -710,13 +708,13 @@ export default function ShopPage() {
                                     fontSize: '24px', fontWeight: 400,
                                     color: T.ink, marginBottom: '4px',
                                 }}>
-                                    No books match your filters
+                                    {shop.noBooks}
                                 </h3>
                                 <p style={{
                                     fontSize: '13px', color: T.inkLight,
                                     fontWeight: 300, marginBottom: '20px',
                                 }}>
-                                    Try adjusting your price range or removing some filters.
+                                    {shop.noBooksDesc}
                                 </p>
                                 <button
                                     onClick={resetFilters}
@@ -726,10 +724,10 @@ export default function ShopPage() {
                                         fontSize: '11px', fontWeight: 500,
                                         letterSpacing: '0.14em', textTransform: 'uppercase',
                                         border: 'none', borderRadius: '2px', cursor: 'pointer',
-                                        fontFamily: "'Outfit', sans-serif",
+                                        fontFamily: "'', sans-serif",
                                     }}
                                 >
-                                    Clear All Filters
+                                    {shop.clearAll}
                                 </button>
                             </div>
                         )}
@@ -747,11 +745,11 @@ export default function ShopPage() {
                         <div style={{ padding: '20px 20px 48px' }}>
                             {/* Header */}
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', paddingBottom: '16px', borderBottom: `1px solid ${T.parchment}` }}>
-                                <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '22px', fontWeight: 400, color: T.ink }}>Refine</p>
+                                <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '22px', fontWeight: 400, color: T.ink }}>{shop.refine}</p>
                                 <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                                     {activeFilterCount > 0 && (
-                                        <button onClick={resetFilters} style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: T.terra, background: 'none', border: 'none', cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>
-                                            Clear {activeFilterCount}
+                                        <button onClick={resetFilters} style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: T.terra, background: 'none', border: 'none', cursor: 'pointer', fontFamily: "'', sans-serif" }}>
+                                            {shop.clearAll} {activeFilterCount}
                                         </button>
                                     )}
                                     <button onClick={() => setSidebarOpen(false)} style={{ width: '32px', height: '32px', border: `1px solid ${T.parchment}`, borderRadius: '2px', background: 'none', cursor: 'pointer', fontSize: '18px', color: T.inkLight, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>×</button>
@@ -761,12 +759,12 @@ export default function ShopPage() {
                             {/* Search */}
                             <div style={{ position: 'relative', border: `1px solid ${T.clay}`, borderRadius: '2px', backgroundColor: T.white, marginBottom: '8px' }}>
                                 <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', fontSize: '13px', color: T.clay, pointerEvents: 'none' }}>⌕</span>
-                                <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search books, authors…"
-                                    style={{ width: '100%', padding: '11px 12px 11px 34px', border: 'none', outline: 'none', background: 'none', fontSize: '13px', fontWeight: 300, color: T.ink, fontFamily: "'Outfit', sans-serif", boxSizing: 'border-box' }} />
+                                <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder={shop.searchPlaceholder}
+                                    style={{ width: '100%', padding: '11px 12px 11px 34px', border: 'none', outline: 'none', background: 'none', fontSize: '13px', fontWeight: 300, color: T.ink, fontFamily: "'', sans-serif", boxSizing: 'border-box' }} />
                             </div>
 
                             {/* Price */}
-                            <FilterSection title="Price Range">
+                            <FilterSection title={shop.priceRange}>
                                 <div style={{ paddingBottom: '12px' }}>
                                     <div style={{ display: 'flex', gap: '10px', marginBottom: '12px' }}>
                                         {[{ label: 'Min', value: minInput, setter: setMinInput, numSetter: setMinPrice }, { label: 'Max', value: maxInput, setter: setMaxInput, numSetter: setMaxPrice }].map(({ label, value, setter, numSetter }) => (
@@ -777,7 +775,7 @@ export default function ShopPage() {
                                                     <input type="number" value={value}
                                                         onChange={e => { setter(e.target.value); const n = parseFloat(e.target.value); if (!isNaN(n)) numSetter(n); }}
                                                         onBlur={() => { const n = parseFloat(value); setter(isNaN(n) ? '0' : String(Math.max(0, Math.min(n, storeMaxPrice)))); }}
-                                                        style={{ width: '100%', padding: '9px 10px 9px 24px', border: 'none', outline: 'none', background: 'none', fontSize: '13px', color: T.ink, fontFamily: "'Outfit', sans-serif", boxSizing: 'border-box' }} />
+                                                        style={{ width: '100%', padding: '9px 10px 9px 24px', border: 'none', outline: 'none', background: 'none', fontSize: '13px', color: T.ink, fontFamily: "'', sans-serif", boxSizing: 'border-box' }} />
                                                 </div>
                                             </div>
                                         ))}
@@ -786,7 +784,7 @@ export default function ShopPage() {
                             </FilterSection>
 
                             {categories.length > 0 && (
-                                <FilterSection title="Category">
+                                <FilterSection title={shop.categories}>
                                     <div style={{ maxHeight: '160px', overflowY: 'auto', paddingBottom: '12px' }}>
                                         {categories.map(cat => <CheckRow key={cat as string} label={cat as string} checked={selectedCategories.includes(cat as string)} onChange={() => toggleSelection(setSelectedCategories, cat as string)} />)}
                                     </div>
@@ -794,7 +792,7 @@ export default function ShopPage() {
                             )}
 
                             {authors.length > 0 && (
-                                <FilterSection title="Authors">
+                                <FilterSection title={shop.authors}>
                                     <div style={{ maxHeight: '160px', overflowY: 'auto', paddingBottom: '12px' }}>
                                         {authors.map(author => <CheckRow key={author as string} label={author as string} checked={selectedAuthors.includes(author as string)} onChange={() => toggleSelection(setSelectedAuthors, author as string)} />)}
                                     </div>
@@ -802,15 +800,15 @@ export default function ShopPage() {
                             )}
 
                             {languages.length > 0 && (
-                                <FilterSection title="Language">
+                                <FilterSection title={shop.language}>
                                     <div style={{ maxHeight: '140px', overflowY: 'auto', paddingBottom: '12px' }}>
                                         {languages.map(lang => <CheckRow key={lang as string} label={lang as string} checked={selectedLanguages.includes(lang as string)} onChange={() => toggleSelection(setSelectedLanguages, lang as string)} />)}
                                     </div>
                                 </FilterSection>
                             )}
 
-                            <button onClick={() => setSidebarOpen(false)} style={{ width: '100%', marginTop: '24px', padding: '14px', backgroundColor: T.terra, color: T.white, border: 'none', borderRadius: '2px', fontSize: '11px', fontWeight: 500, letterSpacing: '0.16em', textTransform: 'uppercase', cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>
-                                {filteredBooks.length === 0 ? 'No results' : `Show ${filteredBooks.length} book${filteredBooks.length !== 1 ? 's' : ''}`}
+                            <button onClick={() => setSidebarOpen(false)} style={{ width: '100%', marginTop: '24px', padding: '14px', backgroundColor: T.terra, color: T.white, border: 'none', borderRadius: '2px', fontSize: '11px', fontWeight: 500, letterSpacing: '0.16em', textTransform: 'uppercase', cursor: 'pointer', fontFamily: "'', sans-serif" }}>
+                                {filteredBooks.length === 0 ? shop.noResults : shop.showBooks(filteredBooks.length)}
                             </button>
                         </div>
                     </div>

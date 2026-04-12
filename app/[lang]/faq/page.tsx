@@ -39,9 +39,9 @@ export default function FAQPage() {
     };
 
     return (
-        <div style={{ fontFamily: "'Outfit', sans-serif", backgroundColor: WHITE, minHeight: '100vh', color: INK, overflowX: 'hidden' }}>
+        <div style={{ fontFamily: "'', sans-serif", backgroundColor: WHITE, minHeight: '100vh', color: INK, overflowX: 'hidden' }}>
             <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Outfit:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
 
         ::selection { background: ${TERRA}; color: ${WHITE}; }
 
@@ -192,7 +192,7 @@ export default function FAQPage() {
                                     display: 'flex', alignItems: 'center', gap: '10px',
                                     padding: '20px 28px',
                                     background: 'none', border: 'none', borderBottom: '2px solid transparent',
-                                    cursor: 'pointer', fontFamily: "'Outfit', sans-serif",
+                                    cursor: 'pointer', fontFamily: "'', sans-serif",
                                     color: isActive ? INK : INK_LIGHT,
                                 }}
                             >
@@ -254,7 +254,7 @@ export default function FAQPage() {
                                             width: '100%', textAlign: 'left', padding: '13px 0',
                                             background: 'none', border: 'none',
                                             borderBottom: '1px solid #EFE9DF',
-                                            cursor: 'pointer', fontFamily: "'Outfit', sans-serif",
+                                            cursor: 'pointer', fontFamily: "'', sans-serif",
                                         }}
                                     >
                                         <span style={{

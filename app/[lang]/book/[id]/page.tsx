@@ -182,13 +182,13 @@ export default function BookDetailPage() {
     /* ── PAGE ── */
     return (
         <div style={{
-            fontFamily: "'Outfit', sans-serif",
+            fontFamily: "'', sans-serif",
             backgroundColor: T.white,
             color: T.ink,
             minHeight: '100vh',
         }}>
             <style>{`
-                @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Outfit:wght@300;400;500&display=swap');
+                @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap');
                 ::selection { background: ${T.terra}; color: ${T.white}; }
                 @keyframes spin { to { transform: rotate(360deg); } }
                 @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
