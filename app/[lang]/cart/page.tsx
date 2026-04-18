@@ -437,7 +437,7 @@ export default function CartPage() {
                                             fontSize: '11px', fontWeight: 500,
                                             letterSpacing: '0.16em', textTransform: 'uppercase',
                                             border: 'none', borderRadius: '2px', cursor: 'pointer',
-                                            fontFamily: "'Outfit', sans-serif", transition: 'background-color 0.2s ease',
+                                            fontFamily: "'', sans-serif", transition: 'background-color 0.2s ease',
                                             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
                                         }}
                                         onMouseEnter={e => (e.currentTarget.style.backgroundColor = T.terraDark)}

@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { translations, Language } from '@/locales/translations';
 import Link from 'next/link';
 
 const TERRA = '#B5623E';
@@ -38,6 +40,9 @@ export default function OrdersPage() {
     const searchParams = useSearchParams();
     const lang = (params.lang as string) || 'en';
     const { user } = useAuth();
+    const { language } = useLanguage();
+    const t = translations[language as Language];
+    const o = t.orders;
 
     const [orders, setOrders] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -174,7 +179,7 @@ export default function OrdersPage() {
                         color: PARCHMENT, lineHeight: 1,
                         userSelect: 'none', pointerEvents: 'none', whiteSpace: 'nowrap',
                     }}>
-                        Orders.
+                        {o.watermark}
                     </div>
 
                     <div style={{ position: 'relative', display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '24px' }}>
@@ -182,7 +187,7 @@ export default function OrdersPage() {
                             <div className="anim-down d-1" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
                                 <div style={{ width: '28px', height: '2px', backgroundColor: TERRA }} />
                                 <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', color: TERRA }}>
-                                    My Account
+                                    {o.sectionLabel}
                                 </p>
                             </div>
                             <h1 className="anim-up d-2" style={{
@@ -190,7 +195,7 @@ export default function OrdersPage() {
                                 fontSize: 'clamp(40px, 5vw, 68px)',
                                 fontWeight: 400, lineHeight: 1.0, color: INK,
                             }}>
-                                Your Orders
+                                {o.pageTitle}
                             </h1>
                         </div>
 
@@ -198,7 +203,7 @@ export default function OrdersPage() {
                             <div className="anim-fade d-3" style={{ display: 'flex', alignItems: 'baseline', gap: '6px', paddingBottom: '8px' }}>
                                 <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '36px', fontWeight: 400, color: INK }}>{orders.length}</span>
                                 <span style={{ fontSize: '12px', color: INK_LIGHT, fontWeight: 300, letterSpacing: '0.04em' }}>
-                                    {orders.length === 1 ? 'order placed' : 'orders placed'}
+                                    {o.orderCount(orders.length)}
                                 </span>
                             </div>
                         )}
@@ -219,8 +224,8 @@ export default function OrdersPage() {
                     }}>
                         <span style={{ color: '#3A6B4A', fontSize: '16px' }}>✓</span>
                         <div>
-                            <p style={{ fontSize: '13px', color: '#2A5438', fontWeight: 500 }}>Order placed successfully!</p>
-                            <p style={{ fontSize: '12px', color: '#3A6B4A', fontWeight: 300 }}>A confirmation email has been sent to {user?.email}.</p>
+                            <p style={{ fontSize: '13px', color: '#2A5438', fontWeight: 500 }}>{o.successMessage}</p>
+                            <p style={{ fontSize: '12px', color: '#3A6B4A', fontWeight: 300 }}>{o.successDetail(user?.email || '')}</p>
                         </div>
                     </div>
                 )}
@@ -233,7 +238,7 @@ export default function OrdersPage() {
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '320px', gap: '20px' }}>
                             <div style={{ width: '36px', height: '36px', border: '2px solid #EFE9DF', borderTop: '2px solid #B5623E', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
                             <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '18px', fontStyle: 'italic', color: INK_LIGHT }}>
-                                Fetching your orders…
+                                {o.loadingOrders}
                             </p>
                         </div>
                     )}
@@ -243,10 +248,10 @@ export default function OrdersPage() {
                         <div className="anim-up" style={{ textAlign: 'center', padding: '100px 0' }}>
                             <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '64px', color: PARCHMENT, lineHeight: 1, marginBottom: '24px' }}>◎</p>
                             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '36px', fontWeight: 400, color: INK, marginBottom: '12px' }}>
-                                No orders yet.
+                                {o.noOrdersTitle}
                             </h2>
                             <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '18px', fontStyle: 'italic', color: INK_LIGHT, marginBottom: '36px' }}>
-                                Your next favourite book is waiting for you.
+                                {o.noOrdersDesc}
                             </p>
                             <Link href={`/${lang}/shop`} className="shop-btn" style={{
                                 display: 'inline-block', padding: '14px 36px',
@@ -256,7 +261,7 @@ export default function OrdersPage() {
                                 borderRadius: '2px', textDecoration: 'none',
                                 transition: 'background-color 0.2s ease',
                             }}>
-                                Browse the Shop
+                                {o.browseShop}
                             </Link>
                         </div>
                     )}
@@ -267,7 +272,7 @@ export default function OrdersPage() {
 
                             {/* Column headers */}
                             <div className="order-list-header order-grid-layout header-padding">
-                                {['Order', 'Items', 'Date', 'Total', 'Status', ''].map((h, i) => (
+                                {o.orderTableHeaders.map((h, i) => (
                                     <p key={i} className="grid-header-text">{h}</p>
                                 ))}
                             </div>
@@ -357,7 +362,7 @@ export default function OrdersPage() {
                                                     {/* Address */}
                                                     <div className="details-col">
                                                         <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: TERRA, marginBottom: '12px' }}>
-                                                            Delivery Address
+                                                            {o.deliveryAddress}
                                                         </p>
                                                         <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '17px', color: INK, lineHeight: 1.7 }}>
                                                             {order.deliveryAddress.street}<br />
@@ -369,7 +374,7 @@ export default function OrdersPage() {
                                                     {/* Recipient */}
                                                     <div className="details-col">
                                                         <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: TERRA, marginBottom: '12px' }}>
-                                                            Recipient
+                                                            {o.recipient}
                                                         </p>
                                                         <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '20px', fontWeight: 500, color: INK, marginBottom: '4px' }}>
                                                             {order.customerInfo.recipientName}
@@ -385,12 +390,12 @@ export default function OrdersPage() {
                                                     {/* Payment */}
                                                     <div className="details-col">
                                                         <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: TERRA, marginBottom: '12px' }}>
-                                                            Payment
+                                                            {o.payment}
                                                         </p>
                                                         <p style={{ fontSize: '13px', color: INK_LIGHT, fontWeight: 300, marginBottom: '6px' }}>
-                                                            Card ending in{' '}
+                                                            {o.cardEnding}{' '}
                                                             <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '18px', fontWeight: 500, color: INK }}>
-                                                                •••• {order.paymentInfo?.lastFourDigits || '****'}
+                                                                {o.lastFourDigits} {order.paymentInfo?.lastFourDigits || '****'}
                                                             </span>
                                                         </p>
                                                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '12px' }}>
@@ -405,7 +410,7 @@ export default function OrdersPage() {
                                                 {/* Books list */}
                                                 <div className="books-section">
                                                     <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: TERRA, marginBottom: '16px' }}>
-                                                        Items in this Order
+                                                        {o.itemsInOrder}
                                                     </p>
                                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0', border: '1px solid #EFE9DF', borderRadius: '4px', overflow: 'hidden' }}>
                                                         {order.books.map((book: any, i: number) => {
@@ -429,7 +434,7 @@ export default function OrdersPage() {
                                                                             {name}
                                                                         </p>
                                                                         <p style={{ fontSize: '11px', color: INK_LIGHT, fontWeight: 300, letterSpacing: '0.04em' }}>
-                                                                            Qty: {book.quantity}
+                                                                            {o.quantity}: {book.quantity}
                                                                         </p>
                                                                     </div>
                                                                     <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '20px', fontWeight: 500, color: INK, flexShrink: 0 }}>
@@ -446,7 +451,7 @@ export default function OrdersPage() {
                                                             borderTop: '1px solid #EFE9DF',
                                                         }}>
                                                             <span style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.16em', textTransform: 'uppercase', color: INK_LIGHT }}>
-                                                                Order Total
+                                                                {o.orderTotal}
                                                             </span>
                                                             <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '26px', fontWeight: 500, color: INK }}>
                                                                 ${order.totalPrice.toFixed(2)}
@@ -472,7 +477,7 @@ export default function OrdersPage() {
                                 color: INK_LIGHT, textDecoration: 'none',
                                 transition: 'color 0.2s ease',
                             }}>
-                                Continue Shopping →
+                                {o.continueShopping}
                             </Link>
                             <div style={{ flex: 1, height: '1px', backgroundColor: PARCHMENT }} />
                         </div>

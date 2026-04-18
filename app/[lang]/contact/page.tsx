@@ -374,7 +374,7 @@ export default function ContactPage() {
                             }}
                                 onMouseEnter={e => { e.currentTarget.style.color = T.terra; e.currentTarget.style.borderColor = T.terra; }}
                                 onMouseLeave={e => { e.currentTarget.style.color = T.ink; e.currentTarget.style.borderColor = T.clay; }}
-                            >hello@folio.com</a>
+                            >BakuBookCenterPlus@gmail.com</a>
                             <p style={{ fontSize: "12px", color: T.inkLight, fontWeight: 300, lineHeight: 1.7, marginTop: "10px" }}>{contact.directEmailNote}</p>
                         </Reveal>
 

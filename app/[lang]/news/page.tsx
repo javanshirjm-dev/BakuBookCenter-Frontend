@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { useLanguage } from '@/context/LanguageContext';
+import { translations, Language } from '@/locales/translations';
 
 const TERRA = '#B5623E';
 const TERRA_DARK = '#8C4530';
@@ -36,6 +38,9 @@ export default function NewsPage() {
     const params = useParams();
     const router = useRouter();
     const lang = (params.lang as string) || 'en';
+    const { language } = useLanguage();
+    const t = translations[language as Language];
+    const n = t.news;
 
     useEffect(() => {
         const fetchNews = async () => {
@@ -63,7 +68,7 @@ export default function NewsPage() {
             <div style={{ textAlign: 'center' }}>
                 <div style={{ width: '40px', height: '40px', border: '2px solid #EFE9DF', borderTop: '2px solid #B5623E', borderRadius: '50%', margin: '0 auto 20px', animation: 'spin 0.8s linear infinite' }} />
                 <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '18px', fontStyle: 'italic', color: INK_LIGHT }}>
-                    Loading stories…
+                    {n.loading}
                 </p>
             </div>
         </div>
@@ -156,14 +161,14 @@ export default function NewsPage() {
                         userSelect: 'none', pointerEvents: 'none',
                         zIndex: 0
                     }}>
-                        News.
+                        {n.watermark}
                     </div>
 
                     <div style={{ position: 'relative', maxWidth: '640px', zIndex: 1 }}>
                         <div className="anim-down d-1" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '18px' }}>
                             <div style={{ width: '32px', height: '2px', backgroundColor: TERRA }} />
                             <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.24em', textTransform: 'uppercase', color: TERRA }}>
-                                Latest Stories
+                                {n.sectionLabel}
                             </p>
                         </div>
                         <h1 className="anim-up d-2" style={{
@@ -171,11 +176,11 @@ export default function NewsPage() {
                             fontSize: 'clamp(40px, 6vw, 80px)',
                             fontWeight: 400, lineHeight: 0.98, color: INK, marginBottom: '24px',
                         }}>
-                            News &<br />
-                            <em style={{ color: TERRA }}>Announcements.</em>
+                            {n.pageTitle1}<br />
+                            <em style={{ color: TERRA }}>{n.pageTitle2}</em>
                         </h1>
                         <p className="anim-up d-3" style={{ fontSize: '15px', color: INK_LIGHT, fontWeight: 300, lineHeight: 1.8, maxWidth: '440px' }}>
-                            Stories from our shelves, new arrivals, reading guides, and everything happening at Baku Book Center.
+                            {n.pageDesc}
                         </p>
 
                         {/* Article count badge */}
@@ -188,7 +193,7 @@ export default function NewsPage() {
                                     {news.length}
                                 </span>
                                 <span style={{ fontSize: '11px', color: INK_LIGHT, fontWeight: 300, letterSpacing: '0.06em' }}>
-                                    {news.length === 1 ? 'article published' : 'articles published'}
+                                    {n.publishedCount(news.length)}
                                 </span>
                             </div>
                         )}
@@ -205,7 +210,7 @@ export default function NewsPage() {
                                 fontSize: '10px', fontWeight: 500, letterSpacing: '0.22em',
                                 textTransform: 'uppercase', color: TERRA, whiteSpace: 'nowrap'
                             }}>
-                                All Stories
+                                {n.allStoriesLabel}
                             </p>
                             <div style={{ flex: 1, height: '1px', backgroundColor: PARCHMENT, marginLeft: '20px' }} />
                         </div>
@@ -248,7 +253,8 @@ export default function NewsPage() {
                                     {/* Content */}
                                     <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', flex: 1 }}>
                                         <time style={{
-                                            fontSize: '10px', fontWeight: 500, letterSpacing: '0.14em',
+                                            fontFamily: "' Outfit', sans-serif",
+                                            fontSize: '10px', fontWeight: 600, letterSpacing: '0.14em',
                                             textTransform: 'uppercase', color: TERRA, marginBottom: '10px',
                                             display: 'block',
                                         }}>
@@ -285,7 +291,7 @@ export default function NewsPage() {
                                                     color: TERRA, letterSpacing: '0.04em',
                                                 }}
                                             >
-                                                Read More →
+                                                {n.readMore}
                                             </span>
                                             <span style={{
                                                 fontFamily: "'Cormorant Garamond', serif",
@@ -318,10 +324,10 @@ export default function NewsPage() {
                             fontFamily: "'Cormorant Garamond', serif",
                             fontSize: 'clamp(28px, 5vw, 36px)', fontWeight: 400, color: INK, marginBottom: '12px',
                         }}>
-                            No stories yet.
+                            {n.noStoriesTitle}
                         </h2>
                         <p style={{ fontSize: '14px', color: INK_LIGHT, fontWeight: 300 }}>
-                            Check back soon — we have plenty to share.
+                            {n.noStoriesDesc}
                         </p>
                     </section>
                 )}
