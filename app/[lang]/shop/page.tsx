@@ -248,6 +248,27 @@ export default function ShopPage() {
         return () => window.removeEventListener('resize', check);
     }, []);
 
+    /* ── PAGINATION ── */
+    const itemsPerPage = isMobile ? 6 : 12;
+    const [currentPage, setCurrentPage] = useState(1);
+
+    // Reset to page 1 when filters or sort changes
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchQuery, selectedCategories, selectedAuthors, selectedLanguages, minPrice, maxPrice, sortOption]);
+
+    // Scroll to top when page changes
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [currentPage]);
+
+    const totalPages = Math.ceil(filteredBooks.length / itemsPerPage);
+    const paginatedBooks = useMemo(() => {
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        return filteredBooks.slice(start, end);
+    }, [filteredBooks, currentPage, itemsPerPage]);
+
     /* ── RENDER ── */
     return (
         <div style={{
@@ -668,24 +689,143 @@ export default function ShopPage() {
                                 </p>
                             </div>
                         ) : filteredBooks.length > 0 ? (
-                            <div style={{
-                                display: 'grid',
-                                gridTemplateColumns: isMobile
-                                    ? 'repeat(2, 1fr)'
-                                    : 'repeat(auto-fill, minmax(200px, 1fr))',
-                                gap: isMobile ? '16px' : '24px',
-                            }}>
-                                {filteredBooks.map((book, i) => (
-                                    <div
-                                        key={book._id}
-                                        style={{
-                                            height: isMobile ? '320px' : '500px',
-                                            animation: `fadeUp 0.5s ease ${Math.min(i * 40, 400)}ms both`,
-                                        }}
-                                    >
-                                        <BookCard book={book} lang={langParam as Language} />
+                            <div>
+                                <div style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: isMobile
+                                        ? 'repeat(2, 1fr)'
+                                        : 'repeat(auto-fill, minmax(200px, 1fr))',
+                                    gap: isMobile ? '16px' : '24px',
+                                    marginBottom: '48px',
+                                }}>
+                                    {paginatedBooks.map((book, i) => (
+                                        <div
+                                            key={book._id}
+                                            style={{
+                                                height: isMobile ? '320px' : '500px',
+                                                animation: `fadeUp 0.5s ease ${Math.min(i * 40, 400)}ms both`,
+                                            }}
+                                        >
+                                            <BookCard book={book} lang={langParam as Language} />
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Pagination Controls */}
+                                {totalPages > 1 && (
+                                    <div style={{
+                                        display: 'flex', justifyContent: 'center', alignItems: 'center',
+                                        gap: isMobile ? '8px' : '12px',
+                                        padding: '32px 0 60px',
+                                        borderTop: `1px solid ${T.parchment}`,
+                                        marginTop: '24px',
+                                    }}>
+                                        <button
+                                            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                            disabled={currentPage === 1}
+                                            style={{
+                                                padding: '10px 16px',
+                                                border: `1px solid ${currentPage === 1 ? T.parchment : T.clay}`,
+                                                borderRadius: '2px',
+                                                background: 'none',
+                                                cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                                                fontSize: '12px',
+                                                fontWeight: 500,
+                                                letterSpacing: '0.05em',
+                                                color: currentPage === 1 ? T.clay : T.ink,
+                                                transition: 'all 0.2s ease',
+                                                fontFamily: "'', sans-serif",
+                                                opacity: currentPage === 1 ? 0.5 : 1,
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                if (currentPage > 1) {
+                                                    (e.target as HTMLButtonElement).style.borderColor = T.terra;
+                                                    (e.target as HTMLButtonElement).style.color = T.terra;
+                                                }
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                if (currentPage > 1) {
+                                                    (e.target as HTMLButtonElement).style.borderColor = T.clay;
+                                                    (e.target as HTMLButtonElement).style.color = T.ink;
+                                                }
+                                            }}
+                                        >
+                                            ← {shop.previous}
+                                        </button>
+
+                                        <div style={{ display: 'flex', gap: isMobile ? '4px' : '8px', alignItems: 'center' }}>
+                                            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                                                <button
+                                                    key={page}
+                                                    onClick={() => setCurrentPage(page)}
+                                                    style={{
+                                                        width: '32px',
+                                                        height: '32px',
+                                                        border: `1px solid ${currentPage === page ? T.terra : T.clay}`,
+                                                        borderRadius: '2px',
+                                                        backgroundColor: currentPage === page ? T.terra : 'transparent',
+                                                        color: currentPage === page ? T.white : T.ink,
+                                                        cursor: 'pointer',
+                                                        fontSize: '12px',
+                                                        fontWeight: currentPage === page ? 500 : 400,
+                                                        transition: 'all 0.2s ease',
+                                                        fontFamily: "'', sans-serif",
+                                                        display: isMobile && totalPages > 5 && (page < currentPage - 1 || page > currentPage + 1) ? 'none' : 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                        if (currentPage !== page) {
+                                                            (e.target as HTMLButtonElement).style.borderColor = T.terra;
+                                                            (e.target as HTMLButtonElement).style.backgroundColor = T.cream;
+                                                        }
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                        if (currentPage !== page) {
+                                                            (e.target as HTMLButtonElement).style.borderColor = T.clay;
+                                                            (e.target as HTMLButtonElement).style.backgroundColor = 'transparent';
+                                                        }
+                                                    }}
+                                                >
+                                                    {page}
+                                                </button>
+                                            ))}
+                                        </div>
+
+                                        <button
+                                            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                                            disabled={currentPage === totalPages}
+                                            style={{
+                                                padding: '10px 16px',
+                                                border: `1px solid ${currentPage === totalPages ? T.parchment : T.clay}`,
+                                                borderRadius: '2px',
+                                                background: 'none',
+                                                cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                                                fontSize: '12px',
+                                                fontWeight: 500,
+                                                letterSpacing: '0.05em',
+                                                color: currentPage === totalPages ? T.clay : T.ink,
+                                                transition: 'all 0.2s ease',
+                                                fontFamily: "'', sans-serif",
+                                                opacity: currentPage === totalPages ? 0.5 : 1,
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                if (currentPage < totalPages) {
+                                                    (e.target as HTMLButtonElement).style.borderColor = T.terra;
+                                                    (e.target as HTMLButtonElement).style.color = T.terra;
+                                                }
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                if (currentPage < totalPages) {
+                                                    (e.target as HTMLButtonElement).style.borderColor = T.clay;
+                                                    (e.target as HTMLButtonElement).style.color = T.ink;
+                                                }
+                                            }}
+                                        >
+                                            {shop.next} →
+                                        </button>
                                     </div>
-                                ))}
+                                )}
                             </div>
                         ) : (
                             /* Empty state */

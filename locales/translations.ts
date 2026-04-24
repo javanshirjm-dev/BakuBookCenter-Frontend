@@ -44,6 +44,8 @@ export const translations = {
             noResults: "No results",
             showBooks: (count: number) => `Show ${count} book${count !== 1 ? 's' : ''}`,
             searchPlaceholder: "Search books, authors…",
+            previous: "Previous",
+            next: "Next",
         },
 
         // Homepage:
@@ -574,6 +576,8 @@ export const translations = {
             noResults: "Nəticə yoxdur",
             showBooks: (count: number) => `${count} kitab göstər${count !== 1 ? 'ları' : 'ı'}`,
             searchPlaceholder: "Kitabları, müəllifləri axtarış et…",
+            previous: "Əvvəlki",
+            next: "Sonrakı",
         },
 
         // Homepage:
@@ -1104,6 +1108,8 @@ export const translations = {
             noResults: "Нет результатов",
             showBooks: (count: number) => `Показать ${count} книг${count === 1 ? 'у' : 'и'}`,
             searchPlaceholder: "Поиск книг, авторов…",
+            previous: "Предыдущая",
+            next: "Следующая",
         },
 
         // Homepage:
